@@ -1,0 +1,40 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "lint-staged": "^14.0.1",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "autoprefixer": "latest",
+    "conventional-changelog-conventionalcommits": "^7.0.2",
+    "eslint": "latest",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-next": "latest",
+    "husky": "^8.0.3",
+    "postcss": "latest",
+    "prettier": "3.0.3",
+    "tailwindcss": "latest",
+    "typescript": "latest"
+  }
+}
