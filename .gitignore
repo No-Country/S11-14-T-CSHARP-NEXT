@@ -33,3 +33,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+*.vsidx
+/.vs/
+.vs/
+/.vs/S11-14-T-CSHARP-NEXT/v17/*.*
+/.vs/S11-14-T-CSHARP-NEXT/
+/.vs/S11-14-T-CSHARP-NEXT/v17/.wsuo
