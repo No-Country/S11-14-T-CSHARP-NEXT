@@ -1,6 +1,6 @@
 ﻿namespace S11.Services.Models
 {
-    public class EmpleadoDTO
+    public class EmpleadoDto
     {
     }
 }
