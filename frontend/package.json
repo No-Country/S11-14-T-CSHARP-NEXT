@@ -7,18 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "lint-staged": "^14.0.1",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
+    "prepare": "cd.. && husky install",
     "check-types": "tsc --pretty --noEmit",
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "format": "prettier --write .",
     "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
+  },
+  "dependencies": {
+    "lint-staged": "^14.0.1",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
