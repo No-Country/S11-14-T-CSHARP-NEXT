@@ -28,7 +28,10 @@
     "paths": {
       "@*": [
         "./src/*"
-      ]
+      ],
+      "@utils": [
+        "./src/utils"
+      ],
     },
     "plugins": [
       {
