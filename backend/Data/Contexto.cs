@@ -7,5 +7,14 @@ namespace S11.Data
     public class Contexto: IdentityDbContext<User, Role, int>
     {
         public Contexto(DbContextOptions options): base(options){}
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            Seeds.Incidencias.Seed(builder);
+
+        }
+
+        public virtual   DbSet<Incidencia> Incidencias { get; set;}
     }
 }
