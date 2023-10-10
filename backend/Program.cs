@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using S11.Data;
 using System.ComponentModel;
+using S11.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,8 @@ builder.Services.AddSwaggerGen(c =>
 
    c.CustomSchemaIds(x => x.GetCustomAttributes(false).OfType<DisplayNameAttribute>().FirstOrDefault()?.DisplayName ?? x.Name)
 );
+
+builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
