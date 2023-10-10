@@ -7,18 +7,24 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install"
-  },
-  "dependencies": {
-    "lint-staged": "^14.0.1",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
+    "prepare": "husky install",
     "check-types": "tsc --pretty --noEmit",
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "format": "prettier --write .",
     "test-all": "pnpm run check-format && pnpm run check-lint && pnpm run check-types && pnpm run build"
+  },
+  "dependencies": {
+    "@nextui-org/react": "^2.1.13",
+    "axios": "^1.5.1",
+    "framer-motion": "^10.16.4",
+    "lint-staged": "^14.0.1",
+    "next": "^13.5.4",
+    "next-auth": "^4.23.2",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-icons": "^4.11.0",
+    "zustand": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "latest",
