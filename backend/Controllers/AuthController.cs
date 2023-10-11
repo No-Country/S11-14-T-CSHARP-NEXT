@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using S11.Common.Dtos.Auth;
 using S11.Common.Interfaces;
@@ -11,32 +12,40 @@ namespace S11.Controllers
     {
 
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService )
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }
 
         //TODO definir que devuelve + un error de validacion
-        [HttpPost]
-        public ActionResult<object> Login(LoginPostDto login)
+        [HttpPost(nameof(Login))]
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginPostDto login)
         {
             //userName
             //rol
+            await _authService.CreateTestUsers();
+            var res = await _authService.Login(login.UserName, login.Password);
+            return res;
             //token
-            return _authService.Login(login.UserName, login.Password);
         }
 
-        [HttpPost]
+        [HttpPost(nameof(RestorePassword))]
         public ActionResult RestorePassword(string userName)
         {
             _authService.RestorePassword(userName);
             return Ok();
         }
 
-        [HttpPost]
-        public ActionResult ChangePassword(string userName,string password, string token)
+        [Obsolete(message:"not implemented yet")]
+        [HttpPost(nameof(ChangePassword))]
+        public ActionResult ChangePassword(string userName, string password, string token)
         {
             throw new NotImplementedException();
         }
+
+        [HttpGet(nameof(TestAuthorize))]
+        [Authorize]
+        public IActionResult TestAuthorize()
+        { return Ok(); }
     }
 }

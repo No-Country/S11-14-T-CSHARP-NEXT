@@ -1,9 +1,12 @@
-﻿namespace S11.Common.Interfaces
+﻿using S11.Common.Dtos.Auth;
+
+namespace S11.Common.Interfaces
 {
     public interface IAuthService
     {
-        object Login(string username, string password);
+        Task<LoginResponseDto> Login(string username, string password);
         void RestorePassword(string username);
+        Task CreateTestUsers();
 
     }
 }
