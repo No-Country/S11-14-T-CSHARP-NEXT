@@ -1,11 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-<<<<<<< HEAD
 import axios from 'axios';
 import httpClient from '@libs/httpClient';
-=======
->>>>>>> eb3b649aa7aac0b4298e68bbf17588f9522a2acb
 
 interface LoginProps {}
 
@@ -29,7 +26,6 @@ const Login: React.FC<LoginProps> = (props) => {
     // TODO: Add validations and errors messages before doing the request
     if (username === '' && password === '') {
       console.log('Missing username or password');
-<<<<<<< HEAD
       return;
     }
 
@@ -54,43 +50,6 @@ const Login: React.FC<LoginProps> = (props) => {
       } else {
         console.log('Error:', response.status);
       }
-=======
-    }
-
-    try {
-      const response = await fetch(`url/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      // TODO: Add axios library to send the request
-      // const response = await axios.post(`url/api/auth/login`, {
-      //   username,
-      //   password,
-      // })
-
-      // TODO: Show alerts as popups or toasts (Add react toast library ?)
-      if (!response.ok) {
-        if (response.status === 404) {
-          console.log('User not found');
-        } else if (response.status === 401) {
-          console.log('Invalid username or password');
-        } else {
-          console.log('Error:', response.status);
-        }
-        return;
-      }
-
-      // TODO: Type data if its needed
-      const data = await response.json();
-
-      // TODO: Handle token and user data
-      console.log('Login successful');
-      router.push('/');
->>>>>>> eb3b649aa7aac0b4298e68bbf17588f9522a2acb
     } catch (error) {
       console.error(error);
     }
