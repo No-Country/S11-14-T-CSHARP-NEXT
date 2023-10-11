@@ -1,4 +1,5 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 interface LoginProps {}
@@ -9,6 +10,7 @@ const Login: React.FC<LoginProps> = (props) => {
     password: '',
   });
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const router = useRouter();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -16,8 +18,50 @@ const Login: React.FC<LoginProps> = (props) => {
     setIsButtonDisabled(values.username === '' || values.password === '');
   };
 
-  const handleSubmit = () => {
-    // TODO: Add code to send information to the database
+  const handleSubmit = async () => {
+    const { username, password } = values;
+
+    // TODO: Add validations and errors messages before doing the request
+    if (username === '' && password === '') {
+      console.log('Missing username or password');
+    }
+
+    try {
+      const response = await fetch(`url/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      // TODO: Add axios library to send the request
+      // const response = await axios.post(`url/api/auth/login`, {
+      //   username,
+      //   password,
+      // })
+
+      // TODO: Show alerts as popups or toasts (Add react toast library ?)
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log('User not found');
+        } else if (response.status === 401) {
+          console.log('Invalid username or password');
+        } else {
+          console.log('Error:', response.status);
+        }
+        return;
+      }
+
+      // TODO: Type data if its needed
+      const data = await response.json();
+
+      // TODO: Handle token and user data
+      console.log('Login successful');
+      router.push('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
