@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Attributes;
+using S11.Common.Dto;
+using S11.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 using System.Dynamic;
@@ -17,15 +19,25 @@ namespace S11.Controllers
     [ApiController]
     public class DashboardController : ControllerBase
     {
+        private readonly IssuesService _incidenciasService;
+
+
+        public DashboardController(IssuesService incidenciasService)
+        {
+            _incidenciasService = incidenciasService;
+        }
+
         [HttpGet]
         [ApiVersion("0.1")]
         //[Authorize]
         public TempDashBoardResponse GetDashboardBoardResponse()
         {
-            return new TempDashBoardResponse();
+            //TODO refactor
+            var dashBoardreport = new TempDashBoardResponse();
+            dashBoardreport.Issues = _incidenciasService.GetResume();
+            return dashBoardreport;
         }
     }
-
 
     [DisplayName("DashboardResume")]
     public class TempDashBoardResponse
@@ -33,9 +45,9 @@ namespace S11.Controllers
 
         public DateTime FechaConsulta { get; set; }
         public HabitacionesTemp Habitaciones { get; set; }
-        public EmpleadosTemp Empleados { get; set; }
+        public EmpleadosResumeDto Empleados { get; set; }
         public ReservacionesTemp Reservaciones { get; set; }
-        public IncidenciasTemp Incidencias { get; set; }
+        public IssuesResumeDto Issues { get; set; }
 
         public TempDashBoardResponse()
         {
@@ -48,28 +60,10 @@ namespace S11.Controllers
                 Total = 21,
                 Reparacion = 0
             };
-            Empleados = new EmpleadosTemp() { };
+            Empleados = new EmpleadosResumeDto() { };
             Reservaciones = new ReservacionesTemp() { };
-            Incidencias = new IncidenciasTemp() { };
+            Issues = new IssuesResumeDto() { };
         }
-    }
-
-    [DisplayName("HabitacionesResume")]
-    public class HabitacionesTemp
-    {
-        public int Disponibles { get; set; }
-        public int Ocupadas { get; set; }
-        public int Reparacion { get; set; }
-        public int Total { get; set; }
-    }
-
-
-    [DisplayName("EmpleadoResume")]
-    public class EmpleadosTemp
-    {
-        public int EnTurno { get; set; }
-        public int EnVacaciones { get; set; }
-        public int Total { get; set; }
     }
 
     [DisplayName("ReservacionResume")]
@@ -82,26 +76,14 @@ namespace S11.Controllers
         public List<ReservaDto> Data { get; set; } = new();
     }
 
-
-
-    [DisplayName("IncidenciaResume")]
-    public class IncidenciasTemp
-    {
-        public int Pendientes { get; set; }
-        public int EnAtencion { get; set; }
-        public int Resueltas { get; set; }
-        public int Total { get; set; }
-        public List<IncidenciaDto> Data { get; set; } = new();
-    }
-
-    [DisplayName("Incidencia")]
-    public class IncidenciaDto
-    {
-        public int Id { get; set; }
-        public string Categoria { get; set; }
-        public string Estado { get; set; }
-        public string Titulo { get; set; }
-    }
+    //[DisplayName("Incidencia")]
+    //public class IncidenciaDto
+    //{
+    //    public int id { get; set; }
+    //    public string categoria { get; set; }
+    //    public string estado { get; set; }
+    //    public string titulo { get; set; }
+    //}
 
     [DisplayName("Reserva")]
     public class ReservaDto
