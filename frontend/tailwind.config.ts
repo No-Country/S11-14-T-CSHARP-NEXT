@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
-const {nextui} = require("@nextui-org/react");
+import {nextui} from "@nextui-org/react";
+import defaultTeme from "tailwindcss/defaultTheme"
 
 const config: Config = {
   content: [
@@ -14,6 +15,18 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      colors: {
+        'primary': '#7814FF',
+        'green-wiz': '#56B670',
+        'red-wiz' : '#EB4951',
+        'orange-wiz' : '#EB4951',
+        'blue-wiz' : '#1E73BA',
+        'gray-wiz' : '#86858D' 
+      },
+      fontFamily: {
+        'pro-display': ['"SF Pro Display"', ...defaultTeme.fontFamily.sans],
+        'Roboto': ['Roboto', ...defaultTeme.fontFamily.sans],
       },
     },
   },
