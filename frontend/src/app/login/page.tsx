@@ -1,6 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import axios from 'axios';
+import httpClient from '@libs/httpClient';
 
 interface LoginProps {}
 
@@ -24,41 +26,30 @@ const Login: React.FC<LoginProps> = (props) => {
     // TODO: Add validations and errors messages before doing the request
     if (username === '' && password === '') {
       console.log('Missing username or password');
+      return;
     }
 
     try {
-      const response = await fetch(`url/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
+      const response = await httpClient.post(`/auth/login`, {
+        username,
+        password,
       });
 
-      // TODO: Add axios library to send the request
-      // const response = await axios.post(`url/api/auth/login`, {
-      //   username,
-      //   password,
-      // })
-
       // TODO: Show alerts as popups or toasts (Add react toast library ?)
-      if (!response.ok) {
-        if (response.status === 404) {
-          console.log('User not found');
-        } else if (response.status === 401) {
-          console.log('Invalid username or password');
-        } else {
-          console.log('Error:', response.status);
-        }
-        return;
+      if (response.status === 200) {
+        // TODO: Type data if its needed
+        const data = await response.data;
+        console.log(data);
+        // TODO: Handle token and user data
+        console.log('Login successful');
+        router.push('/');
+      } else if (response.status === 401) {
+        console.log('Invalid username or password');
+      } else if (response.status === 404) {
+        console.log('User not found');
+      } else {
+        console.log('Error:', response.status);
       }
-
-      // TODO: Type data if its needed
-      const data = await response.json();
-
-      // TODO: Handle token and user data
-      console.log('Login successful');
-      router.push('/');
     } catch (error) {
       console.error(error);
     }
