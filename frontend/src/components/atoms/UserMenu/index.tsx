@@ -1,28 +1,21 @@
 "use client";
-import {Dropdown, DropdownMenu, DropdownItem, DropdownTrigger, User} from '@nextui-org/react';
+import {Dropdown, DropdownMenu, DropdownItem, DropdownTrigger, Avatar} from '@nextui-org/react';
 
 interface AvatarProps {}
 
-const Avatar: React.FC<AvatarProps> = () => {
+const UserMenu: React.FC<AvatarProps> = () => {
   return (
     <Dropdown placement="bottom-start">
     <DropdownTrigger>
-      <User
-        as="button"
-        avatarProps={{
-          isBordered: true,
-          src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-        }}
-        className="transition-transform"
-        description="@tonyreichert"
-        name="Tony Reichert"
-      />
+      <div className="bg-white rounded flex flex-row content-center items-center px-2 py-1 cursor-pointer">
+        <span className='font-roboto font-medium mr-3'>José Díaz</span>
+        <Avatar
+          src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+          size="sm"
+        />
+      </div>
     </DropdownTrigger>
     <DropdownMenu aria-label="User Actions" variant="flat">
-      <DropdownItem key="profile" className="h-14 gap-2">
-        <p className="font-bold">Signed in as</p>
-        <p className="font-bold">@tonyreichert</p>
-      </DropdownItem>
       <DropdownItem key="settings">
         My Settings
       </DropdownItem>
@@ -43,4 +36,4 @@ const Avatar: React.FC<AvatarProps> = () => {
   )
 };
 
-export default Avatar;
+export default UserMenu;

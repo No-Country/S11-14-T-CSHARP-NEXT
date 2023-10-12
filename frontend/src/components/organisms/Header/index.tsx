@@ -1,11 +1,12 @@
-import Avatar from "@components/atoms/Avatar";
+import Menu from "@components/molecules/Menu";
+
 
 interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = () => {
   return (
     <header className="w-full">
-      <Avatar />
+      <Menu/>
     </header>
   )
 };

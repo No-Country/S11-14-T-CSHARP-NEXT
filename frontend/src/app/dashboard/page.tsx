@@ -1,12 +1,11 @@
 import type { NextPage } from 'next';
-import AuthLayout from '@components/templates/AuthLayout';
 
 const Dashboard: NextPage = () => {
   return (
-    <AuthLayout>
-        Dashboard
-    </AuthLayout>
+    <div>
+        Dashboardaaaa
+    </div>
   )
 }
 
-export default Dashboard
+export default Dashboard;

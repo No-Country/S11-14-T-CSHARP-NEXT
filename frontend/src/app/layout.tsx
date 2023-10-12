@@ -1,7 +1,6 @@
-"use client";
 import '@styles/globals.css';
 import type { Metadata } from 'next';
-import { useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import NextUIProvider from '@libs/NextUIProvider';
 import AuthLayout from '@components/templates/AuthLayout';
 import PublicLayout from '@components/templates/PublicLayout';
@@ -16,9 +15,9 @@ interface Props {
 }
 
 const RootLayout = ({children}: Props) => {
-  const { data: session } = useSession();
+ 
 
-  const isAuth = !!session?.user;
+  const isAuth = true;
 
 
   return (
@@ -29,18 +28,10 @@ const RootLayout = ({children}: Props) => {
         </head>
         <body className='h-screen'>
           <NextUIProvider>
-              {isAuth ? (
+              {isAuth && (
                 <AuthLayout>
-                  <main>
-                    {children}
-                  </main>
+                    {children}    
                 </AuthLayout>
-              ) : (
-                <PublicLayout>
-                  <main>
-                    {children}
-                  </main>
-                </PublicLayout>
               )}
           </NextUIProvider>
         </body>

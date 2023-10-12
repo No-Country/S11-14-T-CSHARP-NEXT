@@ -22,11 +22,12 @@ const config: Config = {
         'red-wiz' : '#EB4951',
         'orange-wiz' : '#EB4951',
         'blue-wiz' : '#1E73BA',
-        'gray-wiz' : '#86858D' 
+        'gray-wiz' : '#86858D',
+        'gray-wiz-2' : '#19191B'
       },
       fontFamily: {
         'pro-display': ['"SF Pro Display"', ...defaultTeme.fontFamily.sans],
-        'Roboto': ['Roboto', ...defaultTeme.fontFamily.sans],
+        'roboto': ['Roboto', ...defaultTeme.fontFamily.sans],
       },
     },
   },
