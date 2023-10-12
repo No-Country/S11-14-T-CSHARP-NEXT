@@ -1,6 +1,10 @@
-import '@styles/globals.css'
-import type { Metadata } from 'next'
+"use client";
+import '@styles/globals.css';
+import type { Metadata } from 'next';
+import { useSession } from 'next-auth/react';
 import NextUIProvider from '@libs/NextUIProvider';
+import AuthLayout from '@components/templates/AuthLayout';
+import PublicLayout from '@components/templates/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'HotelWiz',
@@ -12,11 +16,28 @@ interface Props {
 }
 
 const RootLayout = ({children}: Props) => {
+  const { data: session } = useSession();
+
+  const isAuth = !!session?.user;
+
+
   return (
       <html lang="es">
         <body className='h-screen'>
           <NextUIProvider>
-            {children}
+              {isAuth ? (
+                <AuthLayout>
+                  <main>
+                    {children}
+                  </main>
+                </AuthLayout>
+              ) : (
+                <PublicLayout>
+                  <main>
+                    {children}
+                  </main>
+                </PublicLayout>
+              )}
           </NextUIProvider>
         </body>
       </html>
