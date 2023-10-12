@@ -1,12 +1,10 @@
-"use client";
+'use client';
 interface PublicLayoutProps {
-    children: React.ReactNode
+  children: React.ReactNode;
 }
 
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
-    return (
-        <section>{children}</section>
-    )
-}
+  return <section>{children}</section>;
+};
 
-export default PublicLayout
+export default PublicLayout;

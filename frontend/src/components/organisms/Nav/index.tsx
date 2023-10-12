@@ -1,9 +1,9 @@
-import Menu from "@components/molecules/Menu";
+import Menu from '@components/molecules/Menu';
 
 const Nav: React.FC = () => {
   return (
-    <nav className="w-full flex flex-row justify-end px-10">
-        <Menu />
+    <nav className='w-full flex flex-row justify-end px-10'>
+      <Menu />
     </nav>
   );
 };
