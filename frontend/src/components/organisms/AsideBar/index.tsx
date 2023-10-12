@@ -10,7 +10,7 @@ const AsideBar: React.FC = () => {
         <div className="mt-20 w-52">
           {
             MENU_ROUTES.map((route, index) => (
-              route && <AsideBarItem key={index} itemName={route?.name} itemIcon="📊" />
+              route && <AsideBarItem key={index} itemName={route?.name} itemIcon={route?.icon} />
             ))
           }
         </div>

@@ -1,6 +1,5 @@
 import '@styles/globals.css';
 import type { Metadata } from 'next';
-import { getSession } from 'next-auth/react';
 import NextUIProvider from '@libs/NextUIProvider';
 import AuthLayout from '@components/templates/AuthLayout';
 import PublicLayout from '@components/templates/PublicLayout';
@@ -15,23 +14,25 @@ interface Props {
 }
 
 const RootLayout = ({children}: Props) => {
- 
 
   const isAuth = true;
-
 
   return (
       <html lang="es">
         <head>
           <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet" ></link>
-          <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet"></link>
+          <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet"></link>
         </head>
         <body className='h-screen'>
           <NextUIProvider>
-              {isAuth && (
+              {isAuth ? (
                 <AuthLayout>
                     {children}    
                 </AuthLayout>
+              ) : (
+                <PublicLayout>
+                    {children}    
+                </PublicLayout>
               )}
           </NextUIProvider>
         </body>

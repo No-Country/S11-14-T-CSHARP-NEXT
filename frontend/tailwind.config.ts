@@ -28,6 +28,7 @@ const config: Config = {
       fontFamily: {
         'pro-display': ['"SF Pro Display"', ...defaultTeme.fontFamily.sans],
         'roboto': ['Roboto', ...defaultTeme.fontFamily.sans],
+        'montserrat': ['Montserrat', ...defaultTeme.fontFamily.sans],
       },
     },
   },

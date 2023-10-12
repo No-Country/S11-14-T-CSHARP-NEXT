@@ -1,7 +1,7 @@
 const TitleLogo: React.FC = () => {
   return (
-    <div className="relative">
-        <h1 className="font-pro-display text-white text-4xl">HotelWiz</h1>
+    <div className="mx-auto relative">
+        <h1 className="font-montserrat text-white text-4xl">HotelWiz</h1>
         <p className="text-primary absolute right-[-15px] text-sm">Admin</p>
     </div>
   )
