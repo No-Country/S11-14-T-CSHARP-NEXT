@@ -91,8 +91,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<TokenService>();
 
-builder.Services.AddScoped<TokenService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
