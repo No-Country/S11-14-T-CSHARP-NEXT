@@ -1,9 +1,8 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
-import httpClient from '@libs/httpClient';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 interface LoginProps {}
 
@@ -13,8 +12,8 @@ const Login: React.FC<LoginProps> = (props) => {
     password: '',
   });
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
   const router = useRouter();
-  const { data: session } = useSession();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
@@ -32,24 +31,16 @@ const Login: React.FC<LoginProps> = (props) => {
     }
 
     try {
-      const response = await httpClient.post(`/Auth/Login`, {
-        userName: username,
+      const response = await signIn('credentials', {
+        username,
         password,
+        callbackUrl: '/',
       });
 
-      if (response.status === 200) {
-        const data = await response.data;
-
-        if (data.isValid) {
-          // TODO: Handle token and user data
-          const token = session?.user?.token;
-          console.log('token', token);
-          console.log('Login successful');
-          // router.push('/');
-        } else {
-          // TODO: Show alerts as popups or toasts (Add react toast library ?)
-          alert(data.message);
-        }
+      if (response?.ok) {
+        console.log('Authentication successful');
+      } else {
+        console.log('Authentication failed');
       }
     } catch (error) {
       console.error('error', error);
