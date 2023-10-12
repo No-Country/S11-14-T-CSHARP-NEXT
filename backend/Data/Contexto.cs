@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using S11.Data.Models;
+using S11.Data.Seeds;
 
 namespace S11.Data
 {
@@ -12,6 +13,9 @@ namespace S11.Data
         {
             base.OnModelCreating(builder);
             Seeds.Issues.Seed(builder);
+            // Llamar a las clases de semilla para roles y usuarios
+            RoleSeed.Seed(builder);
+            UserSeed.Seed(builder);
 
         }
 
