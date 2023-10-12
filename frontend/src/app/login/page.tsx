@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import httpClient from '@libs/httpClient';
 import Link from 'next/link';
-import { Session, User } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 interface LoginProps {}

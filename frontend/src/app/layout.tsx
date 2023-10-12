@@ -2,6 +2,11 @@ import '@styles/globals.css';
 import type { Metadata } from 'next';
 import NextUIProvider from '@libs/NextUIProvider';
 import { SessionProvider } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+import AuthProvider from '@libs/Auth/AuthProvider';
+import AuthLayout from '@components/templates/AuthLayout';
+import PublicLayout from '@components/templates/PublicLayout';
 
 export const metadata: Metadata = {
   title: 'HotelWiz',
@@ -13,19 +18,25 @@ interface Props {
 }
 
 const RootLayout = ({ children }: Props) => {
+  const session = getSession();
+  const userExist = 'user' in session;
+  const isAuth = userExist && session.user !== undefined;
+
   return (
     <html lang='es'>
       <head>
         <link href='https://fonts.cdnfonts.com/css/sf-pro-display' rel='stylesheet'></link>
         <link
-          href='https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap'
+          href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700;900&display=swap'
           rel='stylesheet'
         ></link>
       </head>
       <body className='h-screen'>
-        <SessionProvider>
-          <NextUIProvider>{children}</NextUIProvider>
-        </SessionProvider>
+        <AuthProvider>
+          <NextUIProvider>
+            {isAuth ? <AuthLayout>{children}</AuthLayout> : <PublicLayout>{children}</PublicLayout>}
+          </NextUIProvider>
+        </AuthProvider>
       </body>
     </html>
   );
