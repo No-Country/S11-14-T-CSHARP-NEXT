@@ -1,7 +1,8 @@
 import '@styles/globals.css';
 import type { Metadata } from 'next';
+import { getSession } from 'next-auth/react';
 import NextUIProvider from '@libs/NextUIProvider';
-import AuthProvider from '@libs/Auth/Provider';
+import AuthProvider from '@libs/Auth/AuthProvider';
 import AuthLayout from '@components/templates/AuthLayout';
 import PublicLayout from '@components/templates/PublicLayout';
 
@@ -15,7 +16,8 @@ interface Props {
 }
 
 const RootLayout = ({ children }: Props) => {
-  const isAuth = true;
+  const session = getSession();
+  const isAuth = session?.user !== undefined;
 
   return (
     <html lang='es'>

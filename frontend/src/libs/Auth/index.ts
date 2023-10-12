@@ -16,7 +16,7 @@ declare module 'next-auth' {
 }
 
 export const authOptions: NextAuthOptions = {
-  debug: true,
+  debug: false,
   providers: [],
   session: {
     strategy: 'jwt',
