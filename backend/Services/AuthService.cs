@@ -71,15 +71,19 @@ namespace S11.Services
 
         public async Task CreateTestUsers()
         {
-            if (!_userManager.Users.Any())
+            if (!_userManager.Users.Any(x => x.NormalizedEmail == "USER@EXAMPLE.COM"))
             {
                 for (int i = 0; i < 5; i++)
                 {
+                    var genre = i % 2 == 0 ? "women" : "men";
                     var user = new User()
                     {
                         Email = $"user{(i == 0 ? "" : i)}@example.com",
-                        UserName = $"user{i + 1}@example.com",
+                        UserName = $"user{(i == 0 ? "" : i)}@example.com",
+                        FullName = $"user{(i == 0 ? "" : i)}",
+                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/2.jpg"
                     };
+
                     var r = await _userManager.CreateAsync(user);
                     await _userManager.AddPasswordAsync(user, "string");
                 }

@@ -25,6 +25,7 @@ namespace S11.Controllers
             //rol
             await _authService.CreateTestUsers();
             var res = await _authService.Login(login.UserName, login.Password);
+            if(!res.IsValid)  return BadRequest(res);
             return res;
             //token
         }
