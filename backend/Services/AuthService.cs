@@ -42,6 +42,8 @@ namespace S11.Services
                     return new LoginResponseDto
                     {
                         UserName = user.UserName ?? String.Empty,
+                        FullName = user.FullName ?? String.Empty,
+                        ImageUrl = user.ImageUrl ?? String.Empty,
                         Role = String.Join("|", roles),
                         IsValid = true,
                         Token = token

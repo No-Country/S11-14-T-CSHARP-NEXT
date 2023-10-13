@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --wiz-background: #ededed;
+}
+
+body {
+  background-color: var(--wiz-background);
+}

@@ -1,14 +1,10 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using S11.Data;
 using S11.Services;
 using System.ComponentModel;
-using S11.Services;
 using S11.Data.Models;
 using S11.Common.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
@@ -63,6 +59,15 @@ builder.Services.AddDbContext<Contexto>(opt =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddCors(o =>
+{
+    o.AddDefaultPolicy(policy =>
+    {
+        policy.SetIsOriginAllowed(hostName => true)
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+});
 builder.Services.AddSwaggerGen(c =>
 {
 
@@ -103,7 +108,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

@@ -21,7 +21,9 @@ namespace S11.Data.Seeds
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "adminPassword"), // Hash de la contraseña
                     SecurityStamp = string.Empty,
-                    ConcurrencyStamp = "CONCURRENCY_STAMP"
+                    ConcurrencyStamp = "CONCURRENCY_STAMP",
+                    FullName = "Admin User",
+                    ImageUrl = ""
                 },
                 new User
                 {
@@ -33,7 +35,9 @@ namespace S11.Data.Seeds
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "Password"), // Hash de la contraseña
                     SecurityStamp = string.Empty,
-                    ConcurrencyStamp = "CONCURRENCY_STAMP"
+                    ConcurrencyStamp = "CONCURRENCY_STAMP",
+                    FullName = "User Test 1",
+                    ImageUrl = ""
                 },
                 new User
                 {
@@ -45,7 +49,9 @@ namespace S11.Data.Seeds
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "Password"), // Hash de la contraseña
                     SecurityStamp = string.Empty,
-                    ConcurrencyStamp = "CONCURRENCY_STAMP"
+                    ConcurrencyStamp = "CONCURRENCY_STAMP",
+                    FullName = "User Test 2",
+                    ImageUrl = ""
                 }
             );
         }
