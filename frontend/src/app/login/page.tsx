@@ -3,16 +3,14 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
+import { NextPage } from 'next';
 
-interface LoginProps {}
-
-const Login: React.FC<LoginProps> = (props) => {
+const Login: NextPage = () => {
   const [values, setValues] = useState({
     username: '',
     password: '',
   });
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
   const router = useRouter();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -34,11 +32,11 @@ const Login: React.FC<LoginProps> = (props) => {
       const response = await signIn('credentials', {
         username,
         password,
-        callbackUrl: '/',
       });
 
       if (response?.ok) {
         console.log('Authentication successful');
+        router.push('/dashboard');
       } else {
         console.log('Authentication failed');
       }
