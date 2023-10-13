@@ -1,14 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Label from '@components/atoms/Label';
 import Input from '@components/atoms/Input';
-import Button from '@components/atoms/Button';
 import Form from '@components/organisms/Form';
+import { NextPage } from 'next';
 
-interface LoginProps {}
-
-const Login: React.FC<LoginProps> = (props) => {
+const Login: NextPage = () => {
   return (
     <div className='bg-bg-wiz flex flex-col justify-center pt-14 xl:pt-[180px] md:pt-[80px]'>
       <div className='block m-auto mb-16 font-montserrat'>

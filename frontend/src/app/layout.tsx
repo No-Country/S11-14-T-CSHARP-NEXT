@@ -1,8 +1,9 @@
 import '@styles/globals.css';
 import type { Metadata } from 'next';
+import NextUIProvider from '@libs/NextUIProvider';
+import { SessionProvider } from 'next-auth/react';
 import { getSession } from 'next-auth/react';
 import { Session } from 'next-auth';
-import NextUIProvider from '@libs/NextUIProvider';
 import AuthProvider from '@libs/Auth/AuthProvider';
 import AuthLayout from '@components/templates/AuthLayout';
 import PublicLayout from '@components/templates/PublicLayout';

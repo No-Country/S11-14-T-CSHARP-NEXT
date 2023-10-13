@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --wiz-background: #EDEDED;
+  --wiz-background: #ededed;
 }
 
 body {
-  background-color:var(--wiz-background);
+  background-color: var(--wiz-background);
 }
