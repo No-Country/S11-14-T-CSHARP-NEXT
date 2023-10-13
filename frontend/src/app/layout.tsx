@@ -21,7 +21,7 @@ const RootLayout = ({ children }: Props) => {
   // const session = getSession();
   // const userExist = "user" in session;
   // const isAuth = userExist && session.user !== undefined ;
-  const isAuth = false;
+  const isAuth = true;
 
   return (
     <html lang='es'>
