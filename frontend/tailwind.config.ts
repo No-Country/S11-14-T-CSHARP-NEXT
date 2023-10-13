@@ -14,6 +14,8 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'bg-wiz':
+          'linear-gradient(180deg, rgba(30,115,186,0.5) 0%, rgba(30,115,186,0.79) 8%, rgba(30,115,186,0.65) 15%, rgba(30,115,186,0.44) 21%, rgba(30,115,186,0.21) 26%, rgba(30,115,186,0) 33%)',
       },
       colors: {
         primary: '#7814FF',
