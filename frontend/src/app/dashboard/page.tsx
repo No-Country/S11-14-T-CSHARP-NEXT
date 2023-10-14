@@ -12,12 +12,7 @@ const Dashboard: NextPage = () => {
             className='flex flex-col justify-center items-center py-14 border border-[#D9D9D9]'
             key={index}
           >
-            <DashboardCard
-              icon={item.icon}
-              number={item.number}
-              title={item.title}
-              className={item.className}
-            />
+            <DashboardCard icon={item.icon} number={item.number} title={item.title} className={item.className} />
           </div>
         ))}
       </div>
