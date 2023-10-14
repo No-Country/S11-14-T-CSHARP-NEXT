@@ -13,9 +13,11 @@ namespace S11.Data
         {
             base.OnModelCreating(builder);
             Seeds.Issues.Seed(builder);
+            Seeds.RoomSeed.Seed(builder);
             // Llamar a las clases de semilla para roles y usuarios
             RoleSeed.Seed(builder);
             UserSeed.Seed(builder);
+            
 
         }
 
