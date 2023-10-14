@@ -19,6 +19,7 @@ namespace S11.Data
 
         }
 
-        public virtual   DbSet<Issue> Issues { get; set;}
+        public virtual DbSet<Issue> Issues { get; set;}
+        public virtual DbSet<Room> Rooms { get; set; }
     }
 }
