@@ -13,7 +13,7 @@ public class RoomService
         _contexto = contexto;
     }
 
-    public async Task<RoomResumeDto> GetResume(int nItems = 10)
+    public  RoomResumeDto GetResume(int nItems = 10)
     {
         var data = _contexto.Rooms.AsQueryable();
 

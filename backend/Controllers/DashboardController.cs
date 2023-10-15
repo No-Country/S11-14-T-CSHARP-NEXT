@@ -32,12 +32,12 @@ namespace S11.Controllers
         [HttpGet]
         [ApiVersion("0.1")]
         //[Authorize]
-        public async Task<TempDashBoardResponse> GetDashboardBoardResponse()
+        public  TempDashBoardResponse GetDashboardBoardResponse()
         {
             //TODO refactor
             var dashBoardreport = new TempDashBoardResponse();
             dashBoardreport.Issues = _incidenciasService.GetResume();
-            dashBoardreport.Rooms = await _roomService.GetResume();
+            dashBoardreport.Rooms =  _roomService.GetResume();
             return dashBoardreport;
         }
         
