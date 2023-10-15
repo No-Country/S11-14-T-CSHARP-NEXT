@@ -15,19 +15,25 @@ public class RoomSeed
             {
                 RoomId = 1,
                 RoomNumber = "A-101",
-                Type = RoomType.Sencilla
+                Type = RoomType.Sencilla,
+                Capacity = 1,
+                IsTaken = true
             },
             new Room()
             {
                 RoomId = 2,
                 RoomNumber = "A-102",
-                Type = RoomType.Doble
+                Type = RoomType.Doble,
+                Capacity = 2,
+                IsTaken = false
             },
             new Room()
             {
                 RoomId = 3,
                 RoomNumber = "A-103",
-                Type = RoomType.Familiar
+                Type = RoomType.Familiar,
+                Capacity = 3,
+                IsTaken = true
             },
             
 

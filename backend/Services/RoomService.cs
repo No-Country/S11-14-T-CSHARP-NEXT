@@ -30,7 +30,8 @@ public class RoomService
             Sencilla = data.Count(x => x.Type == RoomType.Sencilla),
             Familiar = data.Count(x => x.Type == RoomType.Familiar),
             Doble = data.Count(x => x.Type == RoomType.Doble),
-            Total = data.Count()
+            TotalRooms = data.Count(),
+            TotalTaken = data.Count(x => x.IsTaken == true)
         };
 
         return dto;

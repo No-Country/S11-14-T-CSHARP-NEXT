@@ -20,7 +20,8 @@ namespace S11.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Capacity = table.Column<int>(type: "int", nullable: false)
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    IsTaken = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,30 +33,30 @@ namespace S11.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAELLy3jc5ltinXSqJvOaXHHRSP87MNqtY3mVqC8ocscNWt91znxkPFIAHn9jOYfsNHQ==");
+                value: "AQAAAAIAAYagAAAAEF9mm6gg6cnk6+XS5eAi8wPkMazUbLOAL5oolpdnv/PQN+4yBC5K1Nwauz8YVuukww==");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAECxqUWO3qcSQo9cDpSNwLzv0i1R7aZ/1e0URZG5sVcDyiZHXR2tTzaEqjmzSrLBGPw==");
+                value: "AQAAAAIAAYagAAAAEHrGO0hTVjl5Cc6PDi2rOJwY+jUMSMXYnA5XkrmlynkL1H6zKQmeeqd7yf4Dwa1TsA==");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAEJPPJL/wymFB2k/BjV9sWvA31Dq5zSUUYE+6PCGyBb7b5ABAVxT6v3dX0s69UNYPJA==");
+                value: "AQAAAAIAAYagAAAAEAPdK1Gev9itxXX0RvtB8L1Dg6W2H2w8pkWJlZBZ86ZWwJAZwwscmcPcDvHmg7IVDA==");
 
             migrationBuilder.InsertData(
                 table: "Rooms",
-                columns: new[] { "RoomId", "Capacity", "RoomNumber", "Type" },
+                columns: new[] { "RoomId", "Capacity", "IsTaken", "RoomNumber", "Type" },
                 values: new object[,]
                 {
-                    { 1, 0, "A-101", "Sencilla" },
-                    { 2, 0, "A-102", "Doble" },
-                    { 3, 0, "A-103", "Familiar" }
+                    { 1, 1, true, "A-101", "Sencilla" },
+                    { 2, 2, false, "A-102", "Doble" },
+                    { 3, 3, true, "A-103", "Familiar" }
                 });
         }
 

@@ -12,7 +12,7 @@ using S11.Data;
 namespace S11.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20231015142526_Room")]
+    [Migration("20231015143035_Room")]
     partial class Room
     {
         /// <inheritdoc />
@@ -278,6 +278,9 @@ namespace S11.Data.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsTaken")
+                        .HasColumnType("bit");
+
                     b.Property<string>("RoomNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -294,21 +297,24 @@ namespace S11.Data.Migrations
                         new
                         {
                             RoomId = 1,
-                            Capacity = 0,
+                            Capacity = 1,
+                            IsTaken = true,
                             RoomNumber = "A-101",
                             Type = "Sencilla"
                         },
                         new
                         {
                             RoomId = 2,
-                            Capacity = 0,
+                            Capacity = 2,
+                            IsTaken = false,
                             RoomNumber = "A-102",
                             Type = "Doble"
                         },
                         new
                         {
                             RoomId = 3,
-                            Capacity = 0,
+                            Capacity = 3,
+                            IsTaken = true,
                             RoomNumber = "A-103",
                             Type = "Familiar"
                         });
@@ -402,7 +408,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELLy3jc5ltinXSqJvOaXHHRSP87MNqtY3mVqC8ocscNWt91znxkPFIAHn9jOYfsNHQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF9mm6gg6cnk6+XS5eAi8wPkMazUbLOAL5oolpdnv/PQN+4yBC5K1Nwauz8YVuukww==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -420,7 +426,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAECxqUWO3qcSQo9cDpSNwLzv0i1R7aZ/1e0URZG5sVcDyiZHXR2tTzaEqjmzSrLBGPw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHrGO0hTVjl5Cc6PDi2rOJwY+jUMSMXYnA5XkrmlynkL1H6zKQmeeqd7yf4Dwa1TsA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -438,7 +444,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJPPJL/wymFB2k/BjV9sWvA31Dq5zSUUYE+6PCGyBb7b5ABAVxT6v3dX0s69UNYPJA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAPdK1Gev9itxXX0RvtB8L1Dg6W2H2w8pkWJlZBZ86ZWwJAZwwscmcPcDvHmg7IVDA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
