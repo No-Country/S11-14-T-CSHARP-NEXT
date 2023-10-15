@@ -23,16 +23,13 @@ public class RoomService
             Data = data.Take(nItems).Select(x => new RoomDto()
             {
                 RoomId = x.RoomId,
-                Name = x.Name,
+                RoomNumber = x.RoomNumber,
                 Type = x.Type,
-              
+                Capacity = x.Capacity
             }),
-            Single = data.Count(x => x.Type == RoomType.Single),
-            Double = data.Count(x => x.Type == RoomType.Double),
-            Triple = data.Count(x => x.Type == RoomType.Triple),
-            Quad = data.Count(x => x.Type == RoomType.Quad),
-            Queen = data.Count(x => x.Type == RoomType.Queen),
-            King = data.Count(x => x.Type == RoomType.King),
+            Sencilla = data.Count(x => x.Type == RoomType.Sencilla),
+            Familiar = data.Count(x => x.Type == RoomType.Familiar),
+            Doble = data.Count(x => x.Type == RoomType.Doble),
             Total = data.Count()
         };
 

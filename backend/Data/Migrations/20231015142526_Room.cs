@@ -7,7 +7,7 @@
 namespace S11.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Rooms : Migration
+    public partial class Room : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,9 @@ namespace S11.Data.Migrations
                 {
                     RoomId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,33 +32,30 @@ namespace S11.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAEMB6P16/0mRmr3+rwnNwgOXpY1VxF5XuTyN4MhHy42cHq8WqDU0w8ye48YL+L9tpzw==");
+                value: "AQAAAAIAAYagAAAAELLy3jc5ltinXSqJvOaXHHRSP87MNqtY3mVqC8ocscNWt91znxkPFIAHn9jOYfsNHQ==");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAELvKVG802ScMNz0pLDTsqnuSsoGVCZkhW+B9+Fl9eFOi0B/EbMDBa1RsRTAdxxId/Q==");
+                value: "AQAAAAIAAYagAAAAECxqUWO3qcSQo9cDpSNwLzv0i1R7aZ/1e0URZG5sVcDyiZHXR2tTzaEqjmzSrLBGPw==");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAEBWGRDI3urVnMGmc28UL4KdhbCHILkzkr6dU/hn0Nbpplh1HmLZv9xMcr57FU4aBTw==");
+                value: "AQAAAAIAAYagAAAAEJPPJL/wymFB2k/BjV9sWvA31Dq5zSUUYE+6PCGyBb7b5ABAVxT6v3dX0s69UNYPJA==");
 
             migrationBuilder.InsertData(
                 table: "Rooms",
-                columns: new[] { "RoomId", "Name", "Type" },
+                columns: new[] { "RoomId", "Capacity", "RoomNumber", "Type" },
                 values: new object[,]
                 {
-                    { 1, "A single room to sleep comfortable", "Single" },
-                    { 2, "Couple room", "Double" },
-                    { 3, "Triple room", "Triple" },
-                    { 4, "Quad room", "Quad" },
-                    { 5, "Queen room", "Queen" },
-                    { 6, "King room", "King" }
+                    { 1, 0, "A-101", "Sencilla" },
+                    { 2, 0, "A-102", "Doble" },
+                    { 3, 0, "A-103", "Familiar" }
                 });
         }
 

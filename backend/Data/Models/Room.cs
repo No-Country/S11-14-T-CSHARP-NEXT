@@ -6,8 +6,10 @@ public class Room
 {
     [Key]
     public int RoomId { get; set; }
-    public string Name { get; set; }
+    public string RoomNumber { get; set; }
     public string Type { get; set; }
+
+    public int Capacity { get; set; }
     
     //TODO: Add Reserva FK
 }

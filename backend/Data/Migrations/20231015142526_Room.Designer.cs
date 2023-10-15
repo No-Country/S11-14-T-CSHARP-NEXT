@@ -12,8 +12,8 @@ using S11.Data;
 namespace S11.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20231014215714_Rooms")]
-    partial class Rooms
+    [Migration("20231015142526_Room")]
+    partial class Room
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,7 +275,10 @@ namespace S11.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
 
-                    b.Property<string>("Name")
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoomNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -291,38 +294,23 @@ namespace S11.Data.Migrations
                         new
                         {
                             RoomId = 1,
-                            Name = "A single room to sleep comfortable",
-                            Type = "Single"
+                            Capacity = 0,
+                            RoomNumber = "A-101",
+                            Type = "Sencilla"
                         },
                         new
                         {
                             RoomId = 2,
-                            Name = "Couple room",
-                            Type = "Double"
+                            Capacity = 0,
+                            RoomNumber = "A-102",
+                            Type = "Doble"
                         },
                         new
                         {
                             RoomId = 3,
-                            Name = "Triple room",
-                            Type = "Triple"
-                        },
-                        new
-                        {
-                            RoomId = 4,
-                            Name = "Quad room",
-                            Type = "Quad"
-                        },
-                        new
-                        {
-                            RoomId = 5,
-                            Name = "Queen room",
-                            Type = "Queen"
-                        },
-                        new
-                        {
-                            RoomId = 6,
-                            Name = "King room",
-                            Type = "King"
+                            Capacity = 0,
+                            RoomNumber = "A-103",
+                            Type = "Familiar"
                         });
                 });
 
@@ -414,7 +402,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMB6P16/0mRmr3+rwnNwgOXpY1VxF5XuTyN4MhHy42cHq8WqDU0w8ye48YL+L9tpzw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELLy3jc5ltinXSqJvOaXHHRSP87MNqtY3mVqC8ocscNWt91znxkPFIAHn9jOYfsNHQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -432,7 +420,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAELvKVG802ScMNz0pLDTsqnuSsoGVCZkhW+B9+Fl9eFOi0B/EbMDBa1RsRTAdxxId/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECxqUWO3qcSQo9cDpSNwLzv0i1R7aZ/1e0URZG5sVcDyiZHXR2tTzaEqjmzSrLBGPw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -450,7 +438,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBWGRDI3urVnMGmc28UL4KdhbCHILkzkr6dU/hn0Nbpplh1HmLZv9xMcr57FU4aBTw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJPPJL/wymFB2k/BjV9sWvA31Dq5zSUUYE+6PCGyBb7b5ABAVxT6v3dX0s69UNYPJA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

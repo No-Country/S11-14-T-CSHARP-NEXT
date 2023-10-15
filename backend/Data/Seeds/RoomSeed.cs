@@ -14,39 +14,22 @@ public class RoomSeed
             new Room()
             {
                 RoomId = 1,
-                Name = "A single room to sleep comfortable",
-                Type = RoomType.Single
+                RoomNumber = "A-101",
+                Type = RoomType.Sencilla
             },
             new Room()
             {
                 RoomId = 2,
-                Name = "Couple room",
-                Type = RoomType.Double
+                RoomNumber = "A-102",
+                Type = RoomType.Doble
             },
             new Room()
             {
                 RoomId = 3,
-                Name = "Triple room",
-                Type = RoomType.Triple
+                RoomNumber = "A-103",
+                Type = RoomType.Familiar
             },
-            new Room()
-            {
-                RoomId = 4,
-                Name = "Quad room",
-                Type = RoomType.Quad
-            },
-            new Room()
-            {
-                RoomId = 5,
-                Name = "Queen room",
-                Type = RoomType.Queen
-            },
-            new Room()
-            {
-                RoomId = 6,
-                Name = "King room",
-                Type = RoomType.King
-            },
+            
 
         };
 
