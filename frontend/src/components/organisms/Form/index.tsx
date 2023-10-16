@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useSession, signOut } from "next-auth/react";
-
-// validation library
+import ErrorSpan from '@components/atoms/ErrorSpan';
 import { validate } from '@utils/validator';
 
 interface FormProps {}
@@ -124,11 +123,8 @@ const Form: React.FC<FormProps> = () => {
           inputName='username'
           inputPlaceholder='Correo electrónico*'
           value={state.username}
+          error={errors.username}
         />
-        {
-          errors.username &&
-          <span className="lbl-error">{errors.username }</span>
-        }
       </div>
       <div className=''>
         <InputForm
@@ -138,12 +134,9 @@ const Form: React.FC<FormProps> = () => {
           inputName='password'
           inputPlaceholder='Contraseña*'
           value={state.password}
+          error={errors.password}
         />{
 
-        }
-        {
-          errors.password &&
-          <span className="lbl-error">{errors.password}</span>
         }
       </div>
       <div className='my-5'>
@@ -151,7 +144,7 @@ const Form: React.FC<FormProps> = () => {
           type='submit'
           text='Ingresar'
           onClick={handleSubmit}
-          className='px-6 py-2 bg-primary text-center w-full rounded-[5px] text-white text-base font-medium'
+          className='px-6 py-2 bg-primary hover:bg-primarywiz-600 transition-all duration-300 text-center w-full rounded-[5px] text-white text-base font-medium'
         />
       </div>
       { 
