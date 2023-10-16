@@ -4,11 +4,16 @@ import {
   FaUser,
   FaChartSimple,
   FaBed,
+  FaBan,
   FaGear,
   FaCircleQuestion,
   FaMessage,
   FaRightFromBracket,
 } from 'react-icons/fa6';
+import { TfiBookmarkAlt } from 'react-icons/tfi';
+import { BsQuestionCircle } from 'react-icons/bs';
+import { AiOutlineCheckCircle, AiOutlineCheckSquare } from 'react-icons/ai';
+import { BiSolidMessageAltDetail } from 'react-icons/bi';
 
 interface IconsProps {
   size?: string;
@@ -49,4 +54,28 @@ export const MessageIcon: React.FC<IconsProps> = ({ size, className }) => {
 
 export const ExitIcon: React.FC<IconsProps> = ({ size, className }) => {
   return <FaRightFromBracket size={size} className={className} />;
+};
+
+export const ReservationInfoIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <TfiBookmarkAlt size={size} className={className} />;
+};
+
+export const IncidentsIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <BsQuestionCircle size={size} className={className} />;
+};
+
+export const RoomsAvailableIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <AiOutlineCheckCircle size={size} className={className} />;
+};
+
+export const RoomsOcupiedIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <FaBan size={size} className={className} />;
+};
+
+export const PendingCheckInIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <AiOutlineCheckSquare size={size} className={className} />;
+};
+
+export const NewMessagesIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <BiSolidMessageAltDetail size={size} className={className} />;
 };
