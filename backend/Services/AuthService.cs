@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 using S11.Common.Dtos.Auth;
 using S11.Common.Interfaces;
 using S11.Data.Models;
+
+using System.Text;
 
 namespace S11.Services
 {
@@ -10,12 +14,15 @@ namespace S11.Services
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
         private readonly RoleManager<Role> _roleManager;
+        private readonly EmailService _emailService;
 
-        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager)
+        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService)
         {
+           
             _userManager = userManager;
             _roleManager = roleManager;
             _tokenService = tokenService;
+            _emailService = emailService;
         }
 
         public async Task<LoginResponseDto> Login(string username, string password)
@@ -71,24 +78,44 @@ namespace S11.Services
 
         public async Task CreateTestUsers()
         {
-            if (!_userManager.Users.Any())
+            if (!_userManager.Users.Any(x => x.NormalizedEmail == "USER@EXAMPLE.COM"))
             {
                 for (int i = 0; i < 5; i++)
                 {
+                    var genre = i % 2 == 0 ? "women" : "men";
                     var user = new User()
                     {
                         Email = $"user{(i == 0 ? "" : i)}@example.com",
-                        UserName = $"user{i + 1}@example.com",
+                        UserName = $"user{(i == 0 ? "" : i)}@example.com",
+                        FullName = $"user{(i == 0 ? "" : i)}",
+                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i+1}.jpg"
                     };
+
                     var r = await _userManager.CreateAsync(user);
                     await _userManager.AddPasswordAsync(user, "string");
                 }
             }
         }
 
-        public void RestorePassword(string username)
+        public async Task RestorePassword(string userName)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user != null)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+                // Construir el enlace de restablecimiento de contraseña
+                var resetPasswordLink = $"https://example.com/reset-password?userId={user.Id}&token={encodedToken}";
+
+                // Envía el enlace de restablecimiento de contraseña al usuario por correo electrónico
+                var subject = "Restablecimiento de contraseña";
+                var message = $"Haga clic en el siguiente enlace para restablecer su contraseña: <a href='{resetPasswordLink}'>Restablecer contraseña</a>";
+
+                // Utiliza el servicio de correo electrónico para enviar el mensaje
+                _emailService.SendEmail(user?.Email, subject, message);
+            }
         }
+
     }
 }
