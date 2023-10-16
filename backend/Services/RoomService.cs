@@ -13,25 +13,31 @@ public class RoomService
         _contexto = contexto;
     }
 
-    public  RoomResumeDto GetResume(int nItems = 10)
+    public RoomResumeDto GetResume()
     {
         var data = _contexto.Rooms.AsQueryable();
 
         var dto = new RoomResumeDto()
         {
             //TODO mapper
-            Data = data.Take(nItems).Select(x => new RoomDto()
+            Data = data.Select(x => new RoomDto()
             {
                 RoomId = x.RoomId,
                 RoomNumber = x.RoomNumber,
                 Type = x.Type,
                 Capacity = x.Capacity
             }),
-            Sencilla = data.Count(x => x.Type == RoomType.Sencilla),
-            Familiar = data.Count(x => x.Type == RoomType.Familiar),
-            Doble = data.Count(x => x.Type == RoomType.Doble),
+            Types = data.GroupBy(x => x.Type).Select(x => new RoomGroupResponseDto
+            {
+                Type = x.Key,
+                TotalFree = x.Count(x => !x.IsTaken), 
+                TotalTaken = x.Count(x => x.IsTaken),
+                Total = x.Count()
+            }),
+            
             TotalRooms = data.Count(),
-            TotalTaken = data.Count(x => x.IsTaken == true)
+            TotalTaken = data.Count(x => x.IsTaken == true),
+            TotalFree = data.Count(x => x.IsTaken != true)
         };
 
         return dto;
