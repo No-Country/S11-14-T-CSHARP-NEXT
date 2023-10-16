@@ -275,10 +275,11 @@ namespace S11.Data.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsTaken")
-                        .HasColumnType("bit");
-
                     b.Property<string>("RoomNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -295,24 +296,24 @@ namespace S11.Data.Migrations
                         {
                             RoomId = 1,
                             Capacity = 1,
-                            IsTaken = true,
                             RoomNumber = "A-101",
+                            State = "Reservada",
                             Type = "Sencilla"
                         },
                         new
                         {
                             RoomId = 2,
                             Capacity = 2,
-                            IsTaken = false,
                             RoomNumber = "A-102",
+                            State = "Libre",
                             Type = "Doble"
                         },
                         new
                         {
                             RoomId = 3,
                             Capacity = 3,
-                            IsTaken = true,
                             RoomNumber = "A-103",
+                            State = "Mantenimiento",
                             Type = "Familiar"
                         });
                 });
@@ -405,7 +406,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEF9mm6gg6cnk6+XS5eAi8wPkMazUbLOAL5oolpdnv/PQN+4yBC5K1Nwauz8YVuukww==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGcu48ZxrN5Mhrh/UCixbFMVNP0r8X4bLrNYozbq1AnDuPEnm5PvDAol1KAtM7o+Mw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -423,7 +424,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHrGO0hTVjl5Cc6PDi2rOJwY+jUMSMXYnA5XkrmlynkL1H6zKQmeeqd7yf4Dwa1TsA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE00Ohovh8K+VntDmvd8+yt3vi/ZJ1ubgPpLkJMQNarr+V4zXVVh7x72cou5Tdaf2Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -441,7 +442,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAPdK1Gev9itxXX0RvtB8L1Dg6W2H2w8pkWJlZBZ86ZWwJAZwwscmcPcDvHmg7IVDA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAxTKhBDJdFq5dYjPNiqX7hiV/7n0RUHth4qXDpzwzFTfsAcbuXv7YEQTwwZrWlR3w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

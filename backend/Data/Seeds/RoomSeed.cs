@@ -17,7 +17,7 @@ public class RoomSeed
                 RoomNumber = "A-101",
                 Type = RoomType.Sencilla,
                 Capacity = 1,
-                IsTaken = true
+                State = RoomState.Reservada
             },
             new Room()
             {
@@ -25,7 +25,7 @@ public class RoomSeed
                 RoomNumber = "A-102",
                 Type = RoomType.Doble,
                 Capacity = 2,
-                IsTaken = false
+                State = RoomState.Libre
             },
             new Room()
             {
@@ -33,7 +33,7 @@ public class RoomSeed
                 RoomNumber = "A-103",
                 Type = RoomType.Familiar,
                 Capacity = 3,
-                IsTaken = true
+                State = RoomState.Mantenimiento
             },
             
 

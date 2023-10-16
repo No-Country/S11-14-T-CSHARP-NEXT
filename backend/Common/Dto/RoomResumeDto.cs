@@ -11,6 +11,8 @@ public class RoomResumeDto
 
     public int TotalTaken { get; set; }
     public int TotalFree { get; set; }
+
+    public int TotalMaintenance { get; set; }
     public IEnumerable<RoomDto> Data { get; set; }
     public IEnumerable<RoomGroupResponseDto> Types { get; set; }
 

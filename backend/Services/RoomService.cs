@@ -30,14 +30,16 @@ public class RoomService
             Types = data.GroupBy(x => x.Type).Select(x => new RoomGroupResponseDto
             {
                 Type = x.Key,
-                TotalFree = x.Count(x => !x.IsTaken), 
-                TotalTaken = x.Count(x => x.IsTaken),
+                TotalFree = x.Count(x => x.State == RoomState.Libre), 
+                TotalTaken = x.Count(x => x.State == RoomState.Reservada),
+                TotalMaintenance = x.Count(x => x.State == RoomState.Mantenimiento),
                 Total = x.Count()
             }),
             
             TotalRooms = data.Count(),
-            TotalTaken = data.Count(x => x.IsTaken == true),
-            TotalFree = data.Count(x => x.IsTaken != true)
+            TotalTaken = data.Count(x => x.State == RoomState.Reservada),
+            TotalFree = data.Count(x => x.State == RoomState.Libre),
+            TotalMaintenance = data.Count(x => x.State == RoomState.Mantenimiento)
         };
 
         return dto;

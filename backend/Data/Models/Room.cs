@@ -9,8 +9,8 @@ public class Room
     public string RoomNumber { get; set; }
     public string Type { get; set; }
     public int Capacity { get; set; }
-
-    public bool IsTaken { get; set; } = false;
+    
+    public string State { get; set; } 
 
     //TODO: Add Reserva FK
 }

@@ -21,7 +21,7 @@ namespace S11.Data.Migrations
                     RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
-                    IsTaken = table.Column<bool>(type: "bit", nullable: false)
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,30 +33,30 @@ namespace S11.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAEF9mm6gg6cnk6+XS5eAi8wPkMazUbLOAL5oolpdnv/PQN+4yBC5K1Nwauz8YVuukww==");
+                value: "AQAAAAIAAYagAAAAEGcu48ZxrN5Mhrh/UCixbFMVNP0r8X4bLrNYozbq1AnDuPEnm5PvDAol1KAtM7o+Mw==");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAEHrGO0hTVjl5Cc6PDi2rOJwY+jUMSMXYnA5XkrmlynkL1H6zKQmeeqd7yf4Dwa1TsA==");
+                value: "AQAAAAIAAYagAAAAEE00Ohovh8K+VntDmvd8+yt3vi/ZJ1ubgPpLkJMQNarr+V4zXVVh7x72cou5Tdaf2Q==");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "PasswordHash",
-                value: "AQAAAAIAAYagAAAAEAPdK1Gev9itxXX0RvtB8L1Dg6W2H2w8pkWJlZBZ86ZWwJAZwwscmcPcDvHmg7IVDA==");
+                value: "AQAAAAIAAYagAAAAEAxTKhBDJdFq5dYjPNiqX7hiV/7n0RUHth4qXDpzwzFTfsAcbuXv7YEQTwwZrWlR3w==");
 
             migrationBuilder.InsertData(
                 table: "Rooms",
-                columns: new[] { "RoomId", "Capacity", "IsTaken", "RoomNumber", "Type" },
+                columns: new[] { "RoomId", "Capacity", "RoomNumber", "State", "Type" },
                 values: new object[,]
                 {
-                    { 1, 1, true, "A-101", "Sencilla" },
-                    { 2, 2, false, "A-102", "Doble" },
-                    { 3, 3, true, "A-103", "Familiar" }
+                    { 1, 1, "A-101", "Reservada", "Sencilla" },
+                    { 2, 2, "A-102", "Libre", "Doble" },
+                    { 3, 3, "A-103", "Mantenimiento", "Familiar" }
                 });
         }
 
