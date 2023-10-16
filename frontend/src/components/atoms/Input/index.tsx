@@ -1,21 +1,15 @@
 import React from 'react';
 
 interface InputProps {
-  handleChange: Function;
   type: string;
   name: string;
   value?: string;
   className: string;
   placeholder?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input: React.FC<InputProps> = ({ handleChange, type, name, value, placeholder, className }) => {
-
-  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(event);
-  }
-
-
+const Input: React.FC<InputProps> = ({ type, name, value, placeholder, className, onChange }) => {
   return (
     <input
       type={type}
@@ -23,7 +17,7 @@ const Input: React.FC<InputProps> = ({ handleChange, type, name, value, placehol
       value={value}
       placeholder={placeholder}
       className={className}
-      onChange={handleChangeInput}
+      onChange={onChange}
     />
   );
 };
