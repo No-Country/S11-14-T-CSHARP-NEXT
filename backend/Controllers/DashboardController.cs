@@ -15,9 +15,7 @@ using System.Text.Json.Serialization;
 
 namespace S11.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DashboardController : ControllerBase
+    public class DashboardController : BaseApiController
     {
         private readonly IssuesService _incidenciasService;
         private readonly RoomService _roomService;

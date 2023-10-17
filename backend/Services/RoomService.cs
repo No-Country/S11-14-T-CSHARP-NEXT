@@ -13,6 +13,24 @@ public class RoomService
         _contexto = contexto;
     }
 
+    public IEnumerable<RoomDto> GetRooms()
+    {
+        var data = _contexto.Rooms.ToList().Select(x => new RoomDto
+        {
+            RoomId = x.RoomId,
+            RoomNumber = x.RoomNumber,
+            Type = x.Type,
+            Capacity = x.Capacity,
+            State = x.State,
+            ImageUrl = x.ImageUrl,
+            Price = x.Price,
+            Description = x.Description,
+            
+        });
+
+        return data;
+    }
+
     public RoomResumeDto GetResume()
     {
         var data = _contexto.Rooms.AsQueryable();
