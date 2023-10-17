@@ -12,8 +12,14 @@ import {
 } from 'react-icons/fa6';
 import { TfiBookmarkAlt } from 'react-icons/tfi';
 import { BsQuestionCircle } from 'react-icons/bs';
-import { AiOutlineCheckCircle, AiOutlineCheckSquare } from 'react-icons/ai';
+import {
+  AiOutlineCheckCircle,
+  AiOutlineCheckSquare,
+  AiOutlinePlus,
+  AiOutlineSearch,
+} from 'react-icons/ai';
 import { BiSolidMessageAltDetail } from 'react-icons/bi';
+import { MdEdit } from 'react-icons/md';
 
 interface IconsProps {
   size?: string;
@@ -74,6 +80,18 @@ export const RoomsOcupiedIcon: React.FC<IconsProps> = ({ size, className }) => {
 
 export const PendingCheckInIcon: React.FC<IconsProps> = ({ size, className }) => {
   return <AiOutlineCheckSquare size={size} className={className} />;
+};
+
+export const SearchIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <AiOutlineSearch size={size} className={className} />;
+};
+
+export const PlusIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <AiOutlinePlus size={size} className={className} />;
+};
+
+export const EditIcon: React.FC<IconsProps> = ({ size, className }) => {
+  return <MdEdit size={size} className={className} />;
 };
 
 export const NewMessagesIcon: React.FC<IconsProps> = ({ size, className }) => {
