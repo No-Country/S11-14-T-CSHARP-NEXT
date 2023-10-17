@@ -20,7 +20,9 @@ const config: Config = {
       colors: {
         primary: '#7814FF',
         'green-wiz': '#56B670',
+        'green-wiz-1': '#22C008',
         'red-wiz': '#EB4951',
+        'red-wiz-1': '#F10A0A',
         'orange-wiz': '#EB4951',
         'blue-wiz': '#1E73BA',
         'gray-wiz': '#86858D',
