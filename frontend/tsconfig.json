@@ -23,7 +23,6 @@
     "noUncheckedIndexedAccess": true,
     "paths": {
       "@*": ["./src/*"],
-      "@utils*": ["./src/utils*"],
     },
     "plugins": [
       {
