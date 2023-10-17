@@ -19,23 +19,26 @@ public class RoomService
 
         var dto = new RoomResumeDto()
         {
-            //TODO mapper
             Data = data.Select(x => new RoomDto()
             {
                 RoomId = x.RoomId,
                 RoomNumber = x.RoomNumber,
                 Type = x.Type,
-                Capacity = x.Capacity
+                Capacity = x.Capacity,
+                State = x.State,
+                ImageUrl = x.ImageUrl,
+                Price = x.Price,
+                Description = x.Description
             }),
             Types = data.GroupBy(x => x.Type).Select(x => new RoomGroupResponseDto
             {
                 Type = x.Key,
-                TotalFree = x.Count(x => x.State == RoomState.Libre), 
+                TotalFree = x.Count(x => x.State == RoomState.Libre),
                 TotalTaken = x.Count(x => x.State == RoomState.Reservada),
                 TotalMaintenance = x.Count(x => x.State == RoomState.Mantenimiento),
                 Total = x.Count()
             }),
-            
+
             TotalRooms = data.Count(),
             TotalTaken = data.Count(x => x.State == RoomState.Reservada),
             TotalFree = data.Count(x => x.State == RoomState.Libre),

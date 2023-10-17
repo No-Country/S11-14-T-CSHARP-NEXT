@@ -275,6 +275,17 @@ namespace S11.Data.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("RoomNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -296,6 +307,9 @@ namespace S11.Data.Migrations
                         {
                             RoomId = 1,
                             Capacity = 1,
+                            Description = "A single room",
+                            ImageUrl = "https://www.collinsdictionary.com/images/full/singleroom_713511961_1000.jpg",
+                            Price = 2000m,
                             RoomNumber = "A-101",
                             State = "Reservada",
                             Type = "Sencilla"
@@ -304,6 +318,9 @@ namespace S11.Data.Migrations
                         {
                             RoomId = 2,
                             Capacity = 2,
+                            Description = "A Double room",
+                            ImageUrl = "https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-double-bedroom.jpg",
+                            Price = 3000m,
                             RoomNumber = "A-102",
                             State = "Libre",
                             Type = "Doble"
@@ -311,7 +328,10 @@ namespace S11.Data.Migrations
                         new
                         {
                             RoomId = 3,
-                            Capacity = 3,
+                            Capacity = 7,
+                            Description = "A familiar room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 4000m,
                             RoomNumber = "A-103",
                             State = "Mantenimiento",
                             Type = "Familiar"
@@ -406,7 +426,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGcu48ZxrN5Mhrh/UCixbFMVNP0r8X4bLrNYozbq1AnDuPEnm5PvDAol1KAtM7o+Mw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFxbZi1tzC2lXrZbsinapPgyi2E1Td28LF5PqI3JYbK56liATM2RyXquxj2kYpOakg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -424,7 +444,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE00Ohovh8K+VntDmvd8+yt3vi/ZJ1ubgPpLkJMQNarr+V4zXVVh7x72cou5Tdaf2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIdg2h4rfrDvixsY9rVG0AJMjvRn4uJ56jMENkYLM2epgREnP5Uj5H3Uc8qACbRbaQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -442,7 +462,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAxTKhBDJdFq5dYjPNiqX7hiV/7n0RUHth4qXDpzwzFTfsAcbuXv7YEQTwwZrWlR3w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJkT76hEQtih3QWmGhFzdTzP/qtBTG21hAl3JT3yM33qqzM+knPZR799J3MwwwQsZw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
