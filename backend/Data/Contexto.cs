@@ -16,9 +16,11 @@ namespace S11.Data
             // Llamar a las clases de semilla para roles y usuarios
             RoleSeed.Seed(builder);
             UserSeed.Seed(builder);
+            ReservationsSeed.Seed(builder);
 
         }
 
         public virtual   DbSet<Issue> Issues { get; set;}
+        public virtual   DbSet<Models.Reservation> Reservations { get; set;}
     }
 }

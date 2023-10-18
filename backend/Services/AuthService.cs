@@ -18,7 +18,7 @@ namespace S11.Services
 
         public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService)
         {
-           
+
             _userManager = userManager;
             _roleManager = roleManager;
             _tokenService = tokenService;
@@ -78,6 +78,17 @@ namespace S11.Services
 
         public async Task CreateTestUsers()
         {
+            //set role to admin
+            var admin = await _userManager.FindByEmailAsync("admin@gmail.com");
+            if (admin is not null)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync("Admin");
+                if (roleExists)
+                {
+                    var result = await _userManager.AddToRolesAsync(admin, new[] { "Admin" });
+                }
+            }
+
             if (!_userManager.Users.Any(x => x.NormalizedEmail == "USER@EXAMPLE.COM"))
             {
                 for (int i = 0; i < 5; i++)
@@ -88,7 +99,7 @@ namespace S11.Services
                         Email = $"user{(i == 0 ? "" : i)}@example.com",
                         UserName = $"user{(i == 0 ? "" : i)}@example.com",
                         FullName = $"user{(i == 0 ? "" : i)}",
-                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i+1}.jpg"
+                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i + 1}.jpg"
                     };
 
                     var r = await _userManager.CreateAsync(user);
