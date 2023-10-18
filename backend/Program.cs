@@ -53,6 +53,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IssuesService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<EmailService, EmailService>();
 
 
 
