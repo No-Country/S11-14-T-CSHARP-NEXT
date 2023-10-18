@@ -38,7 +38,7 @@ public class RoomService
 
         if (room == null)
         {
-            throw new Exception("Room not found with that id");
+            throw new Exception($"Room not found with id {id}");
         }
         
         return new RoomDto
