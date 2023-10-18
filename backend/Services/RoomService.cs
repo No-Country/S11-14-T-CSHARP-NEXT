@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using S11.Common.Dto;
 using S11.Common.Enums;
 using S11.Data;
@@ -29,6 +30,29 @@ public class RoomService
         });
 
         return data;
+    }
+    
+    public RoomDto GetRoomById(int id)
+    {
+        var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == id);
+
+        if (room == null)
+        {
+            throw new Exception("Room not found with that id");
+        }
+        
+        return new RoomDto
+        {
+            RoomId = room.RoomId,
+            RoomNumber = room.RoomNumber,
+            Type = room.Type,
+            Capacity = room.Capacity,
+            State = room.State,
+            ImageUrl = room.ImageUrl,
+            Price = room.Price,
+            Description = room.Description,
+
+        };
     }
 
     public RoomResumeDto GetResume()

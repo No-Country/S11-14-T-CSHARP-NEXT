@@ -2,20 +2,27 @@ using Microsoft.AspNetCore.Mvc;
 using S11.Common.Dto;
 using S11.Services;
 
-namespace S11.Controllers;
-
-public class RoomController : BaseApiController
+namespace S11.Controllers
 {
-    private readonly RoomService _roomService;
-
-    public RoomController(RoomService roomService)
+    public class RoomController : BaseApiController
     {
-        _roomService = roomService;
-    }
+        private readonly RoomService _roomService;
 
-    [HttpGet]
-    public IEnumerable<RoomDto> GetRooms()
-    {
-        return _roomService.GetRooms();
+        public RoomController(RoomService roomService)
+        {
+            _roomService = roomService;
+        }
+
+        [HttpGet]
+        public IEnumerable<RoomDto> GetRooms()
+        {
+            return _roomService.GetRooms();
+        }
+
+        [HttpGet("{id}")]
+        public RoomDto GetRoomById(int id)
+        {
+            return _roomService.GetRoomById(id);
+        }
     }
 }
