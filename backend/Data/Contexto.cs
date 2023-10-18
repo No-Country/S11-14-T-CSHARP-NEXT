@@ -21,6 +21,6 @@ namespace S11.Data
         }
 
         public virtual   DbSet<Issue> Issues { get; set;}
-        public virtual   DbSet<Models.Reservation> Reservations { get; set;}
+        public virtual   DbSet<Reservation> Reservations { get; set;}
     }
 }

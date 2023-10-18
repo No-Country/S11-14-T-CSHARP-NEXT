@@ -99,7 +99,7 @@ namespace S11.Services
                         Email = $"user{(i == 0 ? "" : i)}@example.com",
                         UserName = $"user{(i == 0 ? "" : i)}@example.com",
                         FullName = $"user{(i == 0 ? "" : i)}",
-                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i + 1}.jpg"
+                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i+1}.jpg"
                     };
 
                     var r = await _userManager.CreateAsync(user);
