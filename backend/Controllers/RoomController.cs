@@ -21,18 +21,10 @@ namespace S11.Controllers
 
         [HttpGet("{id}")]
         public ActionResult<RoomDto> GetRoomById(int id)
-        {
-            RoomDto room;
-            try
-            {
-                room = _roomService.GetRoomById(id);
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
+        { 
+            var room = _roomService.GetRoomById(id);
 
-            return Ok(room);
+            return room != null ? Ok(room) : NotFound($"Room with {id} was not found");
         }
     }
 }

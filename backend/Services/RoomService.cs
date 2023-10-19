@@ -32,16 +32,13 @@ public class RoomService
         return data;
     }
     
-    public RoomDto GetRoomById(int id)
+    public RoomDto? GetRoomById(int id)
     {
         var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == id);
 
-        if (room == null)
-        {
-            throw new Exception($"Room not found with id {id}");
-        }
         
-        return new RoomDto
+        
+        return room != null ? new RoomDto
         {
             RoomId = room.RoomId,
             RoomNumber = room.RoomNumber,
@@ -52,7 +49,7 @@ public class RoomService
             Price = room.Price,
             Description = room.Description,
 
-        };
+        } : null;
     }
 
     public RoomResumeDto GetResume()
