@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Validations;
+using S11.Common.Dto.Reservation;
 using S11.Common.Enums;
+using S11.Common.Mappers;
 using S11.Controllers;
 using S11.Data;
 using S11.Data.Models;
@@ -11,7 +13,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
-using static S11.Common.Enums.PeopleIdentity;
 using static S11.Common.Enums.Reservations;
 using static S11.Services.ReservationsService;
 
@@ -99,49 +100,7 @@ namespace S11.Services
         }
     }
 
-    #region Move to common
-    //TODO move to common
-    public class ReservationDto : IReservationDto
-    {
-        public string ReservationConsecutive { get; set; }
-        public string GuestName { get; set; }
-        public string? GuestEmail { get; set; }
-        public string? GuestPhoneNumber { get; set; }
-        public string? GuestCountry { get; set; }
-        public string? GuestAddress { get; set; }
-        public IdentityDocumentType GuestDocumentType { get; set; }
-        public string GuestDocumentNumber { get; set; }
-
-        public int NumberOfRooms { get; set; }
-        public int NumberOfGuests { get; set; }
-        //array of room Ids
-        public string? ReservationAmenities { get; set; }
-        //public Room? Room { get; set; }
-
-        //array of rooms Ids an type of room
-        public (string, string)? Rooms { get; set; }
-
-        public string Status { get; set; }
-        public int StatusCode { get; set; }
-
-        public DateTime? CheckInExpectedDate { get; set; }
-        public DateTime? CheckOutExpectedDate { get; set; }
-
-        public decimal? Value { get; set; }
-    }
-
-
-    public class ReservationResumedDto : IReservationDto
-    {
-        public string ReservationConsecutive { get; set; }
-        public string GuestName { get; set; }
-        public string? GuestEmail { get; set; }
-        public string Status { get; set; }
-        public int StatusCode { get; set; }
-
-        public DateTime? CheckInExpectedDate { get; set; }
-        public DateTime? CheckOutExpectedDate { get; set; }
-    }
+#region Move to common
 
     public interface IReservationFilter
     {
@@ -149,59 +108,6 @@ namespace S11.Services
 
     public interface IReservationDto
     {
-    }
-
-    public static class ReservationsMappers
-    {
-        public static IList<IReservationDto> MapperReservaToDto(this IEnumerable<Reservation> reservations)
-        {
-            var dots = new List<IReservationDto>();
-            foreach (Reservation item in reservations)
-            {
-                dots.Add(item.MapperReservationToDto());
-            }
-            return dots;
-        }
-
-        //TODO move to Common
-        public static ReservationDto MapperReservationToDto(this Reservation reservation)
-        {
-            return new ReservationDto
-            {
-                ReservationConsecutive = reservation.ReservationConsecutive,
-                GuestName = reservation.GuestName,
-                GuestEmail = reservation.GuestEmail,
-                Status = reservation.Status.ToString(),
-                StatusCode = (int)reservation.Status,
-                CheckInExpectedDate = reservation.CheckInExpectedDate,
-                CheckOutExpectedDate = reservation.CheckOutExpectedDate,
-                Value = reservation.TotalValue
-                
-                //TODO  Complete this
-            };
-        }
-        public static IReservationDto MapperReservationToResumedDto(this ReservationDto reservation)
-        {
-            var resumed = new ReservationResumedDto
-            {
-                ReservationConsecutive = reservation.ReservationConsecutive,
-                CheckInExpectedDate = reservation.CheckInExpectedDate,
-                CheckOutExpectedDate = reservation.CheckOutExpectedDate,
-                Status = reservation.Status,
-            };
-
-            resumed.GuestName = String.Join(' ', reservation.GuestName.Split(' ').Select(x => $"{x.Substring(0, 2)}******"));
-
-            if (!String.IsNullOrEmpty(reservation.GuestEmail))
-            {
-                var guestEmailSplited = reservation.GuestEmail.Split("@");
-                var guestUser = guestEmailSplited[0];
-                var domain = guestEmailSplited[1];
-                resumed.GuestEmail = $"{guestUser.Substring(0, 2)}***@{domain.Substring(0, 2)}***";
-
-            }
-            return resumed;
-        }
     }
     #endregion
 }

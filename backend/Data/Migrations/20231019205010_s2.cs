@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace S11.Migrations
+namespace S11.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class merge : Migration
+    public partial class s2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -118,7 +118,7 @@ namespace S11.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -247,9 +247,9 @@ namespace S11.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "ImageUrl", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "CONCURRENCY_STAMP", "admin@gmail.com", true, "Admin User", "", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEC4nZ2DVAwm9kneT/+85tyLPz/1i+rvRNHQhuBBdfSw7X21xduoRejRAVaqKlECw5A==", null, false, "", false, "admin" },
-                    { 2, 0, "CONCURRENCY_STAMP", "user1@gmail.com", true, "User Test 1", "", false, null, "USER1@GMAIL.COM", "USER1", "AQAAAAIAAYagAAAAEPpwNhPQ1HF8tAs2zsgK/X2/bPAVJ5hFY7moeFVhrcaC0iJUtQbX4gIPcgdjxXu8LA==", null, false, "", false, "user1" },
-                    { 3, 0, "CONCURRENCY_STAMP", "user2@gmail.com", true, "User Test 2", "", false, null, "USER2@GMAIL.COM", "USER2", "AQAAAAIAAYagAAAAEEKFHyshZsDGx0+NYNWBIJHdcdaLw6YkAsbedcwpwUYRtYd0CaxsSvPGrLJ/ZIgE0g==", null, false, "", false, "user2" }
+                    { 1, 0, "CONCURRENCY_STAMP", "admin@gmail.com", true, "Admin User", "", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEN+Bk3DcC3kV/Iojg945ZfLnA3KxGXxrub/EDjn0WUzdq8jpuci8LLE6OK2M1Ap92A==", null, false, "", false, "admin" },
+                    { 2, 0, "CONCURRENCY_STAMP", "user1@gmail.com", true, "User Test 1", "", false, null, "USER1@GMAIL.COM", "USER1", "AQAAAAIAAYagAAAAEKSHcWoZ/GYVWJ/sJl9HqtMR7QZeS+EnMDlziPT+SGsAL/oIghNyST5ajJJd9V2Abg==", null, false, "", false, "user1" },
+                    { 3, 0, "CONCURRENCY_STAMP", "user2@gmail.com", true, "User Test 2", "", false, null, "USER2@GMAIL.COM", "USER2", "AQAAAAIAAYagAAAAEM5a3bd6R+/Qqt3USeK3wfdtGxZTt0OlnC7pzU4GgAFTM7EuTMCJcsWs0MdKDBtJrw==", null, false, "", false, "user2" }
                 });
 
             migrationBuilder.InsertData(
@@ -266,18 +266,23 @@ namespace S11.Migrations
                 columns: new[] { "ReservationId", "CheckInActualDate", "CheckInExpectedDate", "CheckOutActualDate", "CheckOutExpectedDate", "GuestAddress", "GuestCountry", "GuestDocumentNumber", "GuestDocumentType", "GuestEmail", "GuestName", "GuestPhoneNumber", "NumberOfGuests", "NumberOfRooms", "ReservationAmenities", "ReservationConsecutive", "RoomIds", "RoomType", "Status", "TotalValue" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2023, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "1", 2, "Guest1@example.com", "Guest1", null, 0, 0, null, "W2356181", null, null, 0, null },
-                    { 2, null, new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2023, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "2", 2, "Guest2@example.com", "Guest2", null, 0, 0, null, "W2356182", null, null, 0, null }
+                    { 1, null, new DateTime(2023, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "1", 2, "Guest1@example.com", "Guest1", null, 0, 0, null, "W2350191", null, null, 0, null },
+                    { 2, null, new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2023, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "2", 2, "Guest2@example.com", "Guest2", null, 0, 0, null, "W2350192", null, null, 0, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Rooms",
-                columns: new[] { "RoomId", "Capacity", "Description", "ImageUrl", "Price", "RoomNumber", "State", "Type" },
+                columns: new[] { "RoomId", "Capacity", "Description", "ImageUrl", "Price", "RoomNumber", "Status", "Type" },
                 values: new object[,]
                 {
                     { 1, 1, "A single room", "https://www.collinsdictionary.com/images/full/singleroom_713511961_1000.jpg", 2000m, "A-101", "Reservada", "Sencilla" },
                     { 2, 2, "A Double room", "https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-double-bedroom.jpg", 3000m, "A-102", "Libre", "Doble" },
-                    { 3, 7, "A familiar room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 4000m, "A-103", "Mantenimiento", "Familiar" }
+                    { 3, 7, "A familiar room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 4000m, "A-103", "Mantenimiento", "Familiar" },
+                    { 4, 5, "A king room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 5000m, "A-104", "Mantenimiento", "King" },
+                    { 5, 9, "A Master room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 10000m, "A-105", "Mantenimiento", "Master" },
+                    { 6, 1, "A Mini room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 1500m, "A-106", "Reservada", "Mini" },
+                    { 7, 3, "A Triple room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 7500m, "A-107", "Reservada", "Triple" },
+                    { 8, 4, "A Presidencial room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 30000m, "A-108", "Libre", "Presidencial" }
                 });
 
             migrationBuilder.CreateIndex(

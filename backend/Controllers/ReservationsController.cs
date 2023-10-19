@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using S11.Common.Dto.Reservation;
+using S11.Common.Mappers;
 using S11.Services;
 using System.Security.Claims;
 using static S11.Services.ReservationsService;

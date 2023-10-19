@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using S11.Common.Dtos.Auth;
+using S11.Common.Dto.Auth;
 using S11.Common.Interfaces;
 using S11.Data.Models;
 using S11.Services.DTO;
@@ -47,7 +47,7 @@ namespace S11.Services
                 {
                     //var roles = _roleManager.
                     var roles = await _userManager.GetRolesAsync(user);
-                    var token = await _tokenService.GenerateToken(user,roles);
+                    var token = await _tokenService.GenerateToken(user, roles);
                     return new LoginResponseDto
                     {
                         UserName = user.UserName ?? String.Empty,
@@ -82,8 +82,8 @@ namespace S11.Services
         {
             //set role to admin
             var admin = await _userManager.FindByEmailAsync("admin@gmail.com");
-            
-            if (admin is not null && ! await  _userManager.IsInRoleAsync(admin,"Admin"))
+
+            if (admin is not null && !await _userManager.IsInRoleAsync(admin, "Admin"))
             {
                 var roleExists = await _roleManager.RoleExistsAsync("Admin");
                 if (roleExists)
@@ -102,7 +102,7 @@ namespace S11.Services
                         Email = $"user{(i == 0 ? "" : i)}@example.com",
                         UserName = $"user{(i == 0 ? "" : i)}@example.com",
                         FullName = $"user{(i == 0 ? "" : i)}",
-                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i+1}.jpg"
+                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i + 1}.jpg"
                     };
 
                     var r = await _userManager.CreateAsync(user);

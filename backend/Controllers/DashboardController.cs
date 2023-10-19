@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S11.Common.Dto;
+using S11.Common.Dto.Reservation;
 using S11.Services;
 using System.ComponentModel;
 
