@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using S11.Common.Dtos.Auth;
 using S11.Common.Interfaces;
 using S11.Data.Models;
-
+using S11.Services.DTO;
 using System.Text;
 
 namespace S11.Services
@@ -15,10 +16,11 @@ namespace S11.Services
         private readonly TokenService _tokenService;
         private readonly RoleManager<Role> _roleManager;
         private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService)
+        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService, IConfiguration configuration)
         {
-
+            _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
             _tokenService = tokenService;
@@ -118,7 +120,7 @@ namespace S11.Services
                 var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
                 // Construir el enlace de restablecimiento de contraseña
-                var resetPasswordLink = $"https://example.com/reset-password?userId={user.Id}&token={encodedToken}";
+                var resetPasswordLink = $"{_configuration["PasswordReset:ResetLink"]}?userId={user.Id}&token={encodedToken}";
 
                 // Envía el enlace de restablecimiento de contraseña al usuario por correo electrónico
                 var subject = "Restablecimiento de contraseña";
