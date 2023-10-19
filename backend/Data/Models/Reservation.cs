@@ -69,5 +69,7 @@ La lista de reservas debe poder ordenarse por diferentes criterios, como fecha d
 
         public DateTime? CheckInActualDate { get; set; }
         public DateTime? CheckOutActualDate { get; set; }
+
+        public decimal? TotalValue { get; set; }
     }
 }
