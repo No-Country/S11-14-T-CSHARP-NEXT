@@ -15,28 +15,31 @@ using System.Text.Json.Serialization;
 
 namespace S11.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DashboardController : ControllerBase
+    public class DashboardController : BaseApiController
     {
         private readonly IssuesService _incidenciasService;
+        private readonly RoomService _roomService;
 
 
-        public DashboardController(IssuesService incidenciasService)
+        public DashboardController(IssuesService incidenciasService, RoomService roomService)
         {
             _incidenciasService = incidenciasService;
+            _roomService = roomService;
         }
 
         [HttpGet]
         [ApiVersion("0.1")]
         //[Authorize]
-        public TempDashBoardResponse GetDashboardBoardResponse()
+        public  TempDashBoardResponse GetDashboardBoardResponse()
         {
             //TODO refactor
             var dashBoardreport = new TempDashBoardResponse();
             dashBoardreport.Issues = _incidenciasService.GetResume();
+            dashBoardreport.Rooms =  _roomService.GetResume();
             return dashBoardreport;
         }
+        
+        
     }
 
     [DisplayName("DashboardResume")]
@@ -44,7 +47,7 @@ namespace S11.Controllers
     {
 
         public DateTime FechaConsulta { get; set; }
-        public HabitacionesTemp Habitaciones { get; set; }
+        public RoomResumeDto Rooms { get; set; }
         public EmpleadosResumeDto Empleados { get; set; }
         public ReservacionesTemp Reservaciones { get; set; }
         public IssuesResumeDto Issues { get; set; }
@@ -53,13 +56,13 @@ namespace S11.Controllers
         {
             FechaConsulta = DateTime.Now;
 
-            Habitaciones = new HabitacionesTemp()
-            {
-                Disponibles = 1,
-                Ocupadas = 20,
-                Total = 21,
-                Reparacion = 0
-            };
+            Rooms = new RoomResumeDto() { }; 
+            // {
+            //     Disponibles = 1,
+            //     Ocupadas = 20,
+            //     Total = 21,
+            //     Reparacion = 0
+            // };
             Empleados = new EmpleadosResumeDto() { };
             Reservaciones = new ReservacionesTemp() { };
             Issues = new IssuesResumeDto() { };
