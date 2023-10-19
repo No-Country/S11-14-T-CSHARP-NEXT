@@ -22,7 +22,7 @@ public class RoomService
             RoomNumber = x.RoomNumber,
             Type = x.Type,
             Capacity = x.Capacity,
-            State = x.State,
+            Status = x.Status,
             ImageUrl = x.ImageUrl,
             Price = x.Price,
             Description = x.Description,
@@ -32,27 +32,24 @@ public class RoomService
         return data;
     }
     
-    public RoomDto GetRoomById(int id)
+    public RoomDto? GetRoomById(int id)
     {
         var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == id);
 
-        if (room == null)
-        {
-            throw new Exception($"Room not found with id {id}");
-        }
         
-        return new RoomDto
+        
+        return room != null ? new RoomDto
         {
             RoomId = room.RoomId,
             RoomNumber = room.RoomNumber,
             Type = room.Type,
             Capacity = room.Capacity,
-            State = room.State,
+            Status = room.Status,
             ImageUrl = room.ImageUrl,
             Price = room.Price,
             Description = room.Description,
 
-        };
+        } : null;
     }
 
     public RoomResumeDto GetResume()
@@ -67,7 +64,7 @@ public class RoomService
                 RoomNumber = x.RoomNumber,
                 Type = x.Type,
                 Capacity = x.Capacity,
-                State = x.State,
+                Status = x.Status,
                 ImageUrl = x.ImageUrl,
                 Price = x.Price,
                 Description = x.Description
@@ -75,16 +72,23 @@ public class RoomService
             Types = data.GroupBy(x => x.Type).Select(x => new RoomGroupResponseDto
             {
                 Type = x.Key,
-                TotalFree = x.Count(x => x.State == RoomState.Libre),
-                TotalTaken = x.Count(x => x.State == RoomState.Reservada),
-                TotalMaintenance = x.Count(x => x.State == RoomState.Mantenimiento),
+                TotalFree = x.Count(x => x.Status == RoomStatus.Libre),
+                TotalTaken = x.Count(x => x.Status == RoomStatus.Reservada),
+                TotalMaintenance = x.Count(x => x.Status == RoomStatus.Mantenimiento),
                 Total = x.Count()
             }),
 
             TotalRooms = data.Count(),
-            TotalTaken = data.Count(x => x.State == RoomState.Reservada),
-            TotalFree = data.Count(x => x.State == RoomState.Libre),
-            TotalMaintenance = data.Count(x => x.State == RoomState.Mantenimiento)
+            TotalTaken = data.Count(x => x.Status == RoomStatus.Reservada),
+            TotalFree = data.Count(x => x.Status == RoomStatus.Libre),
+            TotalMaintenance = data.Count(x => x.Status == RoomStatus.Mantenimiento),
+            Sencilla = data.Count(x => x.Type == RoomType.Sencilla),
+            Doble = data.Count(x => x.Type == RoomType.Doble),
+            Familiar = data.Count(x => x.Type == RoomType.Familiar),
+            Triple = data.Count(x => x.Type == RoomType.Triple),
+            King = data.Count(x => x.Type == RoomType.King),
+            Presidencial = data.Count(x => x.Type == RoomType.Presidencial),
+            Mini = data.Count(x => x.Type == RoomType.Mini),
         };
 
         return dto;
