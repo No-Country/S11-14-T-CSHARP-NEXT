@@ -18,7 +18,7 @@ public class TokenService
         _configuration = configuration;
     }
 
-    public async Task<string> GenerateToken(User user)
+    public async Task<string> GenerateToken(User user, IList<string> roles)
     {
         var claims = new List<Claim>
         {
@@ -28,7 +28,7 @@ public class TokenService
             new Claim(ClaimTypes.GivenName, user.FullName)
         };
 
-        var roles = await _userManager.GetRolesAsync(user);
+       // var roles = await _userManager.GetRolesAsync(user);
         
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 

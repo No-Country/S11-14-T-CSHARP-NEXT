@@ -9,3 +9,14 @@
 body {
   background-color: var(--wiz-background);
 }
+
+
+/* ************  FORMS ************ */
+.span-error{
+  @apply text-redwiz-500 text-xs my-2
+}
+
+
+.error-msg{
+  @apply bg-redwiz-500/20 border-2 border-red-500 rounded-md py-2 px-4 mb-4 text-red-500
+}

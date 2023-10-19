@@ -45,7 +45,7 @@ namespace S11.Services
                 {
                     //var roles = _roleManager.
                     var roles = await _userManager.GetRolesAsync(user);
-                    var token = await _tokenService.GenerateToken(user);
+                    var token = await _tokenService.GenerateToken(user,roles);
                     return new LoginResponseDto
                     {
                         UserName = user.UserName ?? String.Empty,
@@ -80,7 +80,8 @@ namespace S11.Services
         {
             //set role to admin
             var admin = await _userManager.FindByEmailAsync("admin@gmail.com");
-            if (admin is not null)
+            
+            if (admin is not null && ! await  _userManager.IsInRoleAsync(admin,"Admin"))
             {
                 var roleExists = await _roleManager.RoleExistsAsync("Admin");
                 if (roleExists)

@@ -52,14 +52,16 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddScoped<IssuesService>();
+builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<EmailService, EmailService>();
 builder.Services.AddScoped<ReservationsService>();
 
-//Adss secrets
+//Adds secrets
+#if DEBUG
 builder.Configuration.AddEnvironmentVariables()
                      .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
-
+#endif
 builder.Services.AddDbContext<Contexto>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

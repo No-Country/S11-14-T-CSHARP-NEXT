@@ -1,11 +1,5 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
-using S11.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using S11.Services;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using static S11.Services.ReservationsService;
 

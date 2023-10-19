@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace S11.Data.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace S11.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class merge : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +34,8 @@ namespace S11.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -50,6 +54,77 @@ namespace S11.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Issues",
+                columns: table => new
+                {
+                    IssueId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateIssue = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReportedBy = table.Column<int>(type: "int", nullable: false),
+                    Area = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GuestId = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Issues", x => x.IssueId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    ReservationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReservationConsecutive = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GuestName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GuestEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GuestPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuestCountry = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuestAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuestDocumentType = table.Column<int>(type: "int", nullable: false),
+                    GuestDocumentNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumberOfRooms = table.Column<int>(type: "int", nullable: false),
+                    NumberOfGuests = table.Column<int>(type: "int", nullable: false),
+                    ReservationAmenities = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoomType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CheckInExpectedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CheckOutExpectedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CheckInActualDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CheckOutActualDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TotalValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.ReservationId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rooms",
+                columns: table => new
+                {
+                    RoomId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rooms", x => x.RoomId);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,6 +233,53 @@ namespace S11.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1, null, "Admin", "ADMIN" },
+                    { 2, null, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "ImageUrl", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { 1, 0, "CONCURRENCY_STAMP", "admin@gmail.com", true, "Admin User", "", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEC4nZ2DVAwm9kneT/+85tyLPz/1i+rvRNHQhuBBdfSw7X21xduoRejRAVaqKlECw5A==", null, false, "", false, "admin" },
+                    { 2, 0, "CONCURRENCY_STAMP", "user1@gmail.com", true, "User Test 1", "", false, null, "USER1@GMAIL.COM", "USER1", "AQAAAAIAAYagAAAAEPpwNhPQ1HF8tAs2zsgK/X2/bPAVJ5hFY7moeFVhrcaC0iJUtQbX4gIPcgdjxXu8LA==", null, false, "", false, "user1" },
+                    { 3, 0, "CONCURRENCY_STAMP", "user2@gmail.com", true, "User Test 2", "", false, null, "USER2@GMAIL.COM", "USER2", "AQAAAAIAAYagAAAAEEKFHyshZsDGx0+NYNWBIJHdcdaLw6YkAsbedcwpwUYRtYd0CaxsSvPGrLJ/ZIgE0g==", null, false, "", false, "user2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Issues",
+                columns: new[] { "IssueId", "Area", "Category", "DateIssue", "Description", "GuestId", "ReportedBy", "RoomId", "Status", "Title" },
+                values: new object[,]
+                {
+                    { 1, "Habitaciones", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Una de las cortinas de la ventana principal presenta deterioro en el sistema de apertura. Falta el cordón", 0, 1, "402-b", "ToDo", "Daño en Velo Ventana" },
+                    { 2, "Baños", 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "La cisterna presenta flujo continuo de agua, se hizo revision manual pero persiste problema, se solicita visita concerje", 0, 1, "304-a", "ToDo", "Cisterna presenta fuga" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "ReservationId", "CheckInActualDate", "CheckInExpectedDate", "CheckOutActualDate", "CheckOutExpectedDate", "GuestAddress", "GuestCountry", "GuestDocumentNumber", "GuestDocumentType", "GuestEmail", "GuestName", "GuestPhoneNumber", "NumberOfGuests", "NumberOfRooms", "ReservationAmenities", "ReservationConsecutive", "RoomIds", "RoomType", "Status", "TotalValue" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2023, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "1", 2, "Guest1@example.com", "Guest1", null, 0, 0, null, "W2356181", null, null, 0, null },
+                    { 2, null, new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), null, new DateTime(2023, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, "2", 2, "Guest2@example.com", "Guest2", null, 0, 0, null, "W2356182", null, null, 0, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Rooms",
+                columns: new[] { "RoomId", "Capacity", "Description", "ImageUrl", "Price", "RoomNumber", "State", "Type" },
+                values: new object[,]
+                {
+                    { 1, 1, "A single room", "https://www.collinsdictionary.com/images/full/singleroom_713511961_1000.jpg", 2000m, "A-101", "Reservada", "Sencilla" },
+                    { 2, 2, "A Double room", "https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-double-bedroom.jpg", 3000m, "A-102", "Libre", "Doble" },
+                    { 3, 7, "A familiar room", "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200", 4000m, "A-103", "Mantenimiento", "Familiar" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -215,6 +337,15 @@ namespace S11.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Issues");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
+
+            migrationBuilder.DropTable(
+                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

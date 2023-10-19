@@ -16,7 +16,7 @@ const Login: NextPage = () => {
         <Form />
         <div className='flex justify-between items-center'>
           <div className='flex justify-start items-center text-[#232130] opacity-50'>
-            <Input type='checkbox' name='remember' className='h-5 w-5 mr-[2px]' />
+            <input type='checkbox' name='remember' className='h-5 w-5 mr-[2px]' />
             <h5 className='text-xs'>Recordarme</h5>
           </div>
           <div className='text-right'>
