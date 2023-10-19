@@ -12,7 +12,7 @@ using S11.Data;
 namespace S11.Data.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20231017174140_Rooms")]
+    [Migration("20231019185046_Rooms")]
     partial class Rooms
     {
         /// <inheritdoc />
@@ -293,7 +293,7 @@ namespace S11.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -314,7 +314,7 @@ namespace S11.Data.Migrations
                             ImageUrl = "https://www.collinsdictionary.com/images/full/singleroom_713511961_1000.jpg",
                             Price = 2000m,
                             RoomNumber = "A-101",
-                            State = "Reservada",
+                            Status = "Reservada",
                             Type = "Sencilla"
                         },
                         new
@@ -325,7 +325,7 @@ namespace S11.Data.Migrations
                             ImageUrl = "https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-double-bedroom.jpg",
                             Price = 3000m,
                             RoomNumber = "A-102",
-                            State = "Libre",
+                            Status = "Libre",
                             Type = "Doble"
                         },
                         new
@@ -336,8 +336,63 @@ namespace S11.Data.Migrations
                             ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
                             Price = 4000m,
                             RoomNumber = "A-103",
-                            State = "Mantenimiento",
+                            Status = "Mantenimiento",
                             Type = "Familiar"
+                        },
+                        new
+                        {
+                            RoomId = 4,
+                            Capacity = 5,
+                            Description = "A king room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 5000m,
+                            RoomNumber = "A-104",
+                            Status = "Mantenimiento",
+                            Type = "King"
+                        },
+                        new
+                        {
+                            RoomId = 5,
+                            Capacity = 9,
+                            Description = "A Master room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 10000m,
+                            RoomNumber = "A-105",
+                            Status = "Mantenimiento",
+                            Type = "Master"
+                        },
+                        new
+                        {
+                            RoomId = 6,
+                            Capacity = 1,
+                            Description = "A Mini room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 1500m,
+                            RoomNumber = "A-106",
+                            Status = "Reservada",
+                            Type = "Mini"
+                        },
+                        new
+                        {
+                            RoomId = 7,
+                            Capacity = 3,
+                            Description = "A Triple room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 7500m,
+                            RoomNumber = "A-107",
+                            Status = "Reservada",
+                            Type = "Triple"
+                        },
+                        new
+                        {
+                            RoomId = 8,
+                            Capacity = 4,
+                            Description = "A Presidencial room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 30000m,
+                            RoomNumber = "A-108",
+                            Status = "Libre",
+                            Type = "Presidencial"
                         });
                 });
 
@@ -429,7 +484,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFxbZi1tzC2lXrZbsinapPgyi2E1Td28LF5PqI3JYbK56liATM2RyXquxj2kYpOakg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFl2yFEzRpqvU603kMXAU+QBo8ewFTEFjbZ44j9HTaQStxeJI0FIsi0AdZaMNDgHBA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -447,7 +502,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIdg2h4rfrDvixsY9rVG0AJMjvRn4uJ56jMENkYLM2epgREnP5Uj5H3Uc8qACbRbaQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDmSXgdg39GM/xS/opjzuPvcBxIXyFGCUDjA0Ulw0JMGI/FFXN/pfne+76FfNuFi7Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -465,7 +520,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJkT76hEQtih3QWmGhFzdTzP/qtBTG21hAl3JT3yM33qqzM+knPZR799J3MwwwQsZw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPNNePPGVYM5s4ZOX7wpEF9litsgz7X8OZHiaJYtqemrzSeTvtY+phScm7MNkOR0Lg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
