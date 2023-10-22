@@ -1,8 +1,8 @@
-using Azure;
-using Microsoft.AspNetCore.Http.HttpResults;
+
 using S11.Common.Dto;
 using S11.Common.Enums;
 using S11.Common.Helpers;
+
 using S11.Data;
 
 namespace S11.Services;
@@ -16,9 +16,11 @@ public class RoomService
         _contexto = contexto;
     }
 
+
     public async Task<PagedList<RoomDto>> GetRooms(RoomParams roomParams)
     {
         var data = _contexto.Rooms.Select(x => new RoomDto
+
         {
             RoomId = x.RoomId,
             RoomNumber = x.RoomNumber,
@@ -28,6 +30,7 @@ public class RoomService
             ImageUrl = x.ImageUrl,
             Price = x.Price,
             Description = x.Description,
+
         }).AsQueryable();
         var rooms = await PagedList<RoomDto>.ToPageList(data, roomParams.PageNumber, roomParams.PageSize);
         
@@ -35,24 +38,27 @@ public class RoomService
         return rooms;
     }
 
+
     public RoomDto? GetRoomById(int id)
     {
         var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == id);
 
 
-        return room != null
-            ? new RoomDto
-            {
-                RoomId = room.RoomId,
-                RoomNumber = room.RoomNumber,
-                Type = room.Type,
-                Capacity = room.Capacity,
-                Status = room.Status,
-                ImageUrl = room.ImageUrl,
-                Price = room.Price,
-                Description = room.Description,
-            }
-            : null;
+        
+        
+        return room != null ? new RoomDto
+        {
+            RoomId = room.RoomId,
+            RoomNumber = room.RoomNumber,
+            Type = room.Type,
+            Capacity = room.Capacity,
+            Status = room.Status,
+            ImageUrl = room.ImageUrl,
+            Price = room.Price,
+            Description = room.Description,
+
+        } : null;
+
     }
 
     public RoomResumeDto GetResume()
