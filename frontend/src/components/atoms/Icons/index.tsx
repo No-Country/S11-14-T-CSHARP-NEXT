@@ -19,7 +19,7 @@ import {
   AiOutlineSearch,
 } from 'react-icons/ai';
 import { BiSolidMessageAltDetail } from 'react-icons/bi';
-import { MdEdit } from 'react-icons/md';
+import { MdEdit, MdKeyboardArrowRight } from 'react-icons/md';
 
 interface IconsProps {
   size?: string;
@@ -92,6 +92,10 @@ export const PlusIcon: React.FC<IconsProps> = ({ size, className }) => {
 
 export const EditIcon: React.FC<IconsProps> = ({ size, className }) => {
   return <MdEdit size={size} className={className} />;
+};
+
+export const ArrowRight: React.FC<IconsProps> = ({ size, className }) => {
+  return <MdKeyboardArrowRight size={size} className={className} />;
 };
 
 export const NewMessagesIcon: React.FC<IconsProps> = ({ size, className }) => {

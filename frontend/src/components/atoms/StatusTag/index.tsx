@@ -6,11 +6,11 @@ interface StatusTag {
 const StatusTag: React.FC<StatusTag> = ({ status }) => {
   function setColor(status: string): string {
     switch (status) {
-      case 'Disponible':
+      case 'Libre':
         return 'bg-green-500';
-      case 'Ocupada':
+      case 'Reservada':
         return 'bg-red-400';
-      case 'Reparación':
+      case 'Mantenimiento':
         return 'bg-yellow-400';
       default:
         return 'bg-neutral-400';

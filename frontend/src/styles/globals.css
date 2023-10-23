@@ -9,3 +9,15 @@
 body {
   background-color: var(--wiz-background);
 }
+
+@layer components {
+  .table-row {
+    @apply border-b-1 border-neutral-200;
+  }
+  .table-header {
+    @apply p-4 text-neutral-700 text-center text-sm;
+  }
+  .table-td {
+    @apply p-4 text-neutral-700 text-center text-sm;
+  }
+}
