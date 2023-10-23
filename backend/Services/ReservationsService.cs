@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Validations;
 using S11.Common.Dto.Reservation;
 using S11.Common.Enums;
@@ -13,8 +14,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
+using static S11.Common.Enums.PeopleIdentity;
 using static S11.Common.Enums.Reservations;
 using static S11.Services.ReservationsService;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace S11.Services
 {
@@ -25,7 +28,9 @@ namespace S11.Services
         {
             _contexto = contexto;
         }
-
+     
+        
+        
         public IEnumerable<ReservationDto> GetAllReservations()
         {
             var reservations = _contexto.Reservations;
@@ -65,7 +70,7 @@ namespace S11.Services
 
             return resume;
         }
-
+    
         /// <summary>since is a generic by property can resolve to a collection , a guest can have more tha one reservation </summary>
         [Obsolete]
         public ReservationDto? GetReservationBy(By by, string value)
@@ -91,12 +96,57 @@ namespace S11.Services
 
             return res is null ? null : res.MapperReservationToDto();
         }
+       
+        // Método para agregar una habitación a una reserva
+        public void AddRoomToReservation(int reservationId, int roomId)
+        {
+            var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
 
-        //TODO Blocked until PagedResponse
-        [Obsolete]
+            if (reservation != null && room != null)
+            {
+                if (string.IsNullOrEmpty(reservation.RoomIds))
+                {
+                    reservation.RoomIds = roomId.ToString();
+                }
+                else
+                {
+                    reservation.RoomIds += $",{roomId}";
+                }
+            }
+        }
+            //TODO Blocked until PagedResponse
+            [Obsolete]
         public void GetAllReservationsPaged(IReservationFilter filter)
         {
             throw new NotImplementedException();
+        }
+
+        public Reservation Create(ReservationDto reserva)
+        {
+            var newReservation = new Reservation();
+            newReservation.GuestName = reserva.GuestName;
+            newReservation.GuestEmail = reserva.GuestName;
+            newReservation.GuestDocumentNumber = reserva.GuestDocumentNumber;
+            newReservation.CheckInExpectedDate = reserva.CheckOutExpectedDate;
+            newReservation.GuestDocumentType =reserva.GuestDocumentType;
+            newReservation.Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), reserva.Status.ToString());
+            newReservation.ReservationRooms = new List<ReservationRoom>();
+            foreach(var temp in reserva.ReservationRooms )
+            {
+                var reservationRoom = new ReservationRoom();
+                reservationRoom.ReservationId = newReservation.ReservationId;
+                reservationRoom.TypeRoom = temp;
+                
+                newReservation.ReservationRooms.Add(reservationRoom);
+            }
+            _contexto.Reservations.Add(newReservation);
+            _contexto.SaveChanges();
+
+            return newReservation;
+
+
+
         }
     }
 
