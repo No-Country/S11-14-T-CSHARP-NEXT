@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using S11.Common.Dtos.Auth;
+using S11.Common.Dto.Auth;
 using S11.Common.Interfaces;
 using S11.Data.Models;
-
+using S11.Services.DTO;
 using System.Text;
 
 namespace S11.Services
@@ -15,10 +16,11 @@ namespace S11.Services
         private readonly TokenService _tokenService;
         private readonly RoleManager<Role> _roleManager;
         private readonly EmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService)
+        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService, IConfiguration configuration)
         {
-           
+            _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
             _tokenService = tokenService;
@@ -45,7 +47,7 @@ namespace S11.Services
                 {
                     //var roles = _roleManager.
                     var roles = await _userManager.GetRolesAsync(user);
-                    var token = await _tokenService.GenerateToken(user);
+                    var token = await _tokenService.GenerateToken(user, roles);
                     return new LoginResponseDto
                     {
                         UserName = user.UserName ?? String.Empty,
@@ -78,6 +80,18 @@ namespace S11.Services
 
         public async Task CreateTestUsers()
         {
+            //set role to admin
+            var admin = await _userManager.FindByEmailAsync("admin@gmail.com");
+
+            if (admin is not null && !await _userManager.IsInRoleAsync(admin, "Admin"))
+            {
+                var roleExists = await _roleManager.RoleExistsAsync("Admin");
+                if (roleExists)
+                {
+                    var result = await _userManager.AddToRolesAsync(admin, new[] { "Admin" });
+                }
+            }
+
             if (!_userManager.Users.Any(x => x.NormalizedEmail == "USER@EXAMPLE.COM"))
             {
                 for (int i = 0; i < 5; i++)
@@ -88,7 +102,7 @@ namespace S11.Services
                         Email = $"user{(i == 0 ? "" : i)}@example.com",
                         UserName = $"user{(i == 0 ? "" : i)}@example.com",
                         FullName = $"user{(i == 0 ? "" : i)}",
-                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i+1}.jpg"
+                        ImageUrl = $"https://randomuser.me/api/portraits/{genre}/{i + 1}.jpg"
                     };
 
                     var r = await _userManager.CreateAsync(user);
@@ -106,7 +120,7 @@ namespace S11.Services
                 var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
                 // Construir el enlace de restablecimiento de contraseña
-                var resetPasswordLink = $"https://example.com/reset-password?userId={user.Id}&token={encodedToken}";
+                var resetPasswordLink = $"{_configuration["PasswordReset:ResetLink"]}?userId={user.Id}&token={encodedToken}";
 
                 // Envía el enlace de restablecimiento de contraseña al usuario por correo electrónico
                 var subject = "Restablecimiento de contraseña";

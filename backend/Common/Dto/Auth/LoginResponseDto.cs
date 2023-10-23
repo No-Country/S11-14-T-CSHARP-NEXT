@@ -1,4 +1,4 @@
-﻿namespace S11.Common.Dtos.Auth
+﻿namespace S11.Common.Dto.Auth
 {
     public class LoginResponseDto
     {

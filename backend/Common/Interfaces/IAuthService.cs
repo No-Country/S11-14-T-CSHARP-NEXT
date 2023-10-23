@@ -1,4 +1,4 @@
-﻿using S11.Common.Dtos.Auth;
+﻿using S11.Common.Dto.Auth;
 
 namespace S11.Common.Interfaces
 {

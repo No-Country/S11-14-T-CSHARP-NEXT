@@ -21,11 +21,14 @@ namespace S11.Controllers
             var rooms = await _roomService.GetRooms(roomParams);
             Response.Headers.Add("Pagination", JsonSerializer.Serialize(rooms.MetaData));
             return rooms;
+
         }
 
         [HttpGet("{id}")]
         public ActionResult<RoomDto> GetRoomById(int id)
+
         {
+
             var room = _roomService.GetRoomById(id);
 
             return room != null ? Ok(room) : NotFound($"Room with {id} was not found");
