@@ -22,42 +22,6 @@ namespace S11.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityRole<int>");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -234,6 +198,110 @@ namespace S11.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("S11.Data.Models.Reservation", b =>
+                {
+                    b.Property<int>("ReservationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
+
+                    b.Property<DateTime?>("CheckInActualDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckInExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckOutActualDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckOutExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GuestAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestCountry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestDocumentNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GuestDocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GuestEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfGuests")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReservationAmenities")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReservationConsecutive")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomIds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ReservationId");
+
+                    b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            ReservationId = 1,
+                            CheckInExpectedDate = new DateTime(2023, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutExpectedDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GuestDocumentNumber = "1",
+                            GuestDocumentType = 2,
+                            GuestEmail = "Guest1@example.com",
+                            GuestName = "Guest1",
+                            NumberOfGuests = 0,
+                            NumberOfRooms = 0,
+                            ReservationConsecutive = "W2350191",
+                            Status = 0
+                        },
+                        new
+                        {
+                            ReservationId = 2,
+                            CheckInExpectedDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutExpectedDate = new DateTime(2023, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GuestDocumentNumber = "2",
+                            GuestDocumentType = 2,
+                            GuestEmail = "Guest2@example.com",
+                            GuestName = "Guest2",
+                            NumberOfGuests = 0,
+                            NumberOfRooms = 0,
+                            ReservationConsecutive = "W2350192",
+                            Status = 0
+                        });
+                });
+
             modelBuilder.Entity("S11.Data.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -262,6 +330,149 @@ namespace S11.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
+                });
+
+            modelBuilder.Entity("S11.Data.Models.Room", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomId"));
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("RoomNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomId");
+
+                    b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            RoomId = 1,
+                            Capacity = 1,
+                            Description = "A single room",
+                            ImageUrl = "https://www.collinsdictionary.com/images/full/singleroom_713511961_1000.jpg",
+                            Price = 2000m,
+                            RoomNumber = "A-101",
+                            Status = "Reservada",
+                            Type = "Sencilla"
+                        },
+                        new
+                        {
+                            RoomId = 2,
+                            Capacity = 2,
+                            Description = "A Double room",
+                            ImageUrl = "https://www.hotel7dublin.com/wp-content/uploads/Hotel-7-double-bedroom.jpg",
+                            Price = 3000m,
+                            RoomNumber = "A-102",
+                            Status = "Libre",
+                            Type = "Doble"
+                        },
+                        new
+                        {
+                            RoomId = 3,
+                            Capacity = 7,
+                            Description = "A familiar room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 4000m,
+                            RoomNumber = "A-103",
+                            Status = "Mantenimiento",
+                            Type = "Familiar"
+                        },
+                        new
+                        {
+                            RoomId = 4,
+                            Capacity = 5,
+                            Description = "A king room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 5000m,
+                            RoomNumber = "A-104",
+                            Status = "Mantenimiento",
+                            Type = "King"
+                        },
+                        new
+                        {
+                            RoomId = 5,
+                            Capacity = 9,
+                            Description = "A Master room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 10000m,
+                            RoomNumber = "A-105",
+                            Status = "Mantenimiento",
+                            Type = "Master"
+                        },
+                        new
+                        {
+                            RoomId = 6,
+                            Capacity = 1,
+                            Description = "A Mini room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 1500m,
+                            RoomNumber = "A-106",
+                            Status = "Reservada",
+                            Type = "Mini"
+                        },
+                        new
+                        {
+                            RoomId = 7,
+                            Capacity = 3,
+                            Description = "A Triple room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 7500m,
+                            RoomNumber = "A-107",
+                            Status = "Reservada",
+                            Type = "Triple"
+                        },
+                        new
+                        {
+                            RoomId = 8,
+                            Capacity = 4,
+                            Description = "A Presidencial room",
+                            ImageUrl = "https://image-tc.galaxy.tf/wijpeg-7ng0vu8db011ivkzeiidl1yqg/family-room-suites-individual-page-2_wide.jpg?crop=0%2C103%2C1980%2C1114&width=1200",
+                            Price = 30000m,
+                            RoomNumber = "A-108",
+                            Status = "Libre",
+                            Type = "Presidencial"
+                        });
                 });
 
             modelBuilder.Entity("S11.Data.Models.User", b =>
@@ -352,7 +563,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM+BGCPmgNLjnHrdZ6Ve1EO/yM3QEcmEikB5nY05neqMATaIFlFVD5bp361aK9mUAg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN+Bk3DcC3kV/Iojg945ZfLnA3KxGXxrub/EDjn0WUzdq8jpuci8LLE6OK2M1Ap92A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -370,7 +581,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG7XbbgbV6EqR+lAEZ4Lr28UzMD6Kfo6SBarl7kYY9M2CYyyQPZXBo9/RiZ1+Bg7Vw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKSHcWoZ/GYVWJ/sJl9HqtMR7QZeS+EnMDlziPT+SGsAL/oIghNyST5ajJJd9V2Abg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -388,7 +599,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFHVZpfpeZa6MvWNUk3LAHxg7Ne79aVecLCZa/sCben+c9cOHUnFOXM5xRnujOvAbQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM5a3bd6R+/Qqt3USeK3wfdtGxZTt0OlnC7pzU4GgAFTM7EuTMCJcsWs0MdKDBtJrw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

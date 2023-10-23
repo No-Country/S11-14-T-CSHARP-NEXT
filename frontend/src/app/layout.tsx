@@ -18,11 +18,11 @@ interface Props {
 }
 
 const RootLayout = ({ children }: Props) => {
-  // const session = getSession();
-  // const userExist = "user" in session;
-  // const isAuth = userExist && session.user !== undefined ;
-  const isAuth = true;
+  const session = getSession();
+  const userExist = "user" in session;
+  const isAuth = userExist && session.user !== undefined;
 
+  
   return (
     <html lang='es'>
       <head>

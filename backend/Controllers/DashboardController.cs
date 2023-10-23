@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Attributes;
+﻿using Microsoft.AspNetCore.Mvc;
 using S11.Common.Dto;
+using S11.Common.Dto.Reservation;
 using S11.Services;
-using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
-using System.Dynamic;
-using System.Text.Json.Serialization;
 
 
 //TODO conectar con los respectivos servicios para obtener la data o crear un servicio especifico
@@ -15,28 +10,34 @@ using System.Text.Json.Serialization;
 
 namespace S11.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DashboardController : ControllerBase
+    public class DashboardController : BaseApiController
     {
         private readonly IssuesService _incidenciasService;
+        private readonly RoomService _roomService;
+        private readonly ReservationsService _resertvationsService;
 
 
-        public DashboardController(IssuesService incidenciasService)
+        public DashboardController(IssuesService incidenciasService, RoomService roomService, ReservationsService resService)
         {
             _incidenciasService = incidenciasService;
+            _roomService = roomService;
+            _resertvationsService = resService;
         }
 
         [HttpGet]
         [ApiVersion("0.1")]
         //[Authorize]
-        public TempDashBoardResponse GetDashboardBoardResponse()
+        public  TempDashBoardResponse GetDashboardBoardResponse()
         {
             //TODO refactor
             var dashBoardreport = new TempDashBoardResponse();
             dashBoardreport.Issues = _incidenciasService.GetResume();
+            dashBoardreport.Rooms =  _roomService.GetResume();
+            dashBoardreport.Reservations = _resertvationsService.GetResume();
             return dashBoardreport;
         }
+        
+        
     }
 
     [DisplayName("DashboardResume")]
@@ -44,36 +45,38 @@ namespace S11.Controllers
     {
 
         public DateTime FechaConsulta { get; set; }
-        public HabitacionesTemp Habitaciones { get; set; }
+        public RoomResumeDto Rooms { get; set; }
         public EmpleadosResumeDto Empleados { get; set; }
-        public ReservacionesTemp Reservaciones { get; set; }
+        public ReservationsResumeDto Reservations { get; set; }
         public IssuesResumeDto Issues { get; set; }
 
         public TempDashBoardResponse()
         {
             FechaConsulta = DateTime.Now;
 
-            Habitaciones = new HabitacionesTemp()
-            {
-                Disponibles = 1,
-                Ocupadas = 20,
-                Total = 21,
-                Reparacion = 0
-            };
+            Rooms = new RoomResumeDto() { }; 
+            // {
+            //     Disponibles = 1,
+            //     Ocupadas = 20,
+            //     Total = 21,
+            //     Reparacion = 0
+            // };
             Empleados = new EmpleadosResumeDto() { };
-            Reservaciones = new ReservacionesTemp() { };
+            Reservations = new ReservationsResumeDto() { };
             Issues = new IssuesResumeDto() { };
         }
     }
 
-    [DisplayName("ReservacionResume")]
-    public class ReservacionesTemp
+    [DisplayName("ReservationsResume")]
+    public class ReservationsResumeDto
     {
-        public int Pendientes { get; set; }
+        public int Pending { get; set; }
         public int CheckIn { get; set; }
-        public int Canceladas { get; set; }
+        public int Accepted { get; set; }
+        public int Finished { get; set; }
+        public int Cancelled { get; set; }
         public int Total { get; set; }
-        public List<ReservaDto> Data { get; set; } = new();
+        public List<ReservationDto> Data { get; set; } = new();
     }
 
     //[DisplayName("Incidencia")]

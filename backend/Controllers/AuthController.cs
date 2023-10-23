@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using S11.Common.Dtos.Auth;
+using S11.Common.Dto.Auth;
 using S11.Common.Interfaces;
 
 namespace S11.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController : ControllerBase
+
+    public class AuthController : BaseApiController
     {
 
         private readonly IAuthService _authService;

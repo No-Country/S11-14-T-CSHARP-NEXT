@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using S11.Data.Models;
 
 namespace S11.Data.Seeds
 {
@@ -7,14 +8,14 @@ namespace S11.Data.Seeds
     {
         public static void Seed(ModelBuilder builder)
         {
-            builder.Entity<IdentityRole<int>>().HasData(
-                new IdentityRole<int>
+            builder.Entity<Role>().HasData(
+                new Role
                 {
                     Id = 1,
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 },
-                new IdentityRole<int>
+                new Role
                 {
                     Id = 2,
                     Name = "User",
