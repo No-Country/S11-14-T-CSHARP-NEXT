@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using S11.Common.Dto;
+using S11.Common.Extensions;
 using S11.Common.Helpers;
 using S11.Services;
 
@@ -19,7 +20,7 @@ namespace S11.Controllers
         public async Task<PagedList<RoomDto>> GetRooms([FromQuery] RoomParams roomParams)
         {
             var rooms = await _roomService.GetRooms(roomParams);
-            Response.Headers.Add("Pagination", JsonSerializer.Serialize(rooms.MetaData));
+            Response.AddPaginationHeader(rooms.MetaData);
             return rooms;
 
         }
