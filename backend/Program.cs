@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using S11.Data;
-using S11.Services;
-using System.ComponentModel;
-using S11.Data.Models;
-using S11.Common.Interfaces;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using S11.Common.Interfaces;
+using S11.Data;
+using S11.Data.Models;
+using S11.Services;
 using S11.Services.DTO;
+using System.ComponentModel;
+using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,6 @@ builder.Services
         options.Password.RequireUppercase = false;
         options.Password.RequiredLength = 3;
         options.Password.RequiredUniqueChars = 1;
-
     })
     .AddEntityFrameworkStores<Contexto>();
 
@@ -55,10 +55,13 @@ builder.Services.AddScoped<IssuesService>();
 builder.Services.AddScoped<RoomService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<EmailService, EmailService>();
+builder.Services.AddScoped<ReservationsService>();
 
-
-
-
+//Adds secrets
+#if DEBUG
+builder.Configuration.AddEnvironmentVariables()
+                     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+#endif
 builder.Services.AddDbContext<Contexto>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -78,8 +81,6 @@ builder.Services.AddCors(o =>
 });
 builder.Services.AddSwaggerGen(c =>
 {
-
-
     c.CustomSchemaIds(x => x.GetCustomAttributes(false).OfType<DisplayNameAttribute>().FirstOrDefault()?.DisplayName ?? x.Name);
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

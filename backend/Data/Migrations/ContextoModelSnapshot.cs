@@ -22,42 +22,6 @@ namespace S11.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IdentityRole<int>");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -234,6 +198,110 @@ namespace S11.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("S11.Data.Models.Reservation", b =>
+                {
+                    b.Property<int>("ReservationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
+
+                    b.Property<DateTime?>("CheckInActualDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckInExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckOutActualDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("CheckOutExpectedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GuestAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestCountry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestDocumentNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GuestDocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GuestEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfGuests")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReservationAmenities")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReservationConsecutive")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomIds")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoomType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ReservationId");
+
+                    b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            ReservationId = 1,
+                            CheckInExpectedDate = new DateTime(2023, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutExpectedDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GuestDocumentNumber = "1",
+                            GuestDocumentType = 2,
+                            GuestEmail = "Guest1@example.com",
+                            GuestName = "Guest1",
+                            NumberOfGuests = 0,
+                            NumberOfRooms = 0,
+                            ReservationConsecutive = "W2350191",
+                            Status = 0
+                        },
+                        new
+                        {
+                            ReservationId = 2,
+                            CheckInExpectedDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutExpectedDate = new DateTime(2023, 11, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GuestDocumentNumber = "2",
+                            GuestDocumentType = 2,
+                            GuestEmail = "Guest2@example.com",
+                            GuestName = "Guest2",
+                            NumberOfGuests = 0,
+                            NumberOfRooms = 0,
+                            ReservationConsecutive = "W2350192",
+                            Status = 0
+                        });
+                });
+
             modelBuilder.Entity("S11.Data.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -262,6 +330,20 @@ namespace S11.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("S11.Data.Models.Room", b =>
@@ -481,7 +563,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFl2yFEzRpqvU603kMXAU+QBo8ewFTEFjbZ44j9HTaQStxeJI0FIsi0AdZaMNDgHBA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN+Bk3DcC3kV/Iojg945ZfLnA3KxGXxrub/EDjn0WUzdq8jpuci8LLE6OK2M1Ap92A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -499,7 +581,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDmSXgdg39GM/xS/opjzuPvcBxIXyFGCUDjA0Ulw0JMGI/FFXN/pfne+76FfNuFi7Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKSHcWoZ/GYVWJ/sJl9HqtMR7QZeS+EnMDlziPT+SGsAL/oIghNyST5ajJJd9V2Abg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -517,7 +599,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPNNePPGVYM5s4ZOX7wpEF9litsgz7X8OZHiaJYtqemrzSeTvtY+phScm7MNkOR0Lg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM5a3bd6R+/Qqt3USeK3wfdtGxZTt0OlnC7pzU4GgAFTM7EuTMCJcsWs0MdKDBtJrw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
