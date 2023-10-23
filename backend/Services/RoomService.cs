@@ -1,5 +1,4 @@
-using Azure;
-using Microsoft.AspNetCore.Http.HttpResults;
+
 using S11.Common.Dto;
 using S11.Common.Enums;
 using S11.Common.Helpers;
@@ -29,6 +28,18 @@ public class RoomService
             Price = x.Price,
             Description = x.Description,
         }).AsQueryable();
+
+        data = roomParams.OrderBy switch
+        {
+            "price" => data.OrderBy(room => room.Price),
+            "priceDesc" => data.OrderByDescending(room => room.Price),
+            "type" => data.OrderBy(room => room.Type),
+            "typeDesc" => data.OrderByDescending(room => room.Type),
+            "status" => data.OrderBy(room => room.Status),
+            "statusDesc" => data.OrderByDescending(room => room.Status),
+            _ => data.OrderBy(room => room.RoomNumber)
+        };
+        
         var rooms = await PagedList<RoomDto>.ToPageList(data, roomParams.PageNumber, roomParams.PageSize);
         
         
