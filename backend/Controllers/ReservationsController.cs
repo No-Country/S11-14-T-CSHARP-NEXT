@@ -21,11 +21,9 @@ namespace S11.Controllers
     {
         private readonly ReservationsService _reservationsService;
 
-
         public ReservationsController(ReservationsService reservationsService)
         {
             _reservationsService = reservationsService;
-         
         }
 
         // GET api/<ReservationsController>
@@ -58,7 +56,7 @@ namespace S11.Controllers
 
             return Ok(userIsAdmin ? res : res.MapperReservationToResumedDto());
         }
-        
+
 
         [HttpPost(nameof(Create))]
         public  ActionResult<IReservationDto> Create(ReservationDto reserva)

@@ -28,9 +28,7 @@ namespace S11.Services
         {
             _contexto = contexto;
         }
-     
-        
-        
+
         public IEnumerable<ReservationDto> GetAllReservations()
         {
             var reservations = _contexto.Reservations;
@@ -70,7 +68,7 @@ namespace S11.Services
 
             return resume;
         }
-    
+
         /// <summary>since is a generic by property can resolve to a collection , a guest can have more tha one reservation </summary>
         [Obsolete]
         public ReservationDto? GetReservationBy(By by, string value)
@@ -96,7 +94,7 @@ namespace S11.Services
 
             return res is null ? null : res.MapperReservationToDto();
         }
-       
+
         // Método para agregar una habitación a una reserva
         public void AddRoomToReservation(int reservationId, int roomId)
         {
@@ -115,8 +113,8 @@ namespace S11.Services
                 }
             }
         }
-            //TODO Blocked until PagedResponse
-            [Obsolete]
+        //TODO Blocked until PagedResponse
+        [Obsolete]
         public void GetAllReservationsPaged(IReservationFilter filter)
         {
             throw new NotImplementedException();
