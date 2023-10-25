@@ -10,6 +10,19 @@ body {
   background-color: var(--wiz-background);
 }
 
+<<<<<<< HEAD
+@layer components {
+  .table-row {
+    @apply border-b-1 border-neutral-200;
+  }
+  .table-header {
+    @apply p-4 text-neutral-700 text-center text-sm;
+  }
+  .table-td {
+    @apply p-4 text-neutral-700 text-center text-sm;
+  }
+}
+=======
 
 /* ************  FORMS ************ */
 .span-error{
@@ -20,3 +33,4 @@ body {
 .error-msg{
   @apply bg-redwiz-500/20 border-2 border-red-500 rounded-md py-2 px-4 mb-4 text-red-500
 }
+>>>>>>> 1c116fad51bfb495532f6254a3de3aa9f3a7b405
