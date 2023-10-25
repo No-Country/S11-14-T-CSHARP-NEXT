@@ -57,5 +57,12 @@ namespace S11.Controllers
         {
             public IEnumerable<T> Data { get; set; }
         }
+
+        [HttpGet("statuses")]
+        [ResponseCache(Duration =60,Location =ResponseCacheLocation.Client)]
+        public string[] Statuses()
+        {
+            return Enum.GetNames(typeof(Common.Enums.Reservations.ReservationStatus));
+        }
     }
 }
