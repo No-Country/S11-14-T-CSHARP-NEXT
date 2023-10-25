@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using S11.Common.Dto;
 using S11.Common.Dto.Reservation;
 using S11.Common.Mappers;
+using S11.Data;
+using S11.Data.Models;
 using S11.Services;
 using System.Security.Claims;
 using static S11.Services.ReservationsService;
@@ -15,10 +19,12 @@ namespace S11.Controllers
     public class ReservationsController : ControllerBase
     {
         private readonly ReservationsService _reservationsService;
+     
 
         public ReservationsController(ReservationsService reservationsService)
         {
             _reservationsService = reservationsService;
+            
         }
 
         // GET api/<ReservationsController>
@@ -51,6 +57,8 @@ namespace S11.Controllers
 
             return Ok(userIsAdmin ? res : res.MapperReservationToResumedDto());
         }
+
+    
 
         //TODO temp while PagedResponse gets merged
         public class GenericCollectionResponse<T> where T : class
