@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Extensions;
 using S11.Common.Enums;
 using S11.Data.Models;
 
@@ -18,9 +19,9 @@ namespace S11.Data.Seeds
                     Category = 1,
                     Description = "Una de las cortinas de la ventana principal presenta deterioro en el sistema de apertura. Falta el cordón",
                     Title = "Daño en Velo Ventana",
-                    RoomId = "402-b",
+                    RoomId = "A-101",
                     DateIssue = new DateTime(),
-                    Status = IssueType.ToDo,
+                    Status = IssueType.ToDo.GetDisplayName(),
                     //TODO pendiente para definitr usuarios en Seed
                     ReportedBy = 1,
                     GuestId    = 0,
@@ -32,9 +33,9 @@ namespace S11.Data.Seeds
                     Category = 2,
                     Description = "La cisterna presenta flujo continuo de agua, se hizo revision manual pero persiste problema, se solicita visita concerje",
                     Title = "Cisterna presenta fuga",
-                    RoomId = "304-a",
+                    RoomId = "A-102",
                     DateIssue = new DateTime(),
-                    Status = IssueType.ToDo,
+                    Status = IssueType.ToDo.GetDisplayName(),
                     //TODO pendiente para definitr usuarios en Seed
                     ReportedBy = 1,
                     GuestId    = 0,

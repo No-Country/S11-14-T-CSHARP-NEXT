@@ -1,6 +1,9 @@
-using Microsoft.AspNetCore.Http.HttpResults;
+
+
 using S11.Common.Dto;
 using S11.Common.Enums;
+using S11.Common.Helpers;
+
 using S11.Data;
 
 namespace S11.Services;
@@ -14,9 +17,11 @@ public class RoomService
         _contexto = contexto;
     }
 
-    public IEnumerable<RoomDto> GetRooms()
+
+    public async Task<PagedList<RoomDto>> GetRooms(RoomParams roomParams)
     {
-        var data = _contexto.Rooms.ToList().Select(x => new RoomDto
+        var data = _contexto.Rooms.Select(x => new RoomDto
+
         {
             RoomId = x.RoomId,
             RoomNumber = x.RoomNumber,
@@ -26,15 +31,46 @@ public class RoomService
             ImageUrl = x.ImageUrl,
             Price = x.Price,
             Description = x.Description,
-            
-        });
 
-        return data;
+        }).AsQueryable();
+
+        data = roomParams.OrderBy switch
+        {
+            "price" => data.OrderBy(room => room.Price),
+            "priceDesc" => data.OrderByDescending(room => room.Price),
+            "type" => data.OrderBy(room => room.Type),
+            "typeDesc" => data.OrderByDescending(room => room.Type),
+            "status" => data.OrderBy(room => room.Status),
+            "statusDesc" => data.OrderByDescending(room => room.Status),
+            _ => data.OrderBy(room => room.RoomNumber)
+        };
+        
+        var rooms = await PagedList<RoomDto>.ToPageList(data, roomParams.PageNumber, roomParams.PageSize);
+        
+        
+        return rooms;
     }
-    
+
+
     public RoomDto? GetRoomById(int id)
     {
         var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == id);
+
+
+
+        return room != null
+            ? new RoomDto
+            {
+                RoomId = room.RoomId,
+                RoomNumber = room.RoomNumber,
+                Type = room.Type,
+                Capacity = room.Capacity,
+                Status = room.Status,
+                ImageUrl = room.ImageUrl,
+                Price = room.Price,
+                Description = room.Description,
+            }
+            : null;
 
         
         
@@ -50,6 +86,7 @@ public class RoomService
             Description = room.Description,
 
         } : null;
+
     }
 
     public RoomResumeDto GetResume()

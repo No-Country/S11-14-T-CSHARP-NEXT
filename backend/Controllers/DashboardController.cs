@@ -14,6 +14,7 @@ namespace S11.Controllers
     {
         private readonly IssuesService _incidenciasService;
         private readonly RoomService _roomService;
+
         private readonly ReservationsService _resertvationsService;
 
 
@@ -22,6 +23,7 @@ namespace S11.Controllers
             _incidenciasService = incidenciasService;
             _roomService = roomService;
             _resertvationsService = resService;
+
         }
 
         [HttpGet]
@@ -33,7 +35,9 @@ namespace S11.Controllers
             var dashBoardreport = new TempDashBoardResponse();
             dashBoardreport.Issues = _incidenciasService.GetResume();
             dashBoardreport.Rooms =  _roomService.GetResume();
+
             dashBoardreport.Reservations = _resertvationsService.GetResume();
+
             return dashBoardreport;
         }
         

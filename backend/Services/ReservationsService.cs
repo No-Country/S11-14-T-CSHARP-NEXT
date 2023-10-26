@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Validations;
 using S11.Common.Dto.Reservation;
 using S11.Common.Enums;
@@ -13,8 +14,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
-using static S11.Common.Enums.Reservations;
+using static S11.Common.Enums.PeopleIdentity;
+using static S11.Common.Enums.Reservations.Reservations;
 using static S11.Services.ReservationsService;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace S11.Services
 {
@@ -92,11 +95,82 @@ namespace S11.Services
             return res is null ? null : res.MapperReservationToDto();
         }
 
+        // Método para agregar una habitación a una reserva
+        public void AddRoomToReservation(int reservationId, int roomId)
+        {
+            var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+            if (reservation != null && room != null)
+            {
+                if (string.IsNullOrEmpty(reservation.RoomIds))
+                {
+                    reservation.RoomIds = roomId.ToString();
+                }
+                else
+                {
+                    reservation.RoomIds += $",{roomId}";
+                }
+            }
+        }
         //TODO Blocked until PagedResponse
         [Obsolete]
         public void GetAllReservationsPaged(IReservationFilter filter)
         {
             throw new NotImplementedException();
+        }
+
+        public Reservation Create(ReservationDto reserva)
+        {
+            var newReservation = new Reservation();
+            newReservation.GuestName = reserva.GuestName;
+            newReservation.GuestEmail = reserva.GuestName;
+            newReservation.GuestDocumentNumber = reserva.GuestDocumentNumber;
+            newReservation.CheckInExpectedDate = reserva.CheckOutExpectedDate;
+            newReservation.GuestDocumentType =reserva.GuestDocumentType;
+            newReservation.Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), reserva.Status.ToString());
+            newReservation.ReservationRooms = new List<ReservationRoom>();
+            foreach(var temp in reserva.ReservationRooms )
+            {
+                var reservationRoom = new ReservationRoom();
+                reservationRoom.ReservationId = newReservation.ReservationId;
+                reservationRoom.TypeRoom = temp;
+                
+                newReservation.ReservationRooms.Add(reservationRoom);
+            }
+            _contexto.Reservations.Add(newReservation);
+            _contexto.SaveChanges();
+
+            return newReservation;
+
+
+
+        }
+
+        /// <summary> Change the status of a reservation </summary>
+        /// <returns>if not found return null</returns>
+        public ReservationDto? ChangeReservationStatus(string consecutive, ReservationStatus newStatus)
+        {
+           
+            //this can raise an exception, 
+            var res = _contexto.Reservations.SingleOrDefault(x => x.ReservationConsecutive.Trim() == consecutive);
+            if(res == null)
+            {
+                return null;
+            }
+            //a reserve can only be changed to other statuses excepct when in course to a finished status?
+            if (res.Status is ReservationStatus.OnCourse)
+            {
+                if(newStatus!= ReservationStatus.Finished)
+                {
+                    //TODO validate this rule
+                }
+                    
+            }
+            res.Status = newStatus;
+            _contexto.SaveChanges();
+
+            return res.MapperReservationToDto();
         }
     }
 

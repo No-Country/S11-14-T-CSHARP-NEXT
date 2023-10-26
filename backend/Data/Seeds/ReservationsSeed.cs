@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using S11.Data.Models;
 using static S11.Common.Enums.PeopleIdentity;
-using static S11.Common.Enums.Reservations;
+using static S11.Common.Enums.Reservations.Reservations;
 
 namespace S11.Data.Seeds
 {
@@ -35,6 +35,18 @@ namespace S11.Data.Seeds
                     Status = ReservationStatus.OnHold,
                     CheckInExpectedDate = new DateTime(2023,11,8),
                     CheckOutExpectedDate = new DateTime(2023,11,9),
+                },
+                new Reservation()
+                {
+                    ReservationId = 3,
+                    ReservationConsecutive = $"W{DateTime.Now.ToString("yymmdd")}2",
+                    GuestName = "Guest3",
+                    GuestEmail = "Guest3@example.com",
+                    GuestDocumentType = IdentityDocumentType.Passport,
+                    GuestDocumentNumber = "3",
+                    Status = ReservationStatus.OnHold,
+                    CheckInExpectedDate = new DateTime(2023,11,10),
+                    CheckOutExpectedDate = new DateTime(2023,11,12),
                 },
             };
 
