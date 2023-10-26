@@ -10,6 +10,18 @@ public static class RoomType
     public static string Master { get; } = nameof(Master);
     public static string Mini { get; } = nameof(Mini);
     public static string Presidencial { get; } = nameof(Presidencial);
-   
-    
+
+
+}
+
+public enum RoomTypes
+{
+    Sencilla =1,
+    Doble,
+    Triple,
+    Familiar,
+    King,
+    Master,
+    Mini,
+    Presidencial
 }

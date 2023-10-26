@@ -1,10 +1,14 @@
 
 
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using S11.Common.Dto;
 using S11.Common.Enums;
 using S11.Common.Helpers;
-
+using S11.Common.Mappers;
 using S11.Data;
+using S11.Data.Models;
+using System.Collections.Generic;
 
 namespace S11.Services;
 
@@ -44,10 +48,10 @@ public class RoomService
             "statusDesc" => data.OrderByDescending(room => room.Status),
             _ => data.OrderBy(room => room.RoomNumber)
         };
-        
+
         var rooms = await PagedList<RoomDto>.ToPageList(data, roomParams.PageNumber, roomParams.PageSize);
-        
-        
+
+
         return rooms;
     }
 
@@ -72,8 +76,8 @@ public class RoomService
             }
             : null;
 
-        
-        
+
+
         return room != null ? new RoomDto
         {
             RoomId = room.RoomId,
@@ -130,4 +134,32 @@ public class RoomService
 
         return dto;
     }
+
+    public List<AvailableRoomsDto> GetAvailableRooms(RoomTypes? type)
+    {
+        var query = _contexto.Rooms
+        .Where(x => x.Status == RoomStatus.Libre);
+
+        if (type is not null)
+        {
+            query = query.Where(x => x.Type == type.ToString());
+        }
+
+        var result = query
+             .GroupBy(x => x.Type)
+             .Select(x => new AvailableRoomsDto
+             {
+                 Type = x.Key,
+                 Rooms = x.Select(x => x.RoomNumber).ToList(),
+             });
+
+        return result.ToList();
+    }
 }
+
+public class AvailableRoomsDto
+{
+    public string Type { get; set; }
+    public List<string> Rooms { get; set; }
+}
+
