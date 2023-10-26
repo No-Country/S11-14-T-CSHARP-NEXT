@@ -1,7 +1,6 @@
 ﻿using S11.Data.Models;
 using S11.Services;
 using static S11.Common.Enums.PeopleIdentity;
-using static S11.Common.Enums.Reservations;
 
 namespace S11.Common.Dto.Reservation
 {

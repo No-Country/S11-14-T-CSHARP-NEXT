@@ -1,5 +1,6 @@
-﻿using static S11.Common.Enums.PeopleIdentity;
-using static S11.Common.Enums.Reservations;
+﻿using S11.Common.Enums.Reservations;
+using static S11.Common.Enums.PeopleIdentity;
+using static S11.Common.Enums.Reservations.Reservations;
 
 namespace S11.Data.Models
 {/*

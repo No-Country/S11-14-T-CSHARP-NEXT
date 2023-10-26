@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static S11.Common.Enums.Reservations;
 
 namespace S11.Data.Models
 {

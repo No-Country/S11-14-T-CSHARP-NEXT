@@ -8,7 +8,8 @@ using System.Security.Claims;
 using static S11.Services.ReservationsService;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System.Text.Json.Serialization;
-using S11.Common.Enums;
+using Microsoft.OpenApi.Extensions;
+using static S11.Common.Enums.Reservations.Reservations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -59,7 +60,7 @@ namespace S11.Controllers
 
 
         [HttpPost(nameof(Create))]
-        public  ActionResult<IReservationDto> Create(ReservationDto reserva)
+        public ActionResult<IReservationDto> Create(ReservationDto reserva)
         {
             var reservation = _reservationsService.Create(reserva);
             return Ok(reservation);
@@ -73,10 +74,21 @@ namespace S11.Controllers
         }
 
         [HttpGet("statuses")]
-        [ResponseCache(Duration =60,Location =ResponseCacheLocation.Client)]
-        public string[] Statuses()
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Client)]
+        public object Statuses()
         {
-            return Enum.GetNames(typeof(Common.Enums.Reservations.ReservationStatus));
+            return Enum.GetNames(typeof(ReservationStatus)).Select( (x,index) => new 
+            {
+                Value = index,
+                Text = x
+            });
+        }
+
+        [HttpPost("{reservationNumber}/status")]
+        public ActionResult<ReservationDto> ChangeReservationStatus(string reservationNumber, ReservationStatus newStatus)
+        {
+            var resChanged = _reservationsService.ChangeReservationStatus(reservationNumber, newStatus);
+            return  resChanged!=null? Ok(resChanged): NotFound();
         }
     }
 }
