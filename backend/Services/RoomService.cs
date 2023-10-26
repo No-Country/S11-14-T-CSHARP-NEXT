@@ -151,6 +151,7 @@ public class RoomService
              {
                  Type = x.Key,
                  Rooms = x.Select(x => x.RoomNumber).ToList(),
+                 Count = x.Count()
              });
 
         return result.ToList();
@@ -160,6 +161,7 @@ public class RoomService
 public class AvailableRoomsDto
 {
     public string Type { get; set; }
+    public int Count { get; set; }
     public List<string> Rooms { get; set; }
 }
 

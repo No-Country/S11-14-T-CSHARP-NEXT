@@ -56,6 +56,5 @@ namespace S11.Controllers
         {
            return _roomService.GetAvailableRooms(roomType);
         }
-
     }
 }
