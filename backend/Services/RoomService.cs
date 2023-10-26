@@ -52,7 +52,6 @@ public class RoomService
     }
 
 
-
     public RoomDto? GetRoomById(int id)
     {
         var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == id);

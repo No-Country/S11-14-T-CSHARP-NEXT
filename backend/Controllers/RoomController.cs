@@ -17,6 +17,7 @@ namespace S11.Controllers
         }
 
         [HttpGet]
+
         public async Task<PagedList<RoomDto>> GetRooms([FromQuery] RoomParams roomParams)
         {
             var rooms = await _roomService.GetRooms(roomParams);

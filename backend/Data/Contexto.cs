@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using S11.Data.Models;
 using S11.Data.Seeds;
+using System.Reflection.Emit;
 
 namespace S11.Data
 {
@@ -11,6 +12,7 @@ namespace S11.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             base.OnModelCreating(builder);
             Seeds.Issues.Seed(builder);
             Seeds.RoomSeed.Seed(builder);
@@ -19,6 +21,8 @@ namespace S11.Data
             UserSeed.Seed(builder);
 
             ReservationsSeed.Seed(builder);
+            RoomReservationSeed.Seed(builder);
+       
 
         }
 
@@ -26,5 +30,6 @@ namespace S11.Data
         public virtual DbSet<Issue> Issues { get; set; }
 
         public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<ReservationRoom> ReservationRoom { get; set; }
     }
 }

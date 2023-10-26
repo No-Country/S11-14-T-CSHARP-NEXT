@@ -36,6 +36,18 @@ namespace S11.Data.Seeds
                     CheckInExpectedDate = new DateTime(2023,11,8),
                     CheckOutExpectedDate = new DateTime(2023,11,9),
                 },
+                new Reservation()
+                {
+                    ReservationId = 3,
+                    ReservationConsecutive = $"W{DateTime.Now.ToString("yymmdd")}2",
+                    GuestName = "Guest3",
+                    GuestEmail = "Guest3@example.com",
+                    GuestDocumentType = IdentityDocumentType.Passport,
+                    GuestDocumentNumber = "3",
+                    Status = ReservationStatus.OnHold,
+                    CheckInExpectedDate = new DateTime(2023,11,10),
+                    CheckOutExpectedDate = new DateTime(2023,11,12),
+                },
             };
 
             modelBuilder.Entity<Reservation>().HasData(_reservations);

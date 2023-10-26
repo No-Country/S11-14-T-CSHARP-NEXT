@@ -1,4 +1,5 @@
-﻿using S11.Common.Dto;
+﻿using Microsoft.OpenApi.Extensions;
+using S11.Common.Dto;
 using S11.Common.Enums;
 using S11.Data;
 using S11.Data.Models;
@@ -38,9 +39,9 @@ namespace S11.Services
                     ReportedBy = x.ReportedBy,
                     Title = x.Title
                 }),
-                InProgress = data.Count(x => x.Status == IssueType.InProgress),
-                ToDo = data.Count(x => x.Status == IssueType.ToDo),
-                Done = data.Count(x => x.Status == IssueType.Done),
+                InProgress = data.Count(x => x.Status == IssueType.InProgress.GetDisplayName()),
+                ToDo = data.Count(x => x.Status == IssueType.ToDo.GetDisplayName()),
+                Done = data.Count(x => x.Status == IssueType.Done.GetDisplayName()),
                 Total = data.Count()
             };
 
