@@ -53,7 +53,7 @@ La lista de reservas debe poder ordenarse por diferentes criterios, como fecha d
         public string? GuestAddress{ get; set; }
         public IdentityDocumentType GuestDocumentType { get; set; }
         public string GuestDocumentNumber{ get; set; }
-
+        public ICollection<ReservationRoom> ReservationRooms { get; set; }
         public int NumberOfRooms { get; set; }
         public int NumberOfGuests { get; set; }
         //array of room Ids

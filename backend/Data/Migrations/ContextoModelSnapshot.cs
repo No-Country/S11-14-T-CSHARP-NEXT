@@ -283,7 +283,7 @@ namespace S11.Data.Migrations
                             GuestName = "Guest1",
                             NumberOfGuests = 0,
                             NumberOfRooms = 0,
-                            ReservationConsecutive = "W2350191",
+                            ReservationConsecutive = "W2304231",
                             Status = 0
                         },
                         new
@@ -297,8 +297,69 @@ namespace S11.Data.Migrations
                             GuestName = "Guest2",
                             NumberOfGuests = 0,
                             NumberOfRooms = 0,
-                            ReservationConsecutive = "W2350192",
+                            ReservationConsecutive = "W2304232",
                             Status = 0
+                        },
+                        new
+                        {
+                            ReservationId = 3,
+                            CheckInExpectedDate = new DateTime(2023, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CheckOutExpectedDate = new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GuestDocumentNumber = "3",
+                            GuestDocumentType = 2,
+                            GuestEmail = "Guest3@example.com",
+                            GuestName = "Guest3",
+                            NumberOfGuests = 0,
+                            NumberOfRooms = 0,
+                            ReservationConsecutive = "W2304232",
+                            Status = 0
+                        });
+                });
+
+            modelBuilder.Entity("S11.Data.Models.ReservationRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeRoom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("ReservationRoom");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ReservationId = 1,
+                            TypeRoom = "Sencilla"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ReservationId = 2,
+                            TypeRoom = "Mini"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ReservationId = 3,
+                            TypeRoom = "Triple"
                         });
                 });
 
@@ -563,7 +624,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEN+Bk3DcC3kV/Iojg945ZfLnA3KxGXxrub/EDjn0WUzdq8jpuci8LLE6OK2M1Ap92A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJoP47zEi6vEyD6YR2Jf5HOu00VY2adwGGbYfAsRHbOFb/t4TmvRBpwZU4wuXHvhlw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -581,7 +642,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKSHcWoZ/GYVWJ/sJl9HqtMR7QZeS+EnMDlziPT+SGsAL/oIghNyST5ajJJd9V2Abg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOAQW0WYgbJG7WET/2qW5xIWycqM8xG7eP6rRHWyknUwmuKVXF+EC7Fd41pKUxQnVQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -599,7 +660,7 @@ namespace S11.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEM5a3bd6R+/Qqt3USeK3wfdtGxZTt0OlnC7pzU4GgAFTM7EuTMCJcsWs0MdKDBtJrw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKRA1QzHVPYsPlc0XOd0XZHla0pHBCssj7i/GydU34hCLhHHJ8LvT78NF6RHloGiUg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -656,6 +717,31 @@ namespace S11.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("S11.Data.Models.ReservationRoom", b =>
+                {
+                    b.HasOne("S11.Data.Models.Reservation", "Reservation")
+                        .WithMany("ReservationRooms")
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("S11.Data.Models.Room", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("RoomId");
+
+                    b.Navigation("Reservation");
+                });
+
+            modelBuilder.Entity("S11.Data.Models.Reservation", b =>
+                {
+                    b.Navigation("ReservationRooms");
+                });
+
+            modelBuilder.Entity("S11.Data.Models.Room", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

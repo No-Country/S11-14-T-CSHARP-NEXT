@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S11.Common.Dto.Reservation;
 using S11.Common.Mappers;
+using S11.Data.Models;
+using S11.Data;
 using S11.Services;
 using System.Security.Claims;
 using static S11.Services.ReservationsService;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Text.Json.Serialization;
+using S11.Common.Enums;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -50,6 +55,15 @@ namespace S11.Controllers
                 .Any(x => x.Value == "Admin");
 
             return Ok(userIsAdmin ? res : res.MapperReservationToResumedDto());
+        }
+
+
+        [HttpPost(nameof(Create))]
+        public  ActionResult<IReservationDto> Create(ReservationDto reserva)
+        {
+            var reservation = _reservationsService.Create(reserva);
+            return Ok(reservation);
+
         }
 
         //TODO temp while PagedResponse gets merged
