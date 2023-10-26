@@ -1,5 +1,6 @@
-﻿namespace S11.Common.Enums
+﻿namespace S11.Common.Enums.Reservations
 {
+  
     public abstract class Reservations
     {
         //Estado de la reserva (en espera, aceptada, finalizada, cancelada).

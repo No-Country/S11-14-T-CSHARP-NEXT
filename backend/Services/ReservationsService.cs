@@ -15,7 +15,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using static S11.Common.Enums.PeopleIdentity;
-using static S11.Common.Enums.Reservations;
+using static S11.Common.Enums.Reservations.Reservations;
 using static S11.Services.ReservationsService;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -145,6 +145,32 @@ namespace S11.Services
 
 
 
+        }
+
+        /// <summary> Change the status of a reservation </summary>
+        /// <returns>if not found return null</returns>
+        public ReservationDto? ChangeReservationStatus(string consecutive, ReservationStatus newStatus)
+        {
+           
+            //this can raise an exception, 
+            var res = _contexto.Reservations.SingleOrDefault(x => x.ReservationConsecutive.Trim() == consecutive);
+            if(res == null)
+            {
+                return null;
+            }
+            //a reserve can only be changed to other statuses excepct when in course to a finished status?
+            if (res.Status is ReservationStatus.OnCourse)
+            {
+                if(newStatus!= ReservationStatus.Finished)
+                {
+                    //TODO validate this rule
+                }
+                    
+            }
+            res.Status = newStatus;
+            _contexto.SaveChanges();
+
+            return res.MapperReservationToDto();
         }
     }
 
