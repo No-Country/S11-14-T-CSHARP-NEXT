@@ -1,4 +1,4 @@
-﻿@page "/index"
+﻿@page "/reservas"
 @using HotelWiz.Data
 @using S11.Common.Dto.Reservation;
 @using S11.Services;
@@ -50,6 +50,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        //Rooms slow
         reservations = _reservationsService.GetAllReservations();
     }
 }

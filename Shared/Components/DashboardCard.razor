@@ -1,0 +1,16 @@
+﻿<div class="dashboard-cards">
+    <img class="icons" src="@Icon" />
+    <div class="text-wrapper">@Value</div>
+    <div class="div">@Title</div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+    [Parameter]
+    public int? Value { get; set; }
+    [Parameter]
+    public string? Icon { get; set; }
+    [Parameter]
+    public string? Class { get; set; }
+}

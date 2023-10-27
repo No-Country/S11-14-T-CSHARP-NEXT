@@ -1,0 +1,61 @@
+﻿@page "/"
+@page "/dashboard"
+@using HotelWiz.Common.Dto.Dashboard;
+@using HotelWiz.Data
+@using HotelWiz.Services;
+@using HotelWiz.Shared.Components
+@using S11.Common.Dto.Reservation;
+@using S11.Services;
+@inject DashboardService _dashboardService
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Dashboard</h1>
+
+@if (dashboardResume == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Total Habitaciones" />
+            </td>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+            <td>
+                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
+            </td>
+        </tr>
+
+    </table>
+}
+
+@code {
+    private TempDashBoardResponse? dashboardResume;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dashboardResume = _dashboardService.GetDashboardBoardResponse();
+    }
+}
