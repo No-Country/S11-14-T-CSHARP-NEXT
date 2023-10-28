@@ -1,4 +1,5 @@
 ﻿using HotelWiz.Common.Dto.Dashboard;
+using Microsoft.EntityFrameworkCore;
 using S11.Common.Dto.Reservation;
 using S11.Common.Mappers;
 using S11.Controllers;
@@ -29,13 +30,13 @@ namespace S11.Services
         }
 
 
-        public ReservationsResumeDto GetResume()
+        public async Task<ReservationsResumeDto> GetResume()
         {
-            var gouped = _contexto.Reservations.GroupBy(x => x.Status).Select(x => new
+            var gouped =await _contexto.Reservations.GroupBy(x => x.Status).Select(x => new
             {
                 Key = x.Key,
                 Count = x.Count(),
-            }).ToList();
+            }).ToListAsync();
 
             var resume = new ReservationsResumeDto
             {
@@ -45,12 +46,12 @@ namespace S11.Services
                 Finished = gouped.FirstOrDefault(x => x.Key == ReservationStatus.Finished)?.Count??0,
                 Total = Enumerable.Sum(gouped.Select(x => x.Count)),
                 //TODO only accepted?? 
-                Data = _contexto.Reservations
-                    .OrderBy(x => x.CheckInExpectedDate)
-                    .Take(10)
-                    .MapperReservaToDto()
-                    .Cast<ReservationDto>()
-                    .ToList()
+                //Data = _contexto.Reservations
+                //    .OrderBy(x => x.CheckInExpectedDate)
+                //    .Take(10)
+                //    .MapperReservaToDto()
+                //    .Cast<ReservationDto>()
+                //    .ToList()
             };
 
             return resume;

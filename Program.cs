@@ -1,6 +1,4 @@
 using HotelWiz.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using S11.Common.Interfaces;
 using S11.Data.Models;
 using S11.Data;
@@ -36,13 +34,13 @@ builder.Services
     .AddEntityFrameworkStores<Contexto>();
 
 builder.Services.AddDbContext<Contexto>(opt =>
-{
 #if DEBUG
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 #else
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("Prod"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("Prod"))
 #endif
-});
+    , ServiceLifetime.Transient
+);
 
 // Add services to the container.
 builder.Services.AddRazorPages();

@@ -30,14 +30,14 @@ namespace S11.Controllers
         [HttpGet]
         [ApiVersion("0.1")]
         //[Authorize]
-        public  TempDashBoardResponse GetDashboardBoardResponse()
+        public  async Task<TempDashBoardResponse> GetDashboardBoardResponse()
         {
             //TODO refactor
             var dashBoardreport = new TempDashBoardResponse();
-            dashBoardreport.Issues = _incidenciasService.GetResume();
-            dashBoardreport.Rooms =  _roomService.GetResume();
+            //dashBoardreport.Issues = await  _incidenciasService.GetResume();
+            //dashBoardreport.Rooms =  _roomService.GetResume();
 
-            dashBoardreport.Reservations = _resertvationsService.GetResume();
+            //dashBoardreport.Reservations = _resertvationsService.GetResume();
 
             return dashBoardreport;
         }

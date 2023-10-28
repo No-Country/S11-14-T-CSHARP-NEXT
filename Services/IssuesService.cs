@@ -1,4 +1,5 @@
-﻿using S11.Common.Dto;
+﻿using Microsoft.EntityFrameworkCore;
+using S11.Common.Dto;
 using S11.Common.Enums;
 using S11.Data;
 using S11.Data.Models;
@@ -18,36 +19,46 @@ namespace S11.Services
 
         /// <summary>  Obtiene el resumen de las incidencias con las [nItems] primeras ordenadas por fecha </summary>
         /// <returns></returns>
-        public IssuesResumeDto GetResume(int nItems = 10 )
+        public async Task<IssuesResumeDto> GetResume(int nItems = 10)
         {
-            var data = _contexto.Issues.OrderBy(x => x.DateIssue);
+            var data = _contexto.Issues
+                //.OrderBy(x => x.DateIssue)
+                ;
 
             var dto = new IssuesResumeDto()
             {
                 //TODO mapper
-                Data = data.Take(nItems).Select(x => new IssueDto()
-                {
-                    Area = x.Area,
-                    Category = x.Category,
-                    Description = x.Description,
-                    Status = x.Status,
-                    DateIssue = x.DateIssue,
-                    RoomId = x.RoomId,
-                    GuestId = x.GuestId,
-                    IssueId = x.IssueId,
-                    ReportedBy = x.ReportedBy,
-                    Title = x.Title
-                }),
-                InProgress = data.Count(x => x.Status == IssueType.InProgress.ToString()),
-                ToDo = data.Count(x => x.Status == IssueType.ToDo.ToString()),
-                Done = data.Count(x => x.Status == IssueType.Done.ToString()),
-                Total = data.Count()
+                //Data = data.Take(nItems).Select(x => new IssueDto()
+                //{
+                //    Area = x.Area,
+                //    Category = x.Category,
+                //    Description = x.Description,
+                //    Status = x.Status,
+                //    DateIssue = x.DateIssue,
+                //    RoomId = x.RoomId,
+                //    GuestId = x.GuestId,
+                //    IssueId = x.IssueId,
+                //    ReportedBy = x.ReportedBy,
+                //    Title = x.Title
+                //}),
+                //InProgress = data.Count(x => x.Status == IssueType.InProgress.ToString()),
+                //ToDo = data.Count(x => x.Status == IssueType.ToDo.ToString()),
+                //Done = data.Count(x => x.Status == IssueType.Done.ToString()),
+                //Total = data.Count()
             };
 
-            return dto;
+            var dto2 = await data.GroupBy(x => x.Status).Select(x => new { Status = x.Key, Count = x.Count() }).ToListAsync();
+            var res = new IssuesResumeDto()
+            {
+                InProgress = dto2.FirstOrDefault(x => x.Status == nameof(IssueType.InProgress))?.Count ?? 0,
+                ToDo = dto2.FirstOrDefault(x => x.Status == nameof(IssueType.ToDo))?.Count ?? 0,
+                Done = dto2.FirstOrDefault(x => x.Status == nameof(IssueType.Done))?.Count ?? 0
+            };
+
+            return res;
         }
 
-        [Obsolete("No para este sprint", error:true)]
+        [Obsolete("No para este sprint", error: true)]
         public Issue CreateNew(IssueDto incidencia)
         {
             var model = new Issue()
