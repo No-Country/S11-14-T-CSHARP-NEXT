@@ -7,9 +7,23 @@
 @using S11.Common.Dto.Reservation;
 @using S11.Services;
 @inject DashboardService _dashboardService
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 
 <PageTitle>Dashboard</PageTitle>
 
+
+<AuthorizeView>
+<Authorized>
+    Authorized
+    @userName
+</Authorized>
+<NotAuthorized>
+   
+    Not authorized
+
+    <a href="/auth/account/login?redirectTo=dashboard" >Login</a>
+</NotAuthorized>
+</AuthorizeView>
 <h1>Dashboard</h1>
 
 @if (dashboardResume == null)
@@ -54,9 +68,13 @@ else
 
 @code {
     private TempDashBoardResponse? dashboardResume;
+    private string? userName;
 
     protected override async Task OnInitializedAsync()
     {
+        var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authstate.User;
+        userName = user.Identity.Name;
         // dashboardResume = _dashboardService.GetDashboardBoardResponse();
     }
 }

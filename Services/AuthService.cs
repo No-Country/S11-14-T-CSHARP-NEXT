@@ -13,18 +13,54 @@ namespace S11.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly TokenService _tokenService;
         private readonly RoleManager<Role> _roleManager;
         private readonly EmailService _emailService;
         private readonly IConfiguration _configuration;
 
-        public AuthService(UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService, IConfiguration configuration)
+        public AuthService(SignInManager<User> signInManager, UserManager<User> userManager, TokenService tokenService, RoleManager<Role> roleManager, EmailService emailService, IConfiguration configuration)
         {
             _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
             _tokenService = tokenService;
             _emailService = emailService;
+            _signInManager = signInManager;
+        }
+
+        //TODO PasswordSignInAsync
+
+        public async Task<LoginResponseDto> LoginWithUserPassword(string username, string password)
+        {
+            //    try
+            {
+                var loginResult = await _signInManager.PasswordSignInAsync(username, password, false, false);
+                if (!loginResult.Succeeded)
+                {
+                    return new LoginResponseDto
+                    {
+                        Message = "User not found",
+                        IsValid = false,
+                        Token = ""
+                    };
+                }
+
+                
+                //  var user =
+                return new LoginResponseDto
+                {
+                    IsValid = true
+                    //UserName = username ?? String.Empty,
+                    //FullName = user.FullName ?? String.Empty,
+                    //ImageUrl = user.ImageUrl ?? String.Empty,
+                    //Role = String.Join("|", roles),
+                    //IsValid = true,
+                    //Token = token
+                };
+
+                //   }
+            }
         }
 
         public async Task<LoginResponseDto> Login(string username, string password)
