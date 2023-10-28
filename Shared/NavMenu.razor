@@ -1,52 +1,50 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">HotelWiz</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
+﻿<div class="p-5 flex-column items-center justify-center">
+    <a class="text-4xl text-white" href="">HotelWiz</a>
+    <p class="text-purple-700 text-end">Admin</p>
 </div>
+
 
 <div class="nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="p-3">
-            <NavLink class="text-white active:text-purple-600" href="/dashboard" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Dashboard
+        <div class="py-2 px-5">
+            <NavLink class="text-white active:text-purple-600 " href="/dashboard" Match="NavLinkMatch.All">
+                <iconify-icon icon="akar-icons:dashboard" class="px-1 "></iconify-icon>
+                <span>Dashboard</span>
             </NavLink>
-        </div> 
-        <div class="p-3">
+        </div>
+        <div class="py-3 px-5">
             <NavLink class="text-white active:text-purple-600" href="/reservas" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Reservas
-            </NavLink>
-        </div> 
-        <div class="p-3">
-            <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Staff
+                <span class="bi bi-0-circle px-1" aria-hidden="true"></span> Reservas
             </NavLink>
         </div>
-        <div class="p-3">
+        <div class="py-3 px-5">
             <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Habitaciones
+                <span class="bi bi-person-fill px-1" aria-hidden="true"></span> Staff
             </NavLink>
         </div>
-        <div class="p-3">
+        <div class="py-3 px-5">
             <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Configuración
+                <iconify-icon icon="mdi:guest-room-outline" class="px-1"></iconify-icon> Habitaciones
             </NavLink>
         </div>
-        <div class="p-3">
+        <div class="py-3 px-5">
             <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Mensajes
+                <span class="bi bi-gear-fill px-1" aria-hidden="true"></span> Configuración
             </NavLink>
         </div>
-        <div class="p-3">
+        <div class="py-3 px-5">
             <NavLink class="text-white active:text-purple-600"href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Configuración
+                <span class="bi bi-question-circle px-1" aria-hidden="true"></span> Incidencias
             </NavLink>
         </div>
-        <div class="p-3">
+        <div class="py-3 px-5">
+            <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-chat-left-text-fill px-1" aria-hidden="true"></span> Mensajes
+            </NavLink>
+        </div>
+        <div class="py-3 px-5">
             <NavLink class="text-white active:text-purple-600" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Salir
+                <span class="bi bi-box-arrow-right px-1" aria-hidden="true"></span> Salir
             </NavLink>
         </div>
     </nav>
@@ -61,4 +59,5 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
 }
