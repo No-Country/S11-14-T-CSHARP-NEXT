@@ -66,3 +66,41 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --wiz-background: #ededed;
+}
+
+body {
+    background-color: var(--wiz-background);
+}
+
+
+/*@layer components {
+    .table-row;
+    @apply border-b-1 border-neutral-200;
+}*/
+
+.table-header {
+    apply p-4 text-neutral-700 text-center text-sm;
+}
+
+.table-td {
+    apply p-4 text-neutral-700 text-center text-sm;
+}
+
+
+.span-error {
+    apply text-redwiz-500 text-xs my-2;
+}
+
+
+.error-msg {
+    apply bg-redwiz-500/20 border-2 border-red-500 rounded-md py-2 px-4 mb-4 text-red-500;
+}
