@@ -13,16 +13,16 @@
 
 
 <AuthorizeView>
-<Authorized>
-    Authorized
-    @userName
-</Authorized>
-<NotAuthorized>
-   
-    Not authorized
+    <Authorized>
+        Authorized
+        @userName
+    </Authorized>
+    <NotAuthorized>
 
-    <a href="/auth/account/login?redirectTo=dashboard" >Login</a>
-</NotAuthorized>
+        Not authorized
+
+        <a href="/auth/account/login?redirectTo=dashboard" >Login</a>
+    </NotAuthorized>
 </AuthorizeView>
 <h1>Dashboard</h1>
 
@@ -32,7 +32,7 @@
 }
 else
 {
-    
+
     <table class="table">
         <tr>
             <td>
@@ -75,6 +75,6 @@ else
         var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var user = authstate.User;
         userName = user.Identity.Name;
-        // dashboardResume = _dashboardService.GetDashboardBoardResponse();
+     //   dashboardResume = await _dashboardService.GetDashboardBoardResponse();
     }
 }
