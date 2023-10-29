@@ -160,6 +160,20 @@ namespace S11.Services
 
             return res.MapperReservationToDto();
         }
+
+        /// <summary>
+        /// Will search by Name, consecutove and email
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns>Reservations that contains the term</returns>
+        public List<ReservationDto> SearchReservations(string param)
+        { 
+           var results= _contexto.Reservations
+                .Where(x => x.ReservationConsecutive.Contains(param) || x.GuestEmail.Contains(param) || x.GuestName.Contains(param) )
+                .MapperReservaToDto().Cast< ReservationDto>().ToList();
+
+            return results;
+        }
     }
 
 #region Move to common
