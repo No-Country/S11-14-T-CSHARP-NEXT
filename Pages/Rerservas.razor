@@ -5,9 +5,26 @@
 @inject ReservationsService _reservationsService
 
 <PageTitle>Reservaciones</PageTitle>
-
 <h1>Reservaciones</h1>
-<button >Nueva Reserva</button>
+
+<div>
+    <input placeholder=" 🔍︎ Buscar reserva" id="search"
+    @oninput="(e) => searchTerm = e.Value.ToString()"
+    @onkeyup="OnSearchChange" />
+</div>
+<br />
+
+
+<div>
+    <select>
+        <option value="0">ordenar por</option>
+        <option value="0">opcion 1</option>
+        <option value="1">opcion 2</option>
+    </select>
+
+</div>
+
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Nueva Reserva</button>
 @if (reservations == null)
 {
     <p><em>Loading...</em></p>
@@ -17,6 +34,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th><input type="checkbox"></th>
                 <th>Nro.Reserva</th>
                 <th>Nombre huesped</th>
                 <th>Estado reserva</th>
@@ -31,6 +49,7 @@ else
             @foreach (var res in reservations)
             {
                 <tr>
+                    <td><input type="checkbox"></td>
                     <td>@res.ReservationConsecutive</td>
                     <td>@res.GuestName</td>
                     <td>@res.Status</td>
@@ -38,7 +57,7 @@ else
                     <td>@res.CheckInExpectedDate.Value.ToShortDateString()</td>
                     <td>@res.CheckOutExpectedDate.Value.ToShortDateString()</td>
                     <td>@res.Value</td>
-                    <td><button class="oi-envelope-open"/></td>
+                    <td><button class="oi-envelope-open" /></td>
                 </tr>
             }
         </tbody>
@@ -47,10 +66,38 @@ else
 
 @code {
     private IEnumerable<ReservationDto>? reservations;
+    private IEnumerable<ReservationDto>? tempReservations;
+    private IEnumerable<ReservationDto>? searchedReservations;
+
+    private string searchTerm;
+    public delegate void searchTermChanged(string e);
+    public static event searchTermChanged _termChanged;
+
 
     protected override async Task OnInitializedAsync()
     {
-        //Rooms slow
+        searchTerm = String.Empty;
         reservations = _reservationsService.GetAllReservations();
+        tempReservations = reservations;
+    }
+
+    private void OnSearchChange(KeyboardEventArgs e)
+    {
+        var size = searchTerm.Length;
+        //TODO when less than 3 characters show some kind of  shimmer 
+        if (size > 2)
+        {
+            searchedReservations = _reservationsService.SearchReservations(searchTerm);
+            reservations = searchedReservations;
+        }
+        else
+        {
+            reservations = tempReservations;
+        }
+    }
+
+    private void Change(string s)
+    {
+        var a = s;
     }
 }
