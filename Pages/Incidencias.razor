@@ -1,0 +1,122 @@
+﻿@page "/incidencias"
+@using S11.Common.Dto;
+@using S11.Common.Enums;
+
+@inject IssuesService _issuesService
+
+<PageTitle>Incidencias</PageTitle>
+<h1>Historial de incidencias</h1>
+
+<div>
+    <input placeholder=" 🔍︎ Buscar incidencia" id="search"
+    @oninput="(e) => searchTerm = e.Value.ToString()"
+    @onkeyup="OnSearchChange" />
+</div>
+<br />
+
+
+<div>
+    <select>
+        <option value="0">ordenar por</option>
+        <option value="0">opcion 1</option>
+        <option value="1">opcion 2</option>
+    </select>
+
+</div>
+
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Nueva Incidencia</button>
+@if (issues == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>No. Incidencia</th>
+                @if (ShowRoomName)
+                {
+                    <th>Habitacion</th>
+                }
+                <th>Tipo</th>
+                <th>Area</th>
+                <th>Encargado </th>
+                <th>Estatus</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var res in issues)
+            {
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>@res.IssueId</td>
+                    @if (ShowRoomName)
+                    {
+                        <td>@res.RoomId</td>
+                    }
+                    <td>@((IssueCategory)res.Category)</td>
+                    <td>@res.Area</td>
+                    <td>@res.ReportedBy</td>
+                    <td>@res.Status</td>
+                    <td><button class="oi-envelope-open" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<IssueDto>? issues;
+    private IEnumerable<IssueDto>? tempIssues;
+    private IEnumerable<IssueDto>? searchedIssues;
+
+    private string searchTerm;
+    public delegate void searchTermChanged(string e);
+    public static event searchTermChanged _termChanged;
+
+    private bool IsInitialized = false;
+
+    /// <summary>
+    /// For reuse, if called inside roomPage, theres no need to show roomName
+    /// </summary>
+    public bool ShowRoomName { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        searchTerm = String.Empty;
+        issues = _issuesService.GetAll();
+        tempIssues = issues;
+        IsInitialized = true;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // issues = _issuesService.GetAll();
+        // tempIssues = issues;
+    }
+
+
+
+    private void OnSearchChange(KeyboardEventArgs e)
+    {
+        var size = searchTerm.Length;
+        //TODO when less than 3 characters show some kind of  shimmer
+        if (size > 2)
+        {
+            searchedIssues = _issuesService.Search(searchTerm);
+            issues = searchedIssues;
+        }
+        if(size <3 )
+        {
+            issues = tempIssues;
+        }
+    }
+
+    private void Change(string s)
+    {
+        var a = s;
+    }
+}

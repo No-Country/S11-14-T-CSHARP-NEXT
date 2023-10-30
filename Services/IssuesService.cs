@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HotelWiz.Common.Mappers;
+using Microsoft.EntityFrameworkCore;
 using S11.Common.Dto;
+using S11.Common.Dto.Reservation;
 using S11.Common.Enums;
 using S11.Data;
 using S11.Data.Models;
@@ -88,7 +90,7 @@ namespace S11.Services
             }
         }
 
-        [Obsolete("No para este sprint", error: true)]
+        [Obsolete("No para este sprint", error: false)]
         public List<IssueDto> GetAll()
         {
             var data = _contexto.Issues.ToList();
@@ -107,6 +109,45 @@ namespace S11.Services
             }).ToList();
 
             return dtos;
+        }
+
+        /// <summary>
+        /// Search by id, category, roomNumber, Area
+        /// </summary>
+        /// <param name="term"></param>
+        /// <returns></returns>
+        public IEnumerable<IssueDto> Search(string param)
+        {
+            int id;
+            string stringId = String.Empty;
+            var canQueryByNumber = Int32.TryParse(param, out id);
+            var queryable = _contexto.Issues.AsQueryable().AsNoTracking();
+
+            if (canQueryByNumber)
+            {
+                stringId = id.ToString();
+            } //IssueId will never have ? so wont be evaluated as true if empty
+            else stringId = "?";
+           
+            var categories = Enum.GetNames(typeof(IssueCategory))
+                 .Where(x => x.ToUpper().Contains(param.ToUpper()));
+
+            var categoryNumbers = categories.Select(x => (int)Enum.Parse(typeof(IssueCategory), x));
+
+            var results = queryable
+               .Where(x => 
+                x.IssueId.ToString().Contains(stringId)
+                ||
+                categoryNumbers.Contains(x.Category)
+                ||
+                x.RoomId.Contains(param) //room id es el name
+                ||
+                x.Area.Contains(param)
+                )
+               .ToList()
+               .MapperIssueToDto();
+
+            return results;
         }
     }
 }
