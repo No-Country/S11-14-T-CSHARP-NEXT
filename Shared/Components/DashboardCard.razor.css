@@ -144,15 +144,14 @@
 .dashboard-cards {
     display: flex;
     flex-direction: column;
-    width: 264.28px;
+    /*width: 264.28px;*/
     height: 224.7px;
     align-items: center;
     justify-content: center;
-    gap: 10.21px;
+    /*gap: 10.21px;*/
     padding: 64px 35.75px;
     position: relative;
     background-color: #ffffff;
-    border-radius: 16px 0px 0px 0px;
     overflow: hidden;
     border: 0.64px solid;
     border-color: #d9d9d9;

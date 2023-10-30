@@ -18,52 +18,49 @@
         @userName
     </Authorized>
     <NotAuthorized>
-
-        Not authorized
-
-        <a href="/auth/account/login?redirectTo=dashboard" >Login</a>
+        <a href="/auth/account/login?redirectTo=dashboard">Login</a>
     </NotAuthorized>
 </AuthorizeView>
-<h1>Dashboard</h1>
+
 
 @if (dashboardResume == null)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
+    <div class="grid grid-cols-4 bg-white rounded-lg ">
+        <div>
+            <DashboardCard Iconify="mdi:guest-room-outline" Value="@dashboardResume.Rooms.TotalRooms" Class="oi oi-arrow-bottom" Title="Total Habitaciones"/>
+        </div>
+        <div>
+            <DashboardCard Icon="bi bi-bookmarks-fill" Value="@dashboardResume.Reservations.Total" Class="oi oi-arrow-bottom" Title="Reservas"/>
+        </div>
+        <div>
+            <DashboardCard Icon="bi bi-person-fill" Value="@dashboardResume.Empleados.Total" Class="oi oi-arrow-bottom" Title="Staff"/>
+        </div>
+        <div>
+            <DashboardCard Icon="bi bi-question-circle" Class="oi oi-arrow-bottom" Title="Incidentes/Quejas"/>
+        </div>
 
-    <table class="table">
-        <tr>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Total Habitaciones" />
-            </td>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-            <td>
-                <DashboardCard Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones" />
-            </td>
-        </tr>
 
-    </table>
+        <div>
+            <DashboardCard Icon="bi bi-check-circle text-green-500" Value="@dashboardResume.Rooms.TotalFree" Class="oi oi-arrow-bottom" Title="Habitaciones Disponibles"/>
+        </div>
+        <div>
+            <DashboardCard Icon="bi bi-x-octagon text-red-500" Value="@dashboardResume.Rooms.TotalTaken" Class="oi oi-arrow-bottom" Title="Habitaciones Ocupadas"/>
+        </div>
+        <div>
+            <DashboardCard Icon="bi bi-check-square" Value="@dashboardResume.Reservations.CheckIn" Class="oi oi-arrow-bottom" Title="Checkin Pendientes"/>
+        </div>
+        <div>
+            <DashboardCard Icon="bi bi-chat-left-text-fill" Value="5" Class="oi oi-arrow-bottom" Title="Mensajes Nuevos"/>
+        </div>
+
+
+    </div>
 }
 
 @code {
@@ -75,6 +72,7 @@ else
         var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var user = authstate.User;
         userName = user.Identity.Name;
-     //   dashboardResume = await _dashboardService.GetDashboardBoardResponse();
+        dashboardResume = await _dashboardService.GetDashboardBoardResponse();
     }
+
 }

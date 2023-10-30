@@ -1,16 +1,34 @@
 ﻿<div class="dashboard-cards">
-   <Icon Name="IconName.Alarm" />
+
+    @if (@Icon != null)
+    {
+        <span class="@Icon text-5xl font-bold"> </span>
+    }
+    else
+    {
+        <iconify-icon icon="@Iconify" class="text-5xl font-bold"></iconify-icon>
+    }
+
+
     <div class="text-wrapper">@Value</div>
     <div class="div">@Title</div>
 </div>
 
 @code {
+
     [Parameter]
     public string? Title { get; set; }
+
     [Parameter]
     public int? Value { get; set; }
+
     [Parameter]
     public string? Icon { get; set; }
+
     [Parameter]
     public string? Class { get; set; }
+
+    [Parameter]
+    public string? Iconify { get; set; }
+
 }
