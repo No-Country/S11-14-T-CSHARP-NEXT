@@ -4,6 +4,13 @@
 @using S11.Services;
 @inject ReservationsService _reservationsService
 
+<style>
+    thead {
+        margin-bottom: 3rem;
+        background-color: red !important;
+    }
+</style>
+
 <PageTitle>Reservas</PageTitle>
 <h1 class="text-3xl mb-2.5">Reservas</h1>
 
@@ -39,8 +46,8 @@
 }
 else
 {
-    <table class="w-full table">
-        <thead class="bg-white rounded-lg font-bold">
+    <table class="w-full table border-spacing-10">
+        <thead class="bg-white font-bold">
             <tr>
                 <th><input type="checkbox"></th>
                 <th>Nro.Reserva</th>
@@ -53,10 +60,10 @@ else
                 <th>Accion</th>
             </tr>
         </thead>
-        <tbody class="bg-white rounded-lg font-bold mt-3">
+        <tbody class="bg-white rounded-lg border-spacing-3.5">
             @foreach (var res in reservations)
             {
-                <tr class="py-5">
+                <tr class="">
                     <td><input type="checkbox"></td>
                     <td>@res.ReservationConsecutive</td>
                     <td>@res.GuestName</td>
@@ -65,7 +72,7 @@ else
                     <td>@res.CheckInExpectedDate.Value.ToShortDateString()</td>
                     <td>@res.CheckOutExpectedDate.Value.ToShortDateString()</td>
                     <td>@res.Value</td>
-                    <td><i class="bi bi-pencil-fill text-purple-600" ></i></td>
+                    <td><i class="bi bi-pencil-fill text-purple-600 cursor-pointer" ></i></td>
                 </tr>
             }
         </tbody>
