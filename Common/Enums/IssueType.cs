@@ -14,4 +14,17 @@
         Cancelled ,
 
     };
+
+    public enum IssueCategory
+    {
+        Requerimiento = 1,
+        Daño,
+    }
+
+    public enum IssueArea
+    {
+        Baño = 1,
+        Habitacion,
+        Cama,
+    }
 }
