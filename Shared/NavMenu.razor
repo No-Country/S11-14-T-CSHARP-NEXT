@@ -1,4 +1,10 @@
-﻿<div class="p-5 flex-column items-center justify-center">
+<style>
+    .active {
+        color: rgb(147 51 234) !important;
+    }
+</style>
+
+<div class="p-5 flex-column items-center justify-center">
     <a class="text-4xl text-white" href="">HotelWiz</a>
     <p class="text-purple-700 text-end">Admin</p>
 </div>
@@ -7,43 +13,44 @@
 <div class="nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="py-2 px-5">
-            <NavLink class="text-white active:text-purple-600 " href="/dashboard" Match="NavLinkMatch.All">
+
+            <NavLink class="text-white" href="/dashboard" Match="NavLinkMatch.All">
                 <iconify-icon icon="akar-icons:dashboard" class="px-1 "></iconify-icon>
                 <span>Dashboard</span>
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600" href="/reservas" Match="NavLinkMatch.All">
+            <NavLink class="text-white" href="/reservas" Match="NavLinkMatch.All">
                 <span class="bi bi-0-circle px-1" aria-hidden="true"></span> Reservas
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
+            <NavLink class="text-white" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-person-fill px-1" aria-hidden="true"></span> Staff
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
+            <NavLink class="text-white" href="" Match="NavLinkMatch.All">
                 <iconify-icon icon="mdi:guest-room-outline" class="px-1"></iconify-icon> Habitaciones
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
+            <NavLink class="text-white" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-gear-fill px-1" aria-hidden="true"></span> Configuración
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600"href="" Match="NavLinkMatch.All">
+            <NavLink class="text-white"href="" Match="NavLinkMatch.All">
                 <span class="bi bi-question-circle px-1" aria-hidden="true"></span> Incidencias
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600" href="" Match="NavLinkMatch.All">
+            <NavLink class="text-white" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-chat-left-text-fill px-1" aria-hidden="true"></span> Mensajes
             </NavLink>
         </div>
         <div class="py-3 px-5">
-            <NavLink class="text-white active:text-purple-600" href="counter">
+            <NavLink class="text-white" href="counter">
                 <span class="bi bi-box-arrow-right px-1" aria-hidden="true"></span> Salir
             </NavLink>
         </div>
