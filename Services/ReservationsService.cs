@@ -19,7 +19,7 @@ namespace S11.Services
 
         public IEnumerable<ReservationDto> GetAllReservations()
         {
-            var reservations = _contexto.Reservations;
+            var reservations = _contexto.Reservations.AsNoTracking();
             return reservations.MapperReservaToDto().Cast<ReservationDto>();
         }
 
@@ -32,7 +32,9 @@ namespace S11.Services
 
         public async Task<ReservationsResumeDto> GetResume()
         {
-            var gouped =await _contexto.Reservations.GroupBy(x => x.Status).Select(x => new
+            var gouped =await _contexto.Reservations
+                .AsNoTracking()
+                .GroupBy(x => x.Status).Select(x => new
             {
                 Key = x.Key,
                 Count = x.Count(),
@@ -66,8 +68,8 @@ namespace S11.Services
             switch (by)
             {
                 case By.ReservationConsecutive:
-                    res = _contexto
-                        .Reservations
+                    res = _contexto.Reservations
+                        .AsNoTracking()
                         .SingleOrDefault(x => x.ReservationConsecutive.Trim() == value.Trim());
                     break;
                 //case By.NameOfGuest:
@@ -86,7 +88,9 @@ namespace S11.Services
         // Método para agregar una habitación a una reserva
         public void AddRoomToReservation(int reservationId, int roomId)
         {
-            var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            var reservation = _contexto.Reservations
+                .AsNoTracking()
+                .FirstOrDefault(r => r.ReservationId == reservationId);
             var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
 
             if (reservation != null && room != null)
@@ -141,7 +145,9 @@ namespace S11.Services
         {
            
             //this can raise an exception, 
-            var res = _contexto.Reservations.SingleOrDefault(x => x.ReservationConsecutive.Trim() == consecutive);
+            var res = _contexto.Reservations
+                .AsNoTracking()
+                .SingleOrDefault(x => x.ReservationConsecutive.Trim() == consecutive);
             if(res == null)
             {
                 return null;
@@ -168,7 +174,7 @@ namespace S11.Services
         /// <returns>Reservations that contains the term</returns>
         public List<ReservationDto> SearchReservations(string param)
         { 
-           var results= _contexto.Reservations
+           var results= _contexto.Reservations.AsNoTracking()
                 .Where(x => x.ReservationConsecutive.Contains(param) || x.GuestEmail.Contains(param) || x.GuestName.Contains(param) )
                 .MapperReservaToDto().Cast< ReservationDto>().ToList();
 
