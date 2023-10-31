@@ -21,7 +21,25 @@ public class RoomService
         _contexto = contexto;
     }
 
+    public RoomDto AddRoom(RoomDto dto)
+    {
+        var newRoom = new Room
+        {
+            RoomNumber = dto.RoomNumber,
+            Type = dto.Type,
+            Capacity=dto.Capacity,
+            Description = dto.Description,
+            ImageUrl = dto.ImageUrl,
+            Price = dto.Price,
+            Status = dto.Status,
+            
+        };
 
+        _contexto.Rooms.Add(newRoom);
+        _contexto.SaveChanges();
+
+        return dto;
+    }
     public async Task<PagedList<RoomDto>> GetRooms(RoomParams roomParams)
     {
         var data = _contexto.Rooms.Select(x => new RoomDto
@@ -92,6 +110,43 @@ public class RoomService
         } : null;
 
     }
+    //TODO too slow
+    public RoomDto? UpdateRoom(RoomDto dto)
+    {
+        var room = _contexto.Rooms.FirstOrDefault(x => x.RoomId == dto.RoomId);
+
+        if (room != null)
+        {
+            // Realizar actualizaciones de la habitación
+            room.RoomNumber = dto.RoomNumber;
+            room.Status = dto.Status;
+            room.ImageUrl = dto.ImageUrl;
+            room.Price = dto.Price;
+            room.Description = dto.Description;
+            room.Capacity = dto.Capacity;
+
+            using (var transaction = _contexto.Database.BeginTransaction())
+            {
+                try
+                {
+                    _contexto.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    // Manejo de la excepción o posibles errores.
+                    transaction.Rollback();
+                    // Aquí podrías hacer un log de la excepción o manejar el error de alguna manera.
+                    return null;
+                }
+            }
+
+            return dto;
+        }
+
+        return null; // La habitación no se encontró en la base de datos.
+    }
+
 
     //TODO too slow
     public async Task<RoomResumeDto> GetResume()

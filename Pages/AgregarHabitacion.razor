@@ -1,0 +1,61 @@
+﻿@page "/agregar-habitacion"
+@using S11.Common.Dto;
+@inject RoomService roomService
+@inject NavigationManager NavigationManager
+
+<h3>Agregar Habitación</h3>
+
+
+   <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label>Número de Habitación</label>
+                    <input type="text" class="form-control" @bind="@habitacion.RoomNumber" />
+                </div>
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <input type="text" class="form-control" @bind="@habitacion.Type" />
+                </div>
+                <div class="form-group">
+                    <label>Imagen</label>
+                    <input type="text" class="form-control" @bind="@habitacion.ImageUrl" />
+                </div>
+                <div class="form-group">
+                    <label>Capacidad</label>
+                    <input type="text" class="form-control" @bind="@habitacion.Capacity" />
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select class="form-control" @bind="@habitacion.Status">
+                    <option value="Libre" selected>Libre</option>
+                        <option value="Reservada">Reservada</option>
+                        <option value="Mantenimiento">Mantenimiento</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea class="form-control" @bind="@habitacion.Description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Precio por Noche</label>
+                    <input type="text" class="form-control" @bind="@habitacion.Price" />
+                </div>
+
+            <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="Agregar">Guardar</button>
+            </div>
+        </div>
+    </div>
+    }
+
+
+
+@code {
+    private RoomDto habitacion = new RoomDto();
+
+    private async Task Agregar()
+    {
+        roomService.AddRoom(habitacion);
+        NavigationManager.NavigateTo("/habitaciones");
+    }
+}

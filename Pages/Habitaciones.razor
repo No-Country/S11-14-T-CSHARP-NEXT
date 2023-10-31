@@ -4,6 +4,8 @@
 @using S11.Common.Helpers
 @using S11.Services
 @inject RoomService _roomService
+@inject NavigationManager NavigationManager
+
 
 <style>
     /* Estilos CSS */
@@ -19,7 +21,7 @@
         @oninput="OnSearchChange" />
     </div>
     <div>
-        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white">+ Nueva Habitacion</button>
+        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="@AgregarNuevaHabitacion">+ Nueva Habitacion</button>
     </div>
 </div>
 <br />
@@ -68,7 +70,11 @@ else
                     <td>@res.Description</td>
 
                     <td>@res.Price</td>
-                    <td><i class="bi bi-pencil-fill text-purple-600 cursor-pointer"></i></td>
+                    <td>
+                        <a href="/editar-habitacion/@res.RoomId">
+                            <i class="bi bi-pencil-fill text-purple-600 cursor-pointer"></i>
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -120,7 +126,11 @@ else
     }
 
 
-
+    private void AgregarNuevaHabitacion()
+    {
+     
+        NavigationManager.NavigateTo("/agregar-habitacion");
+    }
     private void OnSearchChange(ChangeEventArgs e)
     {
         string searchTerm = e.Value.ToString();
