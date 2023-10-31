@@ -39,7 +39,7 @@ namespace S11.Data.Seeds
                 new Reservation()
                 {
                     ReservationId = 3,
-                    ReservationConsecutive = $"W{DateTime.Now.ToString("yymmdd")}2",
+                    ReservationConsecutive = $"W{DateTime.Now.ToString("yymmdd")}3",
                     GuestName = "Guest3",
                     GuestEmail = "Guest3@example.com",
                     GuestDocumentType = IdentityDocumentType.Passport,
