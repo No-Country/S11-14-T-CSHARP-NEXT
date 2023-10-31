@@ -1,0 +1,154 @@
+﻿@page "/habitaciones"
+@using HotelWiz.Data
+@using S11.Common.Dto
+@using S11.Common.Helpers
+@using S11.Services
+@inject RoomService _roomService
+@inject NavigationManager NavigationManager
+
+
+<style>
+    /* Estilos CSS */
+</style>
+
+<PageTitle>Habitaciones</PageTitle>
+<h1 class="text-3xl mb-2.5">Habitaciones</h1>
+
+<div class="flex justify-between">
+    <div class="w-96">
+        <input class="text-gray-500 bg-white rounded-lg border-none p-2"
+               placeholder=" 🔍︎ Buscar habitaciones" id="search"
+        @oninput="OnSearchChange" />
+    </div>
+    <div>
+        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="@AgregarNuevaHabitacion">+ Nueva Habitacion</button>
+    </div>
+</div>
+<br />
+
+<div class="flex text-gray-500 mb-3.5">
+    <p>Ordenar por: </p>
+    <select class="bg-transparent font-bold">
+        <option value="0">N Habitaciones</option>
+        <option value="0">opcion 1</option>
+        <option value="1">opcion 2</option>
+    </select>
+</div>
+
+@if (RoomDtos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="w-full table border-spacing-10">
+        <thead class="bg-white font-bold">
+            <tr>
+                <th><input type="checkbox"></th>
+                <th>Imagen</th>
+                <th>Habitacion N°</th>
+                <th>Tipo</th>
+
+                <th>Capacidad </th>
+                <th>Status</th>
+                <th>Descripcion</th>
+                <th>Precio/noche</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white rounded-lg border-spacing-3.5">
+            @foreach (var res in RoomDtos)
+            {
+                <tr class="">
+                    <td><input type="checkbox"></td>
+                    <td><img style="height:80px;width:150px;" src="@res.ImageUrl"></td>
+                    <td>@res.RoomNumber</td>
+                    <td>@res.Type</td>
+
+                    <td>@res.Capacity</td>
+                   <td> @GetStatusButton(res.Status)</td>
+                    <td>@res.Description</td>
+
+                    <td>@res.Price</td>
+                    <td>
+                        <a href="/editar-habitacion/@res.RoomId">
+                            <i class="bi bi-pencil-fill text-purple-600 cursor-pointer"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<RoomDto> RoomDtos;
+    private IEnumerable<RoomDto> tempRooms;
+    
+    private RenderFragment GetStatusButton(string status)
+    {
+        if (status == "Libre")
+        {
+            return builder =>
+            {
+                builder.OpenElement(0, "button");
+                builder.AddAttribute(2, "class", "btn btn-outline-success");
+                builder.AddContent(3, status);
+                builder.CloseElement();
+            };
+        }
+        else if (status == "Reservada")
+        {
+            return builder =>
+            {
+                builder.OpenElement(0, "button");
+                builder.AddAttribute(2, "class", "btn btn-outline-danger");
+                builder.AddContent(3, status);
+            
+                builder.CloseElement();
+            };
+        }
+        else if (status == "Mantenimiento")
+        {
+            return builder =>
+            {
+                builder.OpenElement(0, "button");
+                builder.AddAttribute(2, "class", "btn btn-outline-warning");
+                builder.AddContent(3, status);
+  
+                builder.CloseElement();
+            };
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+    private void AgregarNuevaHabitacion()
+    {
+     
+        NavigationManager.NavigateTo("/agregar-habitacion");
+    }
+    private void OnSearchChange(ChangeEventArgs e)
+    {
+        string searchTerm = e.Value.ToString();
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            RoomDtos = tempRooms;
+        }
+        else
+        {
+            RoomDtos = tempRooms.Where(room => room.RoomNumber.Contains(searchTerm)); // Realiza una búsqueda en base al número de habitación.
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        RoomParams roomParams = new RoomParams();
+        RoomDtos = await _roomService.GetRooms(roomParams);
+        tempRooms = RoomDtos.ToList();
+    }
+}

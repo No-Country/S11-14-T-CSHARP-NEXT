@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using S11.Services.DTO;
 using HotelWiz.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IssuesService>();
