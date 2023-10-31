@@ -28,8 +28,18 @@ namespace S11.Common.Mappers
                 StatusCode = (int)reservation.Status,
                 CheckInExpectedDate = reservation.CheckInExpectedDate,
                 CheckOutExpectedDate = reservation.CheckOutExpectedDate,
-                Value = reservation.TotalValue
-
+                Value = reservation.TotalValue,
+                ReservationAmenities = reservation.ReservationAmenities,
+                GuestAddress = reservation.GuestAddress,
+                GuestCountry = reservation.GuestCountry,
+                GuestDocumentNumber = reservation.GuestDocumentNumber,
+                GuestDocumentType = reservation.GuestDocumentType,
+                GuestPhoneNumber = reservation.GuestPhoneNumber,
+                NumberOfGuests = reservation.NumberOfGuests,
+                NumberOfRooms = reservation.NumberOfRooms,
+                RoomIds = reservation.RoomIds,
+                //  ReservationRooms = reservation.ReservationRooms
+                // Rooms = reservation.Rooms
                 //TODO  Complete this
             };
         }

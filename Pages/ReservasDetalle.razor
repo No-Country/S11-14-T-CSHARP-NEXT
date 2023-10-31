@@ -1,0 +1,166 @@
+﻿@page "/reserva/{reservaConsecutivo}"
+@using S11.Common.Dto.Reservation;
+@inject ReservationsService _resService
+@inject NavigationManager _navigation
+<h3>ReservasDetalle</h3>
+
+
+@if (reserva is null)
+{
+    <div class="loading">Loading....</div>
+}
+else
+{
+    if (reserva.ReservationConsecutive.Equals("-1"))
+    {
+        <div class="not-found">Not Found</div>
+    }
+    else
+    {
+        <div>
+            <div>
+                <span class="">
+                    Habitación asignada : @reserva.RoomIds 
+                </span>
+                <span>
+                    <button class="px-6 py-2 rounded-lg bg-purple-600 text-white">Asignar  habitación</button>
+
+                </span>
+                </div>
+           
+        </div>
+
+
+        <div>
+            @reserva.ReservationConsecutive
+        </div>
+        <br />
+        <div class="">
+            @reserva.CheckInExpectedDate.Value.ToShortDateString();
+            <br />
+            @reserva.CheckOutExpectedDate.Value.ToShortDateString();
+            <br />
+            <button class="px-6 py-2 rounded-lg bg-purple-600 text-white">Cambiar fechas</button>
+        </div>
+        <br />
+        <div>
+            <label>Datos de la reserva</label>
+            <br />
+            <ul>
+                <li>
+                    @reserva.NumberOfGuests
+                    @if (reserva.NumberOfGuests > 1 || reserva.NumberOfGuests == 0)
+                    {
+                        @: personas
+                    }
+                    else
+                    {
+                        @: persona
+                    }
+                </li>
+                <li>
+                    @((reserva.CheckOutExpectedDate - reserva.CheckInExpectedDate).Value.TotalDays) noche(s)
+                </li>
+                <li>
+                    <div>
+                        @reserva.NumberOfRooms habitación(es)
+                        <br />
+                        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white">Editar Reserva</button>
+
+                    </div>
+                </li>
+                <li>
+                    <label>Información del huesped</label>
+                    <br />
+                    <ul>
+                        <li>
+                            <div>
+                                <i class="carousel-control-next-icon"></i>
+                                @reserva.GuestName
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <i class="carousel-control-next-icon"></i>
+                                @reserva.GuestPhoneNumber
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <i class="carousel-control-next-icon"></i>
+                                @reserva.GuestEmail
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <button class="px-6 py-2 rounded-lg bg-purple-600 text-white">Chatear con el huesped</button>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <label>Requerimientos Especiales</label>
+                    <br />
+                    <ul>
+                        @reserva.ReservationAmenities?.Select( x => $"<li>{x}</li>"??"" )
+                    </ul>
+
+                </li>
+
+                <li>
+                    <label>Precio</label>
+                    <br />
+                    @reserva.Value
+                </li>
+            </ul>
+        </div>
+        <div>
+            <img src="img/rooms/generic-room.png" />
+            <br />
+            <div class="description"> Some room description that doesnt exists yet </div>
+            <br />
+            <div>
+                <span>Estado de la reserva: @reserva.Status</span>
+
+                @* <button @onclick='@(() => { _navigation.NavigateTo("world"); })'>Click</button> *@
+            </div>
+            <br />
+            <div>
+                <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick='(() => { _navigation.NavigateTo("/reservas");})'>Volver a reservas</button>
+            </div>
+        </div>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public string? ReservaConsecutivo { get; set; }
+
+    private bool showLoading = false;
+
+    protected ReservationDto? reserva = new();
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(ReservaConsecutivo) is false)
+        {
+            reserva = _resService.GetReservationByConsecutive(ReservaConsecutivo);
+
+            if (reserva is null)
+                reserva = new ReservationDto() { ReservationConsecutive = "-1" };
+        }
+    }
+
+    //TODO
+        /*En Business:
+    Ammenities
+    Asginar Rooms
+    Seed
+    En Front:
+    Modal asignar habitacion
+    Maquetar ReservaDetalle
+    Maquetar crear reserva, sin funcionalidad
+    */
+}
