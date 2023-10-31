@@ -3,6 +3,7 @@
 @using S11.Common.Dto.Reservation;
 @using S11.Services;
 @inject ReservationsService _reservationsService
+@inject NavigationManager Navigation
 
 <style>
     thead {
@@ -72,7 +73,7 @@ else
                     <td>@res.CheckInExpectedDate.Value.ToShortDateString()</td>
                     <td>@res.CheckOutExpectedDate.Value.ToShortDateString()</td>
                     <td>@res.Value</td>
-                    <td><i class="bi bi-pencil-fill text-purple-600 cursor-pointer" ></i></td>
+                    <td><i class="bi bi-pencil-fill text-purple-600 cursor-pointer" @onclick="() => OnActionClicked(res.ReservationConsecutive)"></i></td>
                 </tr>
             }
         </tbody>
@@ -115,4 +116,10 @@ else
     {
         var a = s;
     }
+
+    protected void OnActionClicked(string consecutive)
+    {
+        Navigation.NavigateTo($"/reserva/{consecutive}");
+    }
+
 }
