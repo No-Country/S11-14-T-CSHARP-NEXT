@@ -8,6 +8,7 @@ namespace S11.Common.Dto.Reservation
     //TODO move to common
     public class ReservationDto : IReservationDto
     {
+        public int ReservationId { get; set; }
         public string ReservationConsecutive { get; set; }
         public string GuestName { get; set; }
         public string? GuestEmail { get; set; }

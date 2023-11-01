@@ -5,6 +5,7 @@ using S11.Common.Mappers;
 using S11.Controllers;
 using S11.Data;
 using S11.Data.Models;
+using S11.Data.Seeds;
 using static S11.Common.Enums.Reservations.Reservations;
 
 namespace S11.Services
@@ -84,22 +85,25 @@ namespace S11.Services
         }
 
         // Método para agregar una habitación a una reserva
-        public void AddRoomToReservation(int reservationId, int roomId)
+        public bool AddRoomToReservation(string reservationConsecutive, int roomId)
         {
-            var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
-            var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
-
-            if (reservation != null && room != null)
+            try
             {
-                if (string.IsNullOrEmpty(reservation.RoomIds))
+                var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
+                var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+                if (reservation != null && room != null)
                 {
-                    reservation.RoomIds = roomId.ToString();
+                    var roomReservation = new ReservationRoom();
+                    roomReservation.ReservationId = reservation.ReservationId;
+                    roomReservation.TypeRoom = room.Type;
+                    _contexto.ReservationRoom.Add(roomReservation);
+                    _contexto.SaveChanges();
+                    return true;
                 }
-                else
-                {
-                    reservation.RoomIds += $",{roomId}";
-                }
+                else { return false; }
             }
+            catch { return false;}
         }
         //TODO Blocked until PagedResponse
         [Obsolete]
