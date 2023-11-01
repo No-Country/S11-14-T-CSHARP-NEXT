@@ -24,7 +24,7 @@ Domina con elegancia la gestión de reservas, las incidencias del hotel y el sag
 
 ```
 • Daniel Torres
-• Lautaro Villaruel
+• Lautaro Villaroel
 • Matias D’amico
 ```
 
