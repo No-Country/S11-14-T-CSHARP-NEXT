@@ -19,7 +19,7 @@ namespace HotelWiz.Back.Services
 
         public IEnumerable<ReservationDto> GetAllReservations()
         {
-            var reservations = _contexto.Reservations.Include( x => x.ReservationRooms).AsNoTracking();
+            var reservations = _contexto.Reservations.Include(x => x.ReservationRooms).AsNoTracking();
             return reservations.MapperReservaToDto().Cast<ReservationDto>();
         }
 
@@ -69,8 +69,8 @@ namespace HotelWiz.Back.Services
             {
                 case By.ReservationConsecutive:
                     res = _contexto.Reservations
-                       // .AsNoTracking()
-                        .Include( x => x.ReservationRooms)
+                        // .AsNoTracking()
+                        .Include(x => x.ReservationRooms)
                         .SingleOrDefault(x => x.ReservationConsecutive.Trim() == value.Trim());
                     break;
                 //case By.NameOfGuest:
@@ -121,7 +121,7 @@ namespace HotelWiz.Back.Services
             {
                 var reservation = _contexto
                     .Reservations
-                    .Include( x => x.ReservationRooms)
+                    .Include(x => x.ReservationRooms)
                     .FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
                 var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
 
@@ -140,7 +140,7 @@ namespace HotelWiz.Back.Services
             }
             catch { return false; }
         }
-       
+
         //TODO Blocked until PagedResponse
         [Obsolete]
         public void GetAllReservationsPaged(IReservationFilter filter)
@@ -213,6 +213,24 @@ namespace HotelWiz.Back.Services
                  .MapperReservaToDto().Cast<ReservationDto>().ToList();
 
             return results;
+        }
+
+        public ReservationDto Checkin(string consecutive)
+        {
+            //todo do the checkin
+            //change status
+            var res = _contexto.Reservations
+                .Include(x => x.ReservationRooms)
+                .First(x => x.ReservationConsecutive == consecutive);
+
+            var nigths = (res.CheckOutExpectedDate - res.CheckInExpectedDate).Value.TotalDays;
+            res.TotalValue =
+                _contexto.Rooms.Find(res.ReservationRooms.FirstOrDefault().RoomId).Price * (decimal)nigths;
+
+            _contexto.Entry(res).State = EntityState.Modified;
+            _contexto.SaveChanges();
+
+            return this.ChangeReservationStatus(consecutive, ReservationStatus.OnCourse);
         }
     }
 

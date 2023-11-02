@@ -1,6 +1,7 @@
 using HotelWiz.Back.Common.Dto.Room;
 using HotelWiz.Back.Common.Enums;
 using HotelWiz.Back.Common.Helpers;
+using HotelWiz.Back.Common.Mappers;
 using HotelWiz.Back.Data;
 using HotelWiz.Back.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +105,13 @@ public class RoomService
 
         } : null;
 
+    }
+
+    public RoomDto? GetRoomByName(string roomName)
+    {
+        return _contexto.Rooms
+            .FirstOrDefault(x => x.RoomNumber == roomName)?
+            .RoomToDto();
     }
 
     //TODO too slow

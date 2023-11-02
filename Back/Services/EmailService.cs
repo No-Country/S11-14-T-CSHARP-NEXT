@@ -1,6 +1,9 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using HotelWiz.Back.Services.DTO;
+using Humanizer;
+using MailKit;
+using MailKit.Net.Imap;
 using Microsoft.Extensions.Options;
 
 public class EmailService
@@ -31,5 +34,29 @@ public class EmailService
                 client.Send(message);
             }
         }
+    }
+
+
+    public List<string> GetMessagesTitles()
+    {
+        using (var client = new ImapClient())
+        {
+            client.Connect("imap.gmail.com", 993 /*_emailSettings.SmtpPort*/, true);
+            client.Authenticate(_emailSettings.FromEmail, _emailSettings.SmtpPassword);
+
+            var inbox = client.Inbox;
+            inbox.Open(FolderAccess.ReadOnly);
+
+            Console.WriteLine("Total messages: {0}", inbox.Count);
+            Console.WriteLine("Recent messages: {0}", inbox.Recent);
+
+            for (int i = 0; i < inbox.Count; i++)
+            {
+                var message = inbox.GetMessage(i);
+                Console.WriteLine("Subject: {0}", message.Subject);
+            }
+            client.Disconnect(true);
+        }
+        return new();
     }
 }
