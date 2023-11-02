@@ -15,6 +15,7 @@ builder.Services.AddScoped<EmailService, EmailService>();
 builder.Services.AddScoped<ReservationsService>();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<MessagesService>();
 
 // Registrar la configuración de EmailSettings en el contenedor de servicios
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));

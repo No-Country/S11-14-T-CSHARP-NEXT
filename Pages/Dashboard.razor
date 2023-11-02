@@ -6,6 +6,8 @@
 @using HotelWiz.Back.Common.Dto.Dashboard;
 @inject DashboardService _dashboardService
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject MessagesService _messagesService
+
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -40,7 +42,7 @@ else
             <DashboardCard Icon="bi bi-person-fill" Value="@dashboardResume.Empleados.Total" Class="oi oi-arrow-bottom" Title="Staff"/>
         </div>
         <div>
-            <DashboardCard Icon="bi bi-question-circle" Class="oi oi-arrow-bottom" Title="Incidentes/Quejas"/>
+            <DashboardCard Icon="bi bi-question-circle" Value="@dashboardResume.Issues.Total" Class="oi oi-arrow-bottom" Title="Incidentes/Quejas" />
         </div>
 
 
@@ -54,7 +56,7 @@ else
             <DashboardCard Icon="bi bi-check-square" Value="@dashboardResume.Reservations.CheckIn" Class="oi oi-arrow-bottom" Title="Checkin Pendientes"/>
         </div>
         <div>
-            <DashboardCard Icon="bi bi-chat-left-text-fill" Value="5" Class="oi oi-arrow-bottom" Title="Mensajes Nuevos"/>
+            <DashboardCard Icon="bi bi-chat-left-text-fill" Value="@UnreadedMessages" Class="oi oi-arrow-bottom" Title="Mensajes Nuevos" />
         </div>
 
 
@@ -65,12 +67,18 @@ else
     private TempDashBoardResponse? dashboardResume = new();
     private string? userName;
 
+    private int UnreadedMessages;
+
     protected override async Task OnInitializedAsync()
     {
         var authstate = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
         var user = authstate.User;
         userName = user.Identity.Name;
         dashboardResume = await _dashboardService.GetDashboardBoardResponse();
+        UnreadedMessages = _messagesService.GenerateMessage().Count(x => !x.IsReaded);
+
+        //test
+        //_emailService.GetMessagesTitles();
     }
 
 }

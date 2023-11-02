@@ -146,7 +146,7 @@ else
     {
         if (selectedReservationId != -1)
         {
-            bool asignacionExitosa = reservationService.AddRoomToReservationChekcin(id, selectedReservationId);
+            bool asignacionExitosa = reservationService.AddRoomToReservation(id, selectedReservationId);
             if (asignacionExitosa)
             {
                 ShowSuccessModal();

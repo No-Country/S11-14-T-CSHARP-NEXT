@@ -15,6 +15,6 @@ public class Room
     public string ImageUrl { get; set; }
 
     public string Description { get; set; }
-    public ICollection<ReservationRoom> Reservations { get; set; } // Propiedad de navegación
+ //   public ICollection<ReservationRoom> Reservations { get; set; } // Propiedad de navegación
     //TODO: Add Reserva FK
 }

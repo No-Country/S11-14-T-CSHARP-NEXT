@@ -1,5 +1,6 @@
 ﻿@page "/reserva/{reservaConsecutivo}"
 @using HotelWiz.Back.Common.Dto.Reservation;
+@using HotelWiz.Back.Common.Dto.Room;
 @inject ReservationsService _resService
 @inject RoomService _roomsService
 @inject NavigationManager _navigation
@@ -27,42 +28,39 @@ else
                 Habitación asignada :
             </span>
             <span>
-                <button class="px-6 py-2 text-purple-600" @onclick="GoToSelectRoom">Asignar habitación</button>
+                @if (reserva.Rooms.First().Item2 == "")
+                {
+                    <button class="px-6 py-2 text-purple-600" @onclick="GoToSelectRoom">Asignar habitación</button>
+                }
+                else
+                {
+                    <span>@reserva.Rooms.First().Item2</span>
+                    <button class="px-6 py-2 text-purple-600" @onclick="GoToSelectRoom">Cambiar habitación</button>
+                }
 
             </span>
-
-
         </div>
 
         <div class="bg-white rounded-lg p-5 grid grid-cols-3 gap-2">
-
             <div>
-
-
                 <div class="flex gap-3 mb-3">
                     <div>
                         <i class="bi bi-calendar text-purple-600 text-2xl"></i>
                     </div>
-
                     <div class="flex flex-col">
                         <div class="flex gap-3">
-
                             <div>
                                 <h5 class="font-bold text-lg">Check In</h5>
-                                @reserva.CheckInExpectedDate.Value.ToShortDateString();
+                                @reserva.CheckInExpectedDate.Value.ToShortDateString()
                             </div>
                             <div>
                                 <h5 class="font-bold text-lg">Check Out</h5>
-                                @reserva.CheckOutExpectedDate.Value.ToShortDateString();
+                                @reserva.CheckOutExpectedDate.Value.ToShortDateString()
                             </div>
                         </div>
-
-
                         <button class="text-purple-600">Cambiar fechas</button>
                     </div>
-
                 </div>
-
 
                 <div class="flex gap-2">
                     <div>
@@ -70,7 +68,6 @@ else
                     </div>
                     <div class="flex flex-col gap-3">
                         <h5 class="font-bold text-lg">Datos de la reserva</h5>
-
                         <div>
                             @reserva.NumberOfGuests
                             @if (reserva.NumberOfGuests > 1 || reserva.NumberOfGuests == 0)
@@ -87,13 +84,11 @@ else
                         </div>
 
                         <div>
-                            @reserva.NumberOfRooms habitación(es)
-                            <br/>
+                            @reserva.Rooms.Count() habitación(es)
+                            <br />
                             <button class="mt-3 text-purple-600">Editar Reserva</button>
-
                         </div>
                     </div>
-
                 </div>
             </div>
             <div>
@@ -133,9 +128,7 @@ else
                     </div>
                     <div class="flex flex-col">
                         <h5 class="font-bold text-lg">Requerimientos Especiales</h5>
-
                         @reserva.ReservationAmenities?.Select(x => $"<li>{x}</li>" ?? "")
-
                     </div>
                 </div>
 
@@ -145,34 +138,39 @@ else
                     </div>
                     <div class="flex flex-col gap-3">
                         <h5 class="text-lg font-bold">Precio</h5>
-
                         <p class="text-2xl font-bold">USD @reserva.Value</p>
-
                         <button class="text-purple-600">Cambiar metodo de pago</button>
-
                     </div>
                 </div>
 
-
-            </div >
+            </div>
             <div class="flex flex-col gap-3">
-                <img src="img/rooms/generic-room.png" alt="Imagen habitacion"/>
+                @if (room == null)
+                {
+                    <img src="img/rooms/generic-room.png" alt="Imagen habitacion" />
+                }
+                else
+                {
+                    <img src="@room.ImageUrl" alt="Imagen habitacion" />
+                }
 
-                <p class="description"><span class="font-bold">Informacion habitacion: </span> Some room description that doesnt exists yet</p >
+                <p class="description"><span class="font-bold">Informacion habitacion: </span> Some room description that doesnt exists yet</p>
 
                 <div>
                     <p>
                         <span class="font-bold"> Estado de la reserva:</span> <span class="text-purple-600"> @reserva.Status</span>
-                    </p >
+                    </p>
                     @* <
-        button @onclick = '@(() => { _navigation.NavigateTo("world"); })' > Click </
-        button > *@
-                </div >
-
-                <div >
-                    <button class="float-right px-6 py-2 rounded-lg text-purple-600 border-2 border-purple-600 " @onclick='(() => { _navigation.NavigateTo("/reservas"); })'> Regresar a reservas</button >
-                </div >
-            </div >
+            button @onclick = '@(() => { _navigation.NavigateTo("world"); })' > Click </
+            button > *@
+                </div>
+                <div>
+                    <button class="float-right px-6 py-2 rounded-lg  rounded-lg bg-purple-600 text-white" @onclick="ConfirmaCheckIn">Confirmar Checkin</button>
+                </div>
+                <div>
+                    <button class="float-right px-6 py-2 rounded-lg text-purple-600 border-2 border-purple-600 " @onclick='(() => { _navigation.NavigateTo("/reservas"); })'> Regresar a reservas</button>
+                </div>
+            </div>
         </div>
     }
 }
@@ -184,6 +182,7 @@ else
     public string? ReservaConsecutivo { get; set; }
 
     private bool showLoading = false;
+    private RoomDto room;
 
     protected ReservationDto? reserva = new();
 
@@ -196,11 +195,22 @@ else
             if (reserva is null)
                 reserva = new ReservationDto() { ReservationConsecutive = "-1" };
         }
+
+        if (reserva!.Rooms != null)
+        {
+            room = _roomsService.GetRoomByName(reserva.Rooms.First().Item2);
+        }
     }
 
     protected void GoToSelectRoom()
     {
         //  var roomType = _roomsService.GetAvailableRoomsByReservationConsecutive(reserva.ReservationConsecutive);
         _navigation.NavigateTo($"/reserva-habitacion/{reserva.ReservationConsecutive}");
+    }
+
+    protected void ConfirmaCheckIn()
+    {
+        //TODO confirmar checkin
+        reserva = _resService.Checkin(reserva.ReservationConsecutive);
     }
 }

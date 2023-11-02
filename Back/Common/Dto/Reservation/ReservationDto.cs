@@ -23,8 +23,8 @@ namespace HotelWiz.Back.Common.Dto.Reservation
         public string? ReservationAmenities { get; set; }
         //public Room? Room { get; set; }
         public string? RoomIds { get; set; }
-        //array of rooms Ids an type of room
-        public (string, string)? Rooms { get; set; }
+        /// <summary>  Rooms associated to this reservation, type and roomId if assigned </summary>
+        public List<(string, string)>? Rooms { get; set; }
 
         public string Status { get; set; }
         public int StatusCode { get; set; }
