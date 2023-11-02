@@ -19,7 +19,7 @@ namespace HotelWiz.Back.Common.Mappers
         //TODO move to Common
         public static ReservationDto MapperReservationToDto(this Reservation reservation)
         {
-            return new ReservationDto
+            var dto = new ReservationDto
             {
                 ReservationConsecutive = reservation.ReservationConsecutive,
                 GuestName = reservation.GuestName,
@@ -37,11 +37,15 @@ namespace HotelWiz.Back.Common.Mappers
                 GuestPhoneNumber = reservation.GuestPhoneNumber,
                 NumberOfGuests = reservation.NumberOfGuests,
                 NumberOfRooms = reservation.NumberOfRooms,
-                RoomIds = reservation.RoomIds,
+                RoomIds = reservation.ReservationRooms == null ? null : String.Join(",", reservation.ReservationRooms.Select(x => x.RoomId)),
+                //Rooms = reservation.ReservationRooms?.Select( x => (x.TypeRoom,x.RoomId.ToString())).ToList()
+
                 //  ReservationRooms = reservation.ReservationRooms
-                // Rooms = reservation.Rooms
                 //TODO  Complete this
             };
+            var rooms = reservation.ReservationRooms?.Select(x => (x.TypeRoom, x.RoomName??"")).ToList();
+            dto.Rooms = rooms;
+            return dto;
         }
         public static IReservationDto MapperReservationToResumedDto(this ReservationDto reservation)
         {

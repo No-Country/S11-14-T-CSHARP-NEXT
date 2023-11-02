@@ -1,4 +1,5 @@
-﻿using static HotelWiz.Back.Common.Enums.PeopleIdentity;
+﻿using System.ComponentModel.DataAnnotations;
+using static HotelWiz.Back.Common.Enums.PeopleIdentity;
 using static HotelWiz.Back.Common.Enums.Reservations;
 
 namespace HotelWiz.Back.Data.Models
@@ -44,6 +45,7 @@ La lista de reservas debe poder ordenarse por diferentes criterios, como fecha d
     {
         //TODO blocked until Rooms is ready
         //TODO 
+        [Key]
         public int ReservationId { get; set; }
         public string ReservationConsecutive { get; set; }
         public string GuestName { get; set; }
@@ -53,7 +55,7 @@ La lista de reservas debe poder ordenarse por diferentes criterios, como fecha d
         public string? GuestAddress { get; set; }
         public IdentityDocumentType GuestDocumentType { get; set; }
         public string GuestDocumentNumber { get; set; }
-        public ICollection<ReservationRoom> ReservationRooms { get; set; }
+        public ICollection<ReservationRoom> ReservationRooms { get; set; } 
         public int NumberOfRooms { get; set; }
         public int NumberOfGuests { get; set; }
         //array of room Ids
