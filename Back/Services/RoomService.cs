@@ -35,6 +35,7 @@ public class RoomService
 
         return dto;
     }
+
     public async Task<PagedList<RoomDto>> GetRooms(RoomParams roomParams)
     {
         var data = _contexto.Rooms.Select(x => new RoomDto
@@ -67,7 +68,6 @@ public class RoomService
 
         return rooms;
     }
-
 
     public RoomDto? GetRoomById(int id)
     {
@@ -105,6 +105,7 @@ public class RoomService
         } : null;
 
     }
+
     //TODO too slow
     public RoomDto? UpdateRoom(RoomDto dto)
     {
@@ -141,7 +142,6 @@ public class RoomService
 
         return null; // La habitación no se encontró en la base de datos.
     }
-
 
     //TODO too slow
     public async Task<RoomResumeDto> GetResume()
@@ -195,6 +195,7 @@ public class RoomService
 
         return d;
     }
+
     public List<AvailableRoomsDto> GetAvailableRooms(RoomTypes? type)
     {
         var query = _contexto.Rooms
@@ -216,7 +217,8 @@ public class RoomService
 
         return result.ToList();
     }
-    public List<RoomDto> GetAvailableRoom(string Consecutive)
+
+    public List<RoomDto> GetAvailableRoomsByReservationConsecutive(string Consecutive)
     {
         Reservation? reservation = _contexto.Reservations
      .Include(x => x.ReservationRooms)
@@ -225,15 +227,18 @@ public class RoomService
 
         if (reservation != null)
         {
-            List<string> type = reservation.ReservationRooms.Select(x => x.TypeRoom).ToList();
+            List<string> typeOfRoomsforReserve = reservation
+                .ReservationRooms
+                .Where(x => x.ReservationId == reservation.ReservationId)
+                .Select(x => x.TypeRoom).ToList();
 
-            var result = _contexto.Rooms.Where(x => x.Status == RoomStatus.Libre);
+            var result = _contexto.Rooms.Where(x => x.Status == RoomStatus.Libre &&  typeOfRoomsforReserve.Contains(x.Type));
 
-            if (type.Any())
-            {
-                var filteredRooms = result.Where(x => type.Contains(x.Type));
+            //if (typeOfRoomsforReserve.Any())
+            //{
+            //    var filteredRooms = result.Where(x => typeOfRoomsforReserve.Contains(x.Type));
 
-                List<RoomDto> dto = filteredRooms.Select(item => new RoomDto
+                List<RoomDto> dto = result.Select(item => new RoomDto
                 {
                     Description = item.Description,
                     RoomId = item.RoomId,
@@ -246,7 +251,7 @@ public class RoomService
                 }).ToList();
 
                 return dto;
-            }
+            //}
         }
 
         return null;

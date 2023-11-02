@@ -19,7 +19,7 @@ namespace HotelWiz.Back.Services
 
         public IEnumerable<ReservationDto> GetAllReservations()
         {
-            var reservations = _contexto.Reservations.AsNoTracking();
+            var reservations = _contexto.Reservations.Include( x => x.ReservationRooms).AsNoTracking();
             return reservations.MapperReservaToDto().Cast<ReservationDto>();
         }
 
@@ -69,7 +69,8 @@ namespace HotelWiz.Back.Services
             {
                 case By.ReservationConsecutive:
                     res = _contexto.Reservations
-                        .AsNoTracking()
+                       // .AsNoTracking()
+                        .Include( x => x.ReservationRooms)
                         .SingleOrDefault(x => x.ReservationConsecutive.Trim() == value.Trim());
                     break;
                 //case By.NameOfGuest:
@@ -84,6 +85,7 @@ namespace HotelWiz.Back.Services
 
             return res is null ? null : res.MapperReservationToDto();
         }
+
         public bool AddRoomToReservationChekcin(string reservationConsecutive, int roomId)
         {
             try
@@ -107,20 +109,30 @@ namespace HotelWiz.Back.Services
             }
             catch { return false; }
         }
+
         // Método para agregar una habitación a una reserva
         public bool AddRoomToReservation(string reservationConsecutive, int roomId)
         {
+            //TODO  1 s4 cambia elestado de la habitacion
+            //TODO  1 cambia el estado de la habitacion asignada en ReservaRooms
+            //TODO cambia el estado de la reserva pero 
+
             try
             {
-                var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
+                var reservation = _contexto
+                    .Reservations
+                    .Include( x => x.ReservationRooms)
+                    .FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
                 var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
 
                 if (reservation != null && room != null)
                 {
-                    var roomReservation = new ReservationRoom();
-                    roomReservation.ReservationId = reservation.ReservationId;
-                    roomReservation.TypeRoom = room.Type;
-                    _contexto.ReservationRoom.Add(roomReservation);
+                    var roomReservation = reservation.ReservationRooms.First();
+                    roomReservation.RoomId = roomId;
+                    roomReservation.RoomName = room.RoomNumber;
+                    _contexto.Entry(roomReservation).State = EntityState.Modified;
+                    room.Status = RoomStatus.Reservada;
+                    //_contexto.ReservationRoom.Add(roomReservation);
                     _contexto.SaveChanges();
                     return true;
                 }
@@ -128,6 +140,7 @@ namespace HotelWiz.Back.Services
             }
             catch { return false; }
         }
+       
         //TODO Blocked until PagedResponse
         [Obsolete]
         public void GetAllReservationsPaged(IReservationFilter filter)
