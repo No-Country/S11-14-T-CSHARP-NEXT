@@ -10,7 +10,7 @@
 <!-- Estilos del modal -->
 <style>
     .modal {
-        display: none;
+        display: block;
         position: fixed;
         z-index: 1;
         left: 0;
@@ -48,23 +48,23 @@
     <div class="modal">
         <div class="modal-content">
             <span class="close" @onclick="() => showModal = false">&times;</span>
-            <p>¡Éxito! La habitación ha sido asignada a la reserva.</p>
+            <p>¡Éxito! La Reserva ha sido asignada a la Habitación.</p>
         </div>
     </div>
 }
 
-<PageTitle>Asignar Reserva</PageTitle>
-<h1 class="text-3xl mb-2.5">Asignar Reservas</h1>
+<PageTitle>Asignar Habitación</PageTitle>
+<h1 class="text-3xl mb-2.5">Asignar Habitación</h1>
 
 <div class="flex justify-between">
     <div class="w-96">
         <input class="text-gray-500 bg-white rounded-lg border-none p-2"
-               placeholder=" 🔍︎ Buscar reserva" id="search"
+               placeholder=" 🔍︎ Buscar Habitación" id="search"
         @oninput="(e) => searchTerm = e.Value.ToString()"
         @onkeyup="OnSearchChange" />
     </div>
     <div>
-        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="AsignarReserva">Asignar Reserva</button>
+        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="AsignarHabitacion">Asignar Habitación</button>
     </div>
 </div>
 <br />
@@ -72,7 +72,7 @@
 <div class="flex text-gray-500 mb-3.5">
     <p>Ordenar por: </p>
     <select class="bg-transparent font-bold">
-        <option value="0">N Reserva</option>
+        <option value="0">N Habitación</option>
         <option value="0">opcion 1</option>
         <option value="1">opcion 2</option>
     </select>
@@ -87,12 +87,14 @@ else
     <table class="w-full table border-spacing-10">
         <thead class="bg-white font-bold">
             <tr>
-                <th>Nro.Reserva</th>
-                <th>Nombre huesped</th>
-                <th>Estado reserva</th>
-                <th>Tipo.Hab</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
+                <th>Imagen</th>
+                <th>Habitacion N°</th>
+                <th>Tipo</th>
+
+                <th>Capacidad </th>
+                <th>Status</th>
+                <th>Descripcion</th>
+                <th>Precio/noche</th>
                 <th>Seleccionar</th> <!-- Columna para checkboxes -->
             </tr>
         </thead>
@@ -100,7 +102,7 @@ else
             @foreach (var res in RoomDtos)
             {
                 <tr class="">
-                    <td><input type="checkbox" @onchange="e => ToggleSelection(e, res.RoomId)"></td>
+                    
                     <td><img style="height:80px;width:150px;" src="@res.ImageUrl"></td>
                     <td>@res.RoomNumber</td>
                     <td>@res.Type</td>
@@ -110,7 +112,7 @@ else
                     <td>@res.Description</td>
 
                     <td>@res.Price</td>
-                   
+                    <td><input type="checkbox" @onchange="e => ToggleSelection(e, res.RoomId)"></td>
                 </tr>
             }
         </tbody>
@@ -128,8 +130,8 @@ else
     private string searchTerm;
     protected override async Task OnInitializedAsync()
     {
-        RoomParams roomParams = new RoomParams();
-        RoomDtos = await roomService.GetRooms(roomParams);
+        var roomType=roomService.GetAvailableRooms;
+        RoomDtos = roomService.GetAvailableRoom(id);
         tempRooms = RoomDtos.ToList();
     }
 
@@ -142,14 +144,15 @@ else
         }
     }
 
-    private void AsignarReserva()
+    private void AsignarHabitacion()
     {
         if (selectedReservationId != -1)
         {
-            bool asignacionExitosa = reservationService.AddRoomToReservation(id, selectedReservationId);
+            bool asignacionExitosa = reservationService.AddRoomToReservationChekcin(id, selectedReservationId);
             if (asignacionExitosa)
             {
                 ShowSuccessModal();
+                NavigationManager.NavigateTo($"/reserva/{id}");
             }
             else
             {

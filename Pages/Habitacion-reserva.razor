@@ -9,7 +9,7 @@
 <!-- Estilos del modal -->
 <style>
     .modal {
-        display: none;
+        display: block;
         position: fixed;
         z-index: 1;
         left: 0;
@@ -143,6 +143,7 @@ else
             if (asignacionExitosa)
             {
                 ShowSuccessModal();
+                NavigationManager.NavigateTo($"/habitaciones");
             }
             else
             {

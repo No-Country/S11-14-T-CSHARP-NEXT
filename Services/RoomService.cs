@@ -27,12 +27,12 @@ public class RoomService
         {
             RoomNumber = dto.RoomNumber,
             Type = dto.Type,
-            Capacity=dto.Capacity,
+            Capacity = dto.Capacity,
             Description = dto.Description,
             ImageUrl = dto.ImageUrl,
             Price = dto.Price,
             Status = dto.Status,
-            
+
         };
 
         _contexto.Rooms.Add(newRoom);
@@ -196,11 +196,10 @@ public class RoomService
             //Mini = data.Count(x => x.Type == RoomType.Mini),
         };
 
-       
+
 
         return d;
     }
-
     public List<AvailableRoomsDto> GetAvailableRooms(RoomTypes? type)
     {
         var query = _contexto.Rooms
@@ -222,12 +221,49 @@ public class RoomService
 
         return result.ToList();
     }
-}
+    public List<RoomDto> GetAvailableRoom(string Consecutive)
+    {
+        Reservation? reservation = _contexto.Reservations
+     .Include(x => x.ReservationRooms)
+     .Where(x => x.ReservationConsecutive == Consecutive)
+     .FirstOrDefault();
 
-public class AvailableRoomsDto
-{
-    public string Type { get; set; }
-    public int Count { get; set; }
-    public List<string> Rooms { get; set; }
-}
+        if (reservation != null)
+        {
+            List<string> type = reservation.ReservationRooms.Select(x => x.TypeRoom).ToList();
 
+            var result = _contexto.Rooms.Where(x => x.Status == RoomStatus.Libre);
+
+            if (type.Any())
+            {
+                var filteredRooms = result.Where(x => type.Contains(x.Type));
+
+                List<RoomDto> dto = filteredRooms.Select(item => new RoomDto
+                {
+                    Description = item.Description,
+                    RoomId = item.RoomId,
+                    RoomNumber = item.RoomNumber,
+                    ImageUrl = item.ImageUrl,
+                    Capacity = item.Capacity,
+                    Price = item.Price,
+                    Status = item.Status,
+                    Type = item.Type
+                }).ToList();
+
+                return dto;
+            }
+        }
+
+        return null;
+        
+
+
+    }
+
+    public class AvailableRoomsDto
+    {
+        public string Type { get; set; }
+        public int Count { get; set; }
+        public List<string> Rooms { get; set; }
+    }
+}

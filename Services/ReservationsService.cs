@@ -1,6 +1,7 @@
 ﻿using HotelWiz.Common.Dto.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using S11.Common.Dto.Reservation;
+using S11.Common.Enums;
 using S11.Common.Mappers;
 using S11.Controllers;
 using S11.Data;
@@ -83,7 +84,29 @@ namespace S11.Services
 
             return res is null ? null : res.MapperReservationToDto();
         }
+        public bool AddRoomToReservationChekcin(string reservationConsecutive, int roomId)
+        {
+            try
+            {
+                var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
+                var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
 
+                if (reservation != null && room != null)
+                {
+                    room!.Status = RoomStatus.Reservada;
+                    var roomReservation = new ReservationRoom();
+                    roomReservation.ReservationId = reservation.ReservationId;
+                    roomReservation.TypeRoom = room.Type;
+                    roomReservation.Reservation = reservation;
+                    _contexto.Rooms.Update(room);
+                    _contexto.ReservationRoom.Add(roomReservation);
+                    _contexto.SaveChanges();
+                    return true;
+                }
+                else { return false; }
+            }
+            catch { return false; }
+        }
         // Método para agregar una habitación a una reserva
         public bool AddRoomToReservation(string reservationConsecutive, int roomId)
         {
@@ -97,7 +120,7 @@ namespace S11.Services
                     var roomReservation = new ReservationRoom();
                     roomReservation.ReservationId = reservation.ReservationId;
                     roomReservation.TypeRoom = room.Type;
-                    _contexto.ReservationRoom.Add(roomReservation);
+                   _contexto.ReservationRoom.Add(roomReservation);
                     _contexto.SaveChanges();
                     return true;
                 }
