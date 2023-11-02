@@ -21,7 +21,7 @@ namespace S11.Services
 
         public IEnumerable<ReservationDto> GetAllReservations()
         {
-            var reservations = _contexto.Reservations;
+            var reservations = _contexto.Reservations.AsNoTracking();
             return reservations.MapperReservaToDto().Cast<ReservationDto>();
         }
 
@@ -34,7 +34,9 @@ namespace S11.Services
 
         public async Task<ReservationsResumeDto> GetResume()
         {
-            var gouped =await _contexto.Reservations.GroupBy(x => x.Status).Select(x => new
+            var gouped =await _contexto.Reservations
+                .AsNoTracking()
+                .GroupBy(x => x.Status).Select(x => new
             {
                 Key = x.Key,
                 Count = x.Count(),
@@ -68,8 +70,8 @@ namespace S11.Services
             switch (by)
             {
                 case By.ReservationConsecutive:
-                    res = _contexto
-                        .Reservations
+                    res = _contexto.Reservations
+                        .AsNoTracking()
                         .SingleOrDefault(x => x.ReservationConsecutive.Trim() == value.Trim());
                     break;
                 //case By.NameOfGuest:

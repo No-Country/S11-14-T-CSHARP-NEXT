@@ -1,0 +1,202 @@
+﻿@page "/reserva/{reservaConsecutivo}"
+@using S11.Common.Dto.Reservation;
+@inject ReservationsService _resService
+@inject NavigationManager _navigation
+
+
+
+@if (reserva is null)
+{
+    <div class="loading">Loading....</div>
+}
+else
+{
+    if (reserva.ReservationConsecutive.Equals("-1"))
+    {
+        <div class="not-found">Not Found</div>
+    }
+    else
+    {
+        <h3 class="text-4xl">Reserva # @reserva.ReservationConsecutive</h3>
+        <div class="flex items-center">
+            <span>
+                <iconify-icon icon="mdi:guest-room-outline" class="text-purple-600 text-3xl pr-3"> </iconify-icon>
+            </span>
+            <span class="">
+                Habitación asignada :
+            </span>
+            <span>
+                <button class="px-6 py-2 text-purple-600">Asignar habitación</button>
+
+            </span>
+
+
+        </div>
+
+        <div class="bg-white rounded-lg p-5 grid grid-cols-3 gap-2">
+
+            <div>
+
+
+                <div class="flex gap-3 mb-3">
+                    <div>
+                        <i class="bi bi-calendar text-purple-600 text-2xl"></i>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <div class="flex gap-3">
+
+                            <div>
+                                <h5 class="font-bold text-lg">Check In</h5>
+                                @reserva.CheckInExpectedDate.Value.ToShortDateString();
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-lg">Check Out</h5>
+                                @reserva.CheckOutExpectedDate.Value.ToShortDateString();
+                            </div>
+                        </div>
+
+
+                        <button class="text-purple-600">Cambiar fechas</button>
+                    </div>
+
+                </div>
+
+
+                <div class="flex gap-2">
+                    <div>
+                        <i class="bi bi-list text-purple-600 text-2xl"></i>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <h5 class="font-bold text-lg">Datos de la reserva</h5>
+
+                        <div>
+                            @reserva.NumberOfGuests
+                            @if (reserva.NumberOfGuests > 1 || reserva.NumberOfGuests == 0)
+                            {
+                                @: personas
+                            }
+                            else
+                            {
+                                @: persona
+                            }
+                        </div>
+                        <div>
+                            @((reserva.CheckOutExpectedDate - reserva.CheckInExpectedDate).Value.TotalDays) noche(s)
+                        </div>
+
+                        <div>
+                            @reserva.NumberOfRooms habitación(es)
+                            <br/>
+                            <button class="mt-3 text-purple-600">Editar Reserva</button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div>
+                <div class="flex gap-2 mb-3">
+                    <div>
+                        <i class=""></i>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-bold">Información del huesped</h5>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <i class="bi bi-person-fill text-purple-600 text-2xl"></i>
+                                @reserva.GuestName
+                            </div>
+
+                            <div>
+                                <i class="bi bi-telephone-fill text-purple-600 text-2xl"></i>
+                                @reserva.GuestPhoneNumber
+                            </div>
+
+                            <div>
+                                <i class="bi bi-envelope-fill text-purple-600 text-2xl"></i>
+                                @reserva.GuestEmail
+                            </div>
+
+                            <div>
+                                <button class="text-purple-600">Chatear con el huesped</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="flex gap-2 mb-3">
+                    <div>
+                        <i class="bi bi-list text-purple-600 text-2xl"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <h5 class="font-bold text-lg">Requerimientos Especiales</h5>
+
+                        @reserva.ReservationAmenities?.Select(x => $"<li>{x}</li>" ?? "")
+
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <div>
+                        <i class="bi bi-currency-dollar text-purple-600 text-2xl"></i>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <h5 class="text-lg font-bold">Precio</h5>
+
+                        <p class="text-2xl font-bold">USD @reserva.Value</p>
+
+                        <button class="text-purple-600">Cambiar metodo de pago</button>
+
+                    </div>
+                </div>
+
+
+            </div >
+            <div class="flex flex-col gap-3">
+                <img src="img/rooms/generic-room.png" alt="Imagen habitacion"/>
+
+                <p class="description"><span class="font-bold">Informacion habitacion: </span> Some room description that doesnt exists yet</p >
+
+                <div>
+                    <p>
+                        <span class="font-bold"> Estado de la reserva:</span> <span class="text-purple-600"> @reserva.Status</span>
+                    </p >
+                    @* <
+        button @onclick = '@(() => { _navigation.NavigateTo("world"); })' > Click </
+        button > *@
+                </div >
+
+                <div >
+                    <button class="float-right px-6 py-2 rounded-lg text-purple-600 border-2 border-purple-600 " @onclick='(() => { _navigation.NavigateTo("/reservas"); })'> Regresar a reservas</button >
+                </div >
+            </div >
+        </div>
+    }
+}
+
+
+@code {
+
+    [Parameter]
+    public string? ReservaConsecutivo { get; set; }
+
+    private bool showLoading = false;
+
+    protected ReservationDto? reserva = new();
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(ReservaConsecutivo) is false)
+        {
+            reserva = _resService.GetReservationByConsecutive(ReservaConsecutivo);
+
+            if (reserva is null)
+                reserva = new ReservationDto() { ReservationConsecutive = "-1" };
+        }
+    }
+
+}
+
+}
