@@ -1,6 +1,7 @@
 ﻿@page "/reserva/{reservaConsecutivo}"
-@using S11.Common.Dto.Reservation;
+@using HotelWiz.Back.Common.Dto.Reservation;
 @inject ReservationsService _resService
+@inject RoomService _roomsService
 @inject NavigationManager _navigation
 
 
@@ -26,7 +27,7 @@ else
                 Habitación asignada :
             </span>
             <span>
-                <button class="px-6 py-2 text-purple-600">Asignar habitación</button>
+                <button class="px-6 py-2 text-purple-600" @onclick="GoToSelectRoom">Asignar habitación</button>
 
             </span>
 
@@ -197,6 +198,9 @@ else
         }
     }
 
-}
-
+    protected void GoToSelectRoom()
+    {
+        //  var roomType = _roomsService.GetAvailableRoomsByReservationConsecutive(reserva.ReservationConsecutive);
+        _navigation.NavigateTo($"/reserva-habitacion/{reserva.ReservationConsecutive}");
+    }
 }

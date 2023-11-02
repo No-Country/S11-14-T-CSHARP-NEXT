@@ -1,8 +1,5 @@
 ﻿@page "/reserva-habitacion/{id}"
-@using S11.Common.Dto;
-@using S11.Common.Dto.Reservation;
-@using S11.Common.Helpers;
-@using S11.Services;
+@using HotelWiz.Back.Common.Dto.Room;
 @inject ReservationsService reservationService
 @inject RoomService roomService
 @inject NavigationManager NavigationManager
@@ -128,10 +125,11 @@ else
     private bool showModal = false;
     private int selectedReservationId = -1;
     private string searchTerm;
+
     protected override async Task OnInitializedAsync()
     {
         var roomType=roomService.GetAvailableRooms;
-        RoomDtos = roomService.GetAvailableRoom(id);
+        RoomDtos = roomService.GetAvailableRoomsByReservationConsecutive(id);
         tempRooms = RoomDtos.ToList();
     }
 

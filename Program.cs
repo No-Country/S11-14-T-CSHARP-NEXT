@@ -1,12 +1,9 @@
-using HotelWiz.Data;
-using S11.Common.Interfaces;
-using S11.Data.Models;
-using S11.Data;
-using S11.Services;
 using Microsoft.EntityFrameworkCore;
-using S11.Services.DTO;
-using HotelWiz.Services;
-
+using HotelWiz.Back.Common.Interfaces;
+using HotelWiz.Back.Data;
+using HotelWiz.Back.Data.Models;
+using HotelWiz.Back.Services;
+using HotelWiz.Back.Services.DTO;
 
 var builder = WebApplication.CreateBuilder(args);
 
