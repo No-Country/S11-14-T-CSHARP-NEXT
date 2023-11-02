@@ -1,0 +1,185 @@
+﻿@page "/reserva-habitacion/{id}"
+@using S11.Common.Dto;
+@using S11.Common.Dto.Reservation;
+@using S11.Common.Helpers;
+@using S11.Services;
+@inject ReservationsService reservationService
+@inject RoomService roomService
+@inject NavigationManager NavigationManager
+
+<!-- Estilos del modal -->
+<style>
+    .modal {
+        display: block;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+    }
+
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+
+@if (showModal)
+{
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close" @onclick="() => showModal = false">&times;</span>
+            <p>¡Éxito! La Reserva ha sido asignada a la Habitación.</p>
+        </div>
+    </div>
+}
+
+<PageTitle>Asignar Habitación</PageTitle>
+<h1 class="text-3xl mb-2.5">Asignar Habitación</h1>
+
+<div class="flex justify-between">
+    <div class="w-96">
+        <input class="text-gray-500 bg-white rounded-lg border-none p-2"
+               placeholder=" 🔍︎ Buscar Habitación" id="search"
+        @oninput="(e) => searchTerm = e.Value.ToString()"
+        @onkeyup="OnSearchChange" />
+    </div>
+    <div>
+        <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="AsignarHabitacion">Asignar Habitación</button>
+    </div>
+</div>
+<br />
+
+<div class="flex text-gray-500 mb-3.5">
+    <p>Ordenar por: </p>
+    <select class="bg-transparent font-bold">
+        <option value="0">N Habitación</option>
+        <option value="0">opcion 1</option>
+        <option value="1">opcion 2</option>
+    </select>
+</div>
+
+@if (RoomDtos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="w-full table border-spacing-10">
+        <thead class="bg-white font-bold">
+            <tr>
+                <th>Imagen</th>
+                <th>Habitacion N°</th>
+                <th>Tipo</th>
+
+                <th>Capacidad </th>
+                <th>Status</th>
+                <th>Descripcion</th>
+                <th>Precio/noche</th>
+                <th>Seleccionar</th> <!-- Columna para checkboxes -->
+            </tr>
+        </thead>
+        <tbody class="bg-white rounded-lg border-spacing-3.5">
+            @foreach (var res in RoomDtos)
+            {
+                <tr class="">
+                    
+                    <td><img style="height:80px;width:150px;" src="@res.ImageUrl"></td>
+                    <td>@res.RoomNumber</td>
+                    <td>@res.Type</td>
+
+                    <td>@res.Capacity</td>
+                    <td> @(res.Status)</td>
+                    <td>@res.Description</td>
+
+                    <td>@res.Price</td>
+                    <td><input type="checkbox" @onchange="e => ToggleSelection(e, res.RoomId)"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+    private IEnumerable<RoomDto> RoomDtos;
+
+    private IEnumerable<RoomDto> tempRooms;
+    private bool showModal = false;
+    private int selectedReservationId = -1;
+    private string searchTerm;
+    protected override async Task OnInitializedAsync()
+    {
+        var roomType=roomService.GetAvailableRooms;
+        RoomDtos = roomService.GetAvailableRoom(id);
+        tempRooms = RoomDtos.ToList();
+    }
+
+    private void OnSearchChange(KeyboardEventArgs e)
+    {
+        var size = searchTerm.Length;
+        if (size > 2)
+        {
+            // Puedes implementar la lógica para buscar aquí
+        }
+    }
+
+    private void AsignarHabitacion()
+    {
+        if (selectedReservationId != -1)
+        {
+            bool asignacionExitosa = reservationService.AddRoomToReservationChekcin(id, selectedReservationId);
+            if (asignacionExitosa)
+            {
+                ShowSuccessModal();
+                NavigationManager.NavigateTo($"/reserva/{id}");
+            }
+            else
+            {
+                // Manejo de error en caso de no completar la asignación
+            }
+        }
+        else
+        {
+            // Manejo de no haber seleccionado ninguna reserva
+        }
+    }
+
+    private void ToggleSelection(ChangeEventArgs e, int reservationId)
+    {
+        if ((bool)e.Value)
+        {
+            selectedReservationId = reservationId;
+        }
+        else
+        {
+            selectedReservationId = -1;
+        }
+    }
+
+    private void ShowSuccessModal()
+    {
+        showModal = true;
+        // Agregar lógica para ocultar el modal después de un tiempo
+    }
+}

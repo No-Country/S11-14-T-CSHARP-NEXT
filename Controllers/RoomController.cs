@@ -5,6 +5,7 @@ using S11.Common.Enums;
 using S11.Common.Extensions;
 using S11.Common.Helpers;
 using S11.Services;
+using static S11.Services.RoomService;
 
 namespace S11.Controllers
 {

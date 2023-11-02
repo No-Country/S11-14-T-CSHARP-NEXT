@@ -43,7 +43,13 @@
                     <label>Precio por Noche</label>
                     <input type="text" class="form-control" @bind="@habitacion.Price" />
                 </div>
+                <div>
+             
                 <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="GuardarCambios">Guardar</button>
+                 
+
+                    <button class="px-6 py-2 rounded-lg bg-purple-600 text-white" @onclick="AsignarReserva">Asignar Reserva</button>
+                </div>
             </div>
         </div>
     </div>
@@ -63,7 +69,12 @@ else
     {
         habitacion = roomService.GetRoomById(int.Parse(id));
     }
+    private void AsignarReserva()
+    {
 
+        NavigationManager.NavigateTo($"/habitacion-reserva/{habitacion.RoomId}");
+
+    }
     private void GuardarCambios()
     {
         roomService.UpdateRoom(habitacion);

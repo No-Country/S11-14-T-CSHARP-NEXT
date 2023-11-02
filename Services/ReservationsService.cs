@@ -1,10 +1,12 @@
 ﻿using HotelWiz.Common.Dto.Dashboard;
 using Microsoft.EntityFrameworkCore;
 using S11.Common.Dto.Reservation;
+using S11.Common.Enums;
 using S11.Common.Mappers;
 using S11.Controllers;
 using S11.Data;
 using S11.Data.Models;
+using S11.Data.Seeds;
 using static S11.Common.Enums.Reservations.Reservations;
 
 namespace S11.Services
@@ -84,26 +86,49 @@ namespace S11.Services
 
             return res is null ? null : res.MapperReservationToDto();
         }
-
-        // Método para agregar una habitación a una reserva
-        public void AddRoomToReservation(int reservationId, int roomId)
+        public bool AddRoomToReservationChekcin(string reservationConsecutive, int roomId)
         {
-            var reservation = _contexto.Reservations
-                .AsNoTracking()
-                .FirstOrDefault(r => r.ReservationId == reservationId);
-            var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
-
-            if (reservation != null && room != null)
+            try
             {
-                if (string.IsNullOrEmpty(reservation.RoomIds))
+                var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
+                var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+                if (reservation != null && room != null)
                 {
-                    reservation.RoomIds = roomId.ToString();
+                    room!.Status = RoomStatus.Reservada;
+                    var roomReservation = new ReservationRoom();
+                    roomReservation.ReservationId = reservation.ReservationId;
+                    roomReservation.TypeRoom = room.Type;
+                    roomReservation.Reservation = reservation;
+                    _contexto.Rooms.Update(room);
+                    _contexto.ReservationRoom.Add(roomReservation);
+                    _contexto.SaveChanges();
+                    return true;
                 }
-                else
-                {
-                    reservation.RoomIds += $",{roomId}";
-                }
+                else { return false; }
             }
+            catch { return false; }
+        }
+        // Método para agregar una habitación a una reserva
+        public bool AddRoomToReservation(string reservationConsecutive, int roomId)
+        {
+            try
+            {
+                var reservation = _contexto.Reservations.FirstOrDefault(r => r.ReservationConsecutive == reservationConsecutive);
+                var room = _contexto.Rooms.FirstOrDefault(r => r.RoomId == roomId);
+
+                if (reservation != null && room != null)
+                {
+                    var roomReservation = new ReservationRoom();
+                    roomReservation.ReservationId = reservation.ReservationId;
+                    roomReservation.TypeRoom = room.Type;
+                   _contexto.ReservationRoom.Add(roomReservation);
+                    _contexto.SaveChanges();
+                    return true;
+                }
+                else { return false; }
+            }
+            catch { return false;}
         }
         //TODO Blocked until PagedResponse
         [Obsolete]
@@ -145,9 +170,7 @@ namespace S11.Services
         {
            
             //this can raise an exception, 
-            var res = _contexto.Reservations
-                .AsNoTracking()
-                .SingleOrDefault(x => x.ReservationConsecutive.Trim() == consecutive);
+            var res = _contexto.Reservations.SingleOrDefault(x => x.ReservationConsecutive.Trim() == consecutive);
             if(res == null)
             {
                 return null;
@@ -174,7 +197,7 @@ namespace S11.Services
         /// <returns>Reservations that contains the term</returns>
         public List<ReservationDto> SearchReservations(string param)
         { 
-           var results= _contexto.Reservations.AsNoTracking()
+           var results= _contexto.Reservations
                 .Where(x => x.ReservationConsecutive.Contains(param) || x.GuestEmail.Contains(param) || x.GuestName.Contains(param) )
                 .MapperReservaToDto().Cast< ReservationDto>().ToList();
 
