@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Identity;
+using HotelWiz.Back.Common.Dto.Auth;
+using HotelWiz.Back.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using S11.Common.Dto.Auth;
-using S11.Data.Models;
-using S11.Services;
-using System.Drawing;
 
 namespace HotelWiz.Areas.Auth.Pages
 {

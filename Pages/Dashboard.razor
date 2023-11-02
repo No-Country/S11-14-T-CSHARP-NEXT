@@ -1,11 +1,9 @@
 ﻿@page "/"
 @page "/dashboard"
-@using HotelWiz.Common.Dto.Dashboard;
-@using HotelWiz.Data
-@using HotelWiz.Services;
+@using HotelWiz.Back.Common.Dto.Dashboard;
+@using HotelWiz.Back.Services;
 @using HotelWiz.Shared.Components
-@using S11.Common.Dto.Reservation;
-@using S11.Services;
+@using HotelWiz.Back.Common.Dto.Dashboard;
 @inject DashboardService _dashboardService
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
 
@@ -13,10 +11,10 @@
 
 
 <AuthorizeView>
-    <Authorized>
+@*     <Authorized>
         Authorized
         @userName
-    </Authorized>
+    </Authorized> *@
     <NotAuthorized>
         <a href="/auth/account/login?redirectTo=dashboard">Login</a>
     </NotAuthorized>
@@ -64,7 +62,7 @@ else
 }
 
 @code {
-    private TempDashBoardResponse? dashboardResume;
+    private TempDashBoardResponse? dashboardResume = new();
     private string? userName;
 
     protected override async Task OnInitializedAsync()
